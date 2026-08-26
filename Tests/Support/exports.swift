@@ -1,1 +1,1 @@
-@_exported public import Algebra_Primitives
+@_exported public import Algebra

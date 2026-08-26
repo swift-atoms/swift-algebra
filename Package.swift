@@ -3,7 +3,7 @@
 import PackageDescription
 
 let package = Package(
-    name: "swift-algebra-primitives",
+    name: "swift-algebra",
     platforms: [
         .macOS(.v27),
         .iOS(.v27),
@@ -19,59 +19,59 @@ let package = Package(
         ),
 
         .library(
-            name: "Algebra Magma Primitives",
-            targets: ["Algebra Magma Primitives"]
+            name: "Algebra Magma",
+            targets: ["Algebra Magma"]
         ),
         .library(
-            name: "Algebra Semigroup Primitives",
-            targets: ["Algebra Semigroup Primitives"]
+            name: "Algebra Semigroup",
+            targets: ["Algebra Semigroup"]
         ),
         .library(
-            name: "Algebra Monoid Primitives",
-            targets: ["Algebra Monoid Primitives"]
+            name: "Algebra Monoid",
+            targets: ["Algebra Monoid"]
         ),
         .library(
-            name: "Algebra Semiring Primitives",
-            targets: ["Algebra Semiring Primitives"]
+            name: "Algebra Semiring",
+            targets: ["Algebra Semiring"]
         ),
         .library(
-            name: "Algebra Semilattice Primitives",
-            targets: ["Algebra Semilattice Primitives"]
+            name: "Algebra Semilattice",
+            targets: ["Algebra Semilattice"]
         ),
         .library(
-            name: "Algebra Lattice Primitives",
-            targets: ["Algebra Lattice Primitives"]
+            name: "Algebra Lattice",
+            targets: ["Algebra Lattice"]
         ),
         .library(
-            name: "Algebra Group Primitives",
-            targets: ["Algebra Group Primitives"]
+            name: "Algebra Group",
+            targets: ["Algebra Group"]
         ),
         .library(
-            name: "Algebra Ring Primitives",
-            targets: ["Algebra Ring Primitives"]
+            name: "Algebra Ring",
+            targets: ["Algebra Ring"]
         ),
         .library(
-            name: "Algebra Field Primitives",
-            targets: ["Algebra Field Primitives"]
+            name: "Algebra Field",
+            targets: ["Algebra Field"]
         ),
         .library(
-            name: "Algebra Module Primitives",
-            targets: ["Algebra Module Primitives"]
-        ),
-
-        .library(
-            name: "Algebra Law Primitives",
-            targets: ["Algebra Law Primitives"]
+            name: "Algebra Module",
+            targets: ["Algebra Module"]
         ),
 
         .library(
-            name: "Algebra Primitives",
-            targets: ["Algebra Primitives"]
+            name: "Algebra Law",
+            targets: ["Algebra Law"]
         ),
 
         .library(
-            name: "Algebra Primitives Test Support",
-            targets: ["Algebra Primitives Test Support"]
+            name: "Algebra",
+            targets: ["Algebra"]
+        ),
+
+        .library(
+            name: "Algebra Test Support",
+            targets: ["Algebra Test Support"]
         ),
     ],
     dependencies: [],
@@ -83,118 +83,118 @@ let package = Package(
         ),
 
         .target(
-            name: "Algebra Magma Primitives",
+            name: "Algebra Magma",
             dependencies: [
                 "Algebra Primitive"
             ]
         ),
         .target(
-            name: "Algebra Semigroup Primitives",
+            name: "Algebra Semigroup",
             dependencies: [
-                "Algebra Magma Primitives"
+                "Algebra Magma"
             ]
         ),
         .target(
-            name: "Algebra Monoid Primitives",
+            name: "Algebra Monoid",
             dependencies: [
-                "Algebra Semigroup Primitives"
+                "Algebra Semigroup"
             ]
         ),
         .target(
-            name: "Algebra Semiring Primitives",
+            name: "Algebra Semiring",
             dependencies: [
-                "Algebra Monoid Primitives"
+                "Algebra Monoid"
             ]
         ),
         .target(
-            name: "Algebra Semilattice Primitives",
+            name: "Algebra Semilattice",
             dependencies: [
-                "Algebra Monoid Primitives",
-                "Algebra Semigroup Primitives",
+                "Algebra Monoid",
+                "Algebra Semigroup",
             ]
         ),
         .target(
-            name: "Algebra Lattice Primitives",
+            name: "Algebra Lattice",
             dependencies: [
-                "Algebra Semilattice Primitives"
+                "Algebra Semilattice"
             ]
         ),
         .target(
-            name: "Algebra Group Primitives",
+            name: "Algebra Group",
             dependencies: [
-                "Algebra Monoid Primitives"
+                "Algebra Monoid"
             ]
         ),
         .target(
-            name: "Algebra Ring Primitives",
+            name: "Algebra Ring",
             dependencies: [
-                "Algebra Group Primitives",
-                "Algebra Semiring Primitives",
+                "Algebra Group",
+                "Algebra Semiring",
             ]
         ),
         .target(
-            name: "Algebra Field Primitives",
+            name: "Algebra Field",
             dependencies: [
-                "Algebra Ring Primitives"
+                "Algebra Ring"
             ]
         ),
         .target(
-            name: "Algebra Module Primitives",
+            name: "Algebra Module",
             dependencies: [
-                "Algebra Field Primitives"
-            ]
-        ),
-
-        .target(
-            name: "Algebra Law Primitives",
-            dependencies: [
-                "Algebra Field Primitives",
-                "Algebra Module Primitives",
+                "Algebra Field"
             ]
         ),
 
         .target(
-            name: "Algebra Primitives",
+            name: "Algebra Law",
+            dependencies: [
+                "Algebra Field",
+                "Algebra Module",
+            ]
+        ),
+
+        .target(
+            name: "Algebra",
             dependencies: [
                 "Algebra Primitive",
-                "Algebra Magma Primitives",
-                "Algebra Semigroup Primitives",
-                "Algebra Monoid Primitives",
-                "Algebra Semiring Primitives",
-                "Algebra Semilattice Primitives",
-                "Algebra Lattice Primitives",
-                "Algebra Group Primitives",
-                "Algebra Ring Primitives",
-                "Algebra Field Primitives",
-                "Algebra Module Primitives",
-                "Algebra Law Primitives",
+                "Algebra Magma",
+                "Algebra Semigroup",
+                "Algebra Monoid",
+                "Algebra Semiring",
+                "Algebra Semilattice",
+                "Algebra Lattice",
+                "Algebra Group",
+                "Algebra Ring",
+                "Algebra Field",
+                "Algebra Module",
+                "Algebra Law",
             ]
         ),
 
         .target(
-            name: "Algebra Primitives Test Support",
+            name: "Algebra Test Support",
             dependencies: [
-                "Algebra Primitives"
+                "Algebra"
             ],
             path: "Tests/Support"
         ),
 
         .testTarget(
-            name: "Algebra Primitives Tests",
+            name: "Algebra Tests",
             dependencies: [
-                "Algebra Primitives",
-                "Algebra Primitives Test Support",
-                "Algebra Magma Primitives",
-                "Algebra Semigroup Primitives",
-                "Algebra Monoid Primitives",
-                "Algebra Semiring Primitives",
-                "Algebra Semilattice Primitives",
-                "Algebra Lattice Primitives",
-                "Algebra Group Primitives",
-                "Algebra Ring Primitives",
-                "Algebra Field Primitives",
-                "Algebra Module Primitives",
-                "Algebra Law Primitives",
+                "Algebra",
+                "Algebra Test Support",
+                "Algebra Magma",
+                "Algebra Semigroup",
+                "Algebra Monoid",
+                "Algebra Semiring",
+                "Algebra Semilattice",
+                "Algebra Lattice",
+                "Algebra Group",
+                "Algebra Ring",
+                "Algebra Field",
+                "Algebra Module",
+                "Algebra Law",
             ]
         ),
     ],
