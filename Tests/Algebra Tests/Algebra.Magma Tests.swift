@@ -1,6 +1,6 @@
 import Testing
 
-@testable import Algebra_Magma
+@testable import Algebra
 
 @Suite
 struct `Algebra.Magma Tests` {

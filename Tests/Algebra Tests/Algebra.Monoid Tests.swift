@@ -1,6 +1,6 @@
 import Testing
 
-@testable import Algebra_Monoid
+@testable import Algebra
 
 @Suite
 struct `Algebra.Monoid Tests` {

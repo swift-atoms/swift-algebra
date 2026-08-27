@@ -1,6 +1,6 @@
 import Testing
 
-@testable import Algebra_Ring
+@testable import Algebra
 
 @Suite
 struct `Algebra.Ring Tests` {

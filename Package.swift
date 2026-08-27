@@ -12,190 +12,40 @@ let package = Package(
         .visionOS(.v27),
     ],
     products: [
-
-        .library(
-            name: "Algebra Primitive",
-            targets: ["Algebra Primitive"]
-        ),
-
-        .library(
-            name: "Algebra Magma",
-            targets: ["Algebra Magma"]
-        ),
-        .library(
-            name: "Algebra Semigroup",
-            targets: ["Algebra Semigroup"]
-        ),
-        .library(
-            name: "Algebra Monoid",
-            targets: ["Algebra Monoid"]
-        ),
-        .library(
-            name: "Algebra Semiring",
-            targets: ["Algebra Semiring"]
-        ),
-        .library(
-            name: "Algebra Semilattice",
-            targets: ["Algebra Semilattice"]
-        ),
-        .library(
-            name: "Algebra Lattice",
-            targets: ["Algebra Lattice"]
-        ),
-        .library(
-            name: "Algebra Group",
-            targets: ["Algebra Group"]
-        ),
-        .library(
-            name: "Algebra Ring",
-            targets: ["Algebra Ring"]
-        ),
-        .library(
-            name: "Algebra Field",
-            targets: ["Algebra Field"]
-        ),
-        .library(
-            name: "Algebra Module",
-            targets: ["Algebra Module"]
-        ),
-
-        .library(
-            name: "Algebra Law",
-            targets: ["Algebra Law"]
-        ),
-
         .library(
             name: "Algebra",
             targets: ["Algebra"]
         ),
-
         .library(
-            name: "Algebra Test Support",
-            targets: ["Algebra Test Support"]
+            name: "Algebra Standard Library Integration",
+            targets: ["Algebra Standard Library Integration"]
+        ),
+        .library(
+            name: "Algebra Apple Foundation Integration",
+            targets: ["Algebra Apple Foundation Integration"]
         ),
     ],
     dependencies: [],
     targets: [
-
-        .target(
-            name: "Algebra Primitive",
-            dependencies: []
-        ),
-
-        .target(
-            name: "Algebra Magma",
-            dependencies: [
-                "Algebra Primitive"
-            ]
-        ),
-        .target(
-            name: "Algebra Semigroup",
-            dependencies: [
-                "Algebra Magma"
-            ]
-        ),
-        .target(
-            name: "Algebra Monoid",
-            dependencies: [
-                "Algebra Semigroup"
-            ]
-        ),
-        .target(
-            name: "Algebra Semiring",
-            dependencies: [
-                "Algebra Monoid"
-            ]
-        ),
-        .target(
-            name: "Algebra Semilattice",
-            dependencies: [
-                "Algebra Monoid",
-                "Algebra Semigroup",
-            ]
-        ),
-        .target(
-            name: "Algebra Lattice",
-            dependencies: [
-                "Algebra Semilattice"
-            ]
-        ),
-        .target(
-            name: "Algebra Group",
-            dependencies: [
-                "Algebra Monoid"
-            ]
-        ),
-        .target(
-            name: "Algebra Ring",
-            dependencies: [
-                "Algebra Group",
-                "Algebra Semiring",
-            ]
-        ),
-        .target(
-            name: "Algebra Field",
-            dependencies: [
-                "Algebra Ring"
-            ]
-        ),
-        .target(
-            name: "Algebra Module",
-            dependencies: [
-                "Algebra Field"
-            ]
-        ),
-
-        .target(
-            name: "Algebra Law",
-            dependencies: [
-                "Algebra Field",
-                "Algebra Module",
-            ]
-        ),
-
         .target(
             name: "Algebra",
-            dependencies: [
-                "Algebra Primitive",
-                "Algebra Magma",
-                "Algebra Semigroup",
-                "Algebra Monoid",
-                "Algebra Semiring",
-                "Algebra Semilattice",
-                "Algebra Lattice",
-                "Algebra Group",
-                "Algebra Ring",
-                "Algebra Field",
-                "Algebra Module",
-                "Algebra Law",
-            ]
+            dependencies: []
         ),
-
         .target(
-            name: "Algebra Test Support",
-            dependencies: [
-                "Algebra"
-            ],
-            path: "Tests/Support"
+            name: "Algebra Standard Library Integration",
+            dependencies: ["Algebra"]
         ),
-
-        .testTarget(
-            name: "Algebra Tests",
+        .target(
+            name: "Algebra Apple Foundation Integration",
             dependencies: [
                 "Algebra",
-                "Algebra Test Support",
-                "Algebra Magma",
-                "Algebra Semigroup",
-                "Algebra Monoid",
-                "Algebra Semiring",
-                "Algebra Semilattice",
-                "Algebra Lattice",
-                "Algebra Group",
-                "Algebra Ring",
-                "Algebra Field",
-                "Algebra Module",
-                "Algebra Law",
+                "Algebra Standard Library Integration",
             ]
+        ),
+        .testTarget(
+            name: "Algebra Tests",
+            dependencies: ["Algebra"],
+            path: "Tests/Algebra Tests"
         ),
     ],
     swiftLanguageModes: [.v6]

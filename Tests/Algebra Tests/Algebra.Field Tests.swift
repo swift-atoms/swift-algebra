@@ -1,6 +1,6 @@
 import Testing
 
-@testable import Algebra_Field
+@testable import Algebra
 
 @Suite
 struct `Algebra.Field Tests` {

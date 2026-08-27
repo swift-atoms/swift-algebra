@@ -1,0 +1,13 @@
+extension Algebra.Magma {
+
+    @inlinable
+    public init(_ semigroup: Algebra.Semigroup<Element>) {
+        self.init(combining: semigroup.combining)
+    }
+}
+
+extension Algebra.Semigroup {
+
+    @inlinable
+    public var magma: Algebra.Magma<Element> { .init(self) }
+}

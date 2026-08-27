@@ -1,6 +1,6 @@
 import Testing
 
-@testable import Algebra_Lattice
+@testable import Algebra
 
 @Suite
 struct `Algebra.Lattice Tests` {

@@ -1,6 +1,6 @@
 import Testing
 
-@testable import Algebra_Semilattice
+@testable import Algebra
 
 @Suite
 struct `Algebra.Semilattice Tests` {
