@@ -1,6 +1,7 @@
 import Testing
 
 @testable import Algebra
+import Algebra_Standard_Library_Integration
 
 @Suite
 struct `Algebra.Semilattice Tests` {

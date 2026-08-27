@@ -44,7 +44,10 @@ let package = Package(
         ),
         .testTarget(
             name: "Algebra Tests",
-            dependencies: ["Algebra"],
+            dependencies: [
+                "Algebra",
+                "Algebra Standard Library Integration",
+            ],
             path: "Tests/Algebra Tests"
         ),
     ],
