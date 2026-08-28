@@ -8,7 +8,10 @@ extension Algebra.Law {
 extension Algebra.Law.Commutativity {
 
     @inlinable
-    public static func check<Element: Equatable, C: Swift.Collection<Element>>(
+    public static func check<
+        Element: Equatable,
+        C: Swift.Collection<Element>
+    >(
         of combining: (borrowing Element, borrowing Element) -> Element,
         over elements: C
     ) -> Algebra.Law.Violation<Element>? {

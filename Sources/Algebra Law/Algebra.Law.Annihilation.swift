@@ -8,9 +8,12 @@ extension Algebra.Law {
 extension Algebra.Law.Annihilation {
 
     @inlinable
-    public static func zero<Element: Equatable, C: Swift.Collection<Element>>(
+    public static func zero<
+        Element: Equatable,
+        Sequence: Swift.Sequence<Element>
+    >(
         of ring: Algebra.Ring<Element>,
-        over elements: C
+        over elements: Sequence
     ) -> Algebra.Law.Violation<Element>? {
         for a in elements {
             let lhs = ring.multiplying(ring.zero, a)

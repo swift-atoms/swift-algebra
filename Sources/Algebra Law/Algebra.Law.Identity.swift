@@ -8,9 +8,12 @@ extension Algebra.Law {
 extension Algebra.Law.Identity {
 
     @inlinable
-    public static func left<Element: Equatable, C: Swift.Collection<Element>>(
+    public static func left<
+        Element: Equatable,
+        Sequence: Swift.Sequence<Element>
+    >(
         of monoid: Algebra.Monoid<Element>,
-        over elements: C
+        over elements: Sequence
     ) -> Algebra.Law.Violation<Element>? {
         for a in elements {
             let lhs = monoid.combining(monoid.identity, a)
@@ -22,9 +25,12 @@ extension Algebra.Law.Identity {
     }
 
     @inlinable
-    public static func right<Element: Equatable, C: Swift.Collection<Element>>(
+    public static func right<
+        Element: Equatable,
+        Sequence: Swift.Sequence<Element>
+    >(
         of monoid: Algebra.Monoid<Element>,
-        over elements: C
+        over elements: Sequence
     ) -> Algebra.Law.Violation<Element>? {
         for a in elements {
             let lhs = monoid.combining(a, monoid.identity)

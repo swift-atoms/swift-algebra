@@ -59,7 +59,7 @@ extension Algebra.Law.Distributivity {
     public static func scalar<
         Scalar,
         Vector: Equatable,
-        CS: Swift.Collection<Scalar>,
+        CS: Swift.Sequence<Scalar>,
         CV: Swift.Collection<Vector>
     >(
         of module: Algebra.Module<Scalar, Vector>,

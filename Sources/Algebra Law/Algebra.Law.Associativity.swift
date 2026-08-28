@@ -8,7 +8,10 @@ extension Algebra.Law {
 extension Algebra.Law.Associativity {
 
     @inlinable
-    public static func check<Element: Equatable, C: Swift.Collection<Element>>(
+    public static func check<
+        Element: Equatable,
+        C: Swift.Collection<Element>
+    >(
         of semigroup: Algebra.Semigroup<Element>,
         over elements: C
     ) -> Algebra.Law.Violation<Element>? {

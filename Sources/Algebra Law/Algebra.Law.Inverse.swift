@@ -8,9 +8,12 @@ extension Algebra.Law {
 extension Algebra.Law.Inverse {
 
     @inlinable
-    public static func left<Element: Equatable, C: Swift.Collection<Element>>(
+    public static func left<
+        Element: Equatable,
+        Sequence: Swift.Sequence<Element>
+    >(
         of group: Algebra.Group<Element>,
-        over elements: C
+        over elements: Sequence
     ) -> Algebra.Law.Violation<Element>? {
         for a in elements {
             let lhs = group.combining(group.inverting(a), a)
@@ -22,9 +25,12 @@ extension Algebra.Law.Inverse {
     }
 
     @inlinable
-    public static func right<Element: Equatable, C: Swift.Collection<Element>>(
+    public static func right<
+        Element: Equatable,
+        Sequence: Swift.Sequence<Element>
+    >(
         of group: Algebra.Group<Element>,
-        over elements: C
+        over elements: Sequence
     ) -> Algebra.Law.Violation<Element>? {
         for a in elements {
             let lhs = group.combining(a, group.inverting(a))
