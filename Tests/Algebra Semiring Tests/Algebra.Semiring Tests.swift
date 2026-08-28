@@ -64,7 +64,6 @@ extension `Algebra.Semiring Tests`.EdgeCase {
         for a in [true, false] {
             for b in [true, false] {
                 for c in [true, false] {
-
                     let lhs = sr.multiplying(a, sr.adding(b, c))
                     let rhs = sr.adding(sr.multiplying(a, b), sr.multiplying(a, c))
                     #expect(lhs == rhs)
@@ -79,7 +78,6 @@ extension `Algebra.Semiring Tests`.EdgeCase {
         for a in [true, false] {
             for b in [true, false] {
                 for c in [true, false] {
-
                     let lhs = sr.multiplying(sr.adding(a, b), c)
                     let rhs = sr.adding(sr.multiplying(a, c), sr.multiplying(b, c))
                     #expect(lhs == rhs)

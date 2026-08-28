@@ -50,7 +50,6 @@ extension `Algebra.Magma Tests`.Unit {
 extension `Algebra.Magma Tests`.EdgeCase {
     @Test
     func `combining with non-associative operation`() {
-
         let magma = Algebra.Magma<Int>(combining: { $0 &- $1 })
         let leftAssoc = magma.combining(magma.combining(10, 3), 2)
         let rightAssoc = magma.combining(10, magma.combining(3, 2))

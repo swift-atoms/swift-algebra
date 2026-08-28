@@ -96,7 +96,6 @@ extension `Algebra.Group.Abelian Tests`.Unit {
 extension `Algebra.Group.Abelian Tests`.EdgeCase {
     @Test
     func `abelian group with self-inverse elements`() {
-
         let group = Algebra.Group<Bool>(
             identity: false,
             combining: { $0 != $1 },

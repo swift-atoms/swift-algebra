@@ -12,12 +12,10 @@ let package = Package(
         .visionOS(.v27),
     ],
     products: [
-
         .library(
             name: "Algebra",
             targets: ["Algebra"]
         ),
-
         .library(
             name: "Algebra Magma",
             targets: ["Algebra Magma"]
@@ -58,7 +56,6 @@ let package = Package(
             name: "Algebra Module",
             targets: ["Algebra Module"]
         ),
-
         .library(
             name: "Algebra Law",
             targets: ["Algebra Law"]
@@ -66,12 +63,10 @@ let package = Package(
     ],
     dependencies: [],
     targets: [
-
         .target(
             name: "Algebra",
             dependencies: []
         ),
-
         .target(
             name: "Algebra Magma",
             dependencies: [
@@ -134,7 +129,6 @@ let package = Package(
                 .target(name: "Algebra Field")
             ]
         ),
-
         .target(
             name: "Algebra Law",
             dependencies: [
@@ -142,7 +136,6 @@ let package = Package(
                 .target(name: "Algebra Module"),
             ]
         ),
-
         .testTarget(
             name: "Algebra Tests",
             dependencies: [
