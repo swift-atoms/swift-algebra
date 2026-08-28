@@ -75,89 +75,144 @@ let package = Package(
         .target(
             name: "Algebra Magma",
             dependencies: [
-                "Algebra"
+                .target(name: "Algebra")
             ]
         ),
         .target(
             name: "Algebra Semigroup",
             dependencies: [
-                "Algebra Magma"
+                .target(name: "Algebra Magma")
             ]
         ),
         .target(
             name: "Algebra Monoid",
             dependencies: [
-                "Algebra Semigroup"
+                .target(name: "Algebra Semigroup")
             ]
         ),
         .target(
             name: "Algebra Semiring",
             dependencies: [
-                "Algebra Monoid"
+                .target(name: "Algebra Monoid")
             ]
         ),
         .target(
             name: "Algebra Semilattice",
             dependencies: [
-                "Algebra Monoid",
-                "Algebra Semigroup",
+                .target(name: "Algebra Monoid"),
+                .target(name: "Algebra Semigroup"),
             ]
         ),
         .target(
             name: "Algebra Lattice",
             dependencies: [
-                "Algebra Semilattice"
+                .target(name: "Algebra Semilattice")
             ]
         ),
         .target(
             name: "Algebra Group",
             dependencies: [
-                "Algebra Monoid"
+                .target(name: "Algebra Monoid")
             ]
         ),
         .target(
             name: "Algebra Ring",
             dependencies: [
-                "Algebra Group",
-                "Algebra Semiring",
+                .target(name: "Algebra Group"),
+                .target(name: "Algebra Semiring"),
             ]
         ),
         .target(
             name: "Algebra Field",
             dependencies: [
-                "Algebra Ring"
+                .target(name: "Algebra Ring")
             ]
         ),
         .target(
             name: "Algebra Module",
             dependencies: [
-                "Algebra Field"
+                .target(name: "Algebra Field")
             ]
         ),
 
         .target(
             name: "Algebra Law",
             dependencies: [
-                "Algebra Field",
-                "Algebra Module",
+                .target(name: "Algebra Field"),
+                .target(name: "Algebra Module"),
             ]
         ),
 
         .testTarget(
             name: "Algebra Tests",
             dependencies: [
-                "Algebra",
-                "Algebra Magma",
-                "Algebra Semigroup",
-                "Algebra Monoid",
-                "Algebra Semiring",
-                "Algebra Semilattice",
-                "Algebra Lattice",
-                "Algebra Group",
-                "Algebra Ring",
-                "Algebra Field",
-                "Algebra Module",
-                "Algebra Law",
+                .target(name: "Algebra")
+            ]
+        ),
+        .testTarget(
+            name: "Algebra Magma Tests",
+            dependencies: [
+                .target(name: "Algebra Magma")
+            ]
+        ),
+        .testTarget(
+            name: "Algebra Semigroup Tests",
+            dependencies: [
+                .target(name: "Algebra Semigroup")
+            ]
+        ),
+        .testTarget(
+            name: "Algebra Monoid Tests",
+            dependencies: [
+                .target(name: "Algebra Monoid")
+            ]
+        ),
+        .testTarget(
+            name: "Algebra Semiring Tests",
+            dependencies: [
+                .target(name: "Algebra Semiring")
+            ]
+        ),
+        .testTarget(
+            name: "Algebra Semilattice Tests",
+            dependencies: [
+                .target(name: "Algebra Semilattice")
+            ]
+        ),
+        .testTarget(
+            name: "Algebra Lattice Tests",
+            dependencies: [
+                .target(name: "Algebra Lattice")
+            ]
+        ),
+        .testTarget(
+            name: "Algebra Group Tests",
+            dependencies: [
+                .target(name: "Algebra Group")
+            ]
+        ),
+        .testTarget(
+            name: "Algebra Ring Tests",
+            dependencies: [
+                .target(name: "Algebra Ring")
+            ]
+        ),
+        .testTarget(
+            name: "Algebra Field Tests",
+            dependencies: [
+                .target(name: "Algebra Field")
+            ]
+        ),
+        .testTarget(
+            name: "Algebra Module Tests",
+            dependencies: [
+                .target(name: "Algebra Module")
+            ]
+        ),
+        .testTarget(
+            name: "Algebra Law Tests",
+            dependencies: [
+                .target(name: "Algebra Law")
             ]
         ),
     ],
