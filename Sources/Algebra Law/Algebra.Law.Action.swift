@@ -11,10 +11,10 @@ extension Algebra.Law.Action {
     public static func identity<
         Scalar,
         Vector: Equatable,
-        C: Swift.Collection<Vector>
+        Sequence: Swift.Sequence<Vector>
     >(
         of module: Algebra.Module<Scalar, Vector>,
-        over vectors: C
+        over vectors: Sequence
     ) -> Algebra.Law.Violation<Vector>? {
         for m in vectors {
             let lhs = module.scaling(module.one, m)
