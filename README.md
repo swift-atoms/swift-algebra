@@ -10,7 +10,7 @@ Witness value types for the algebraic tower — magma, semigroup, monoid, group,
 
 `Algebra` types are *witnesses*: each one bundles the operations of an algebraic structure (its identity, its binary operation, its inverse) into a value, and the type name records the laws those operations are required to satisfy. Associativity, commutativity, idempotency, and the rest are documented invariants the constructing code must guarantee — they are not re-checked at every call.
 
-A bounded join-semilattice is the algebraic core of a state-based CRDT: any associative, commutative, *idempotent* merge with an identity converges. The witness makes that structure explicit and reusable.
+A bounded join-semilattice is the algebraic of a state-based CRDT: any associative, commutative, *idempotent* merge with an identity converges. The witness makes that structure explicit and reusable.
 
 ```swift
 import Algebra_Semilattice
