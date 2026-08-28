@@ -30,3 +30,15 @@ extension Algebra {
 }
 
 extension Algebra.Group: @unchecked Sendable where Element: Sendable {}
+
+extension Algebra.Group {
+
+    @inlinable
+    public var monoid: Algebra.Monoid<Element> { .init(self) }
+
+    @inlinable
+    public var semigroup: Algebra.Semigroup<Element> { .init(self) }
+
+    @inlinable
+    public var magma: Algebra.Magma<Element> { .init(self) }
+}

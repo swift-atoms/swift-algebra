@@ -1,18 +1,5 @@
 import Algebra_Ring
 
-extension Algebra.Field {
-
-    @inlinable
-    public var ring: Algebra.Ring<Element>.Commutative {
-        .init(
-            ring: .init(
-                additive: additive,
-                multiplicative: multiplicative.monoid
-            )
-        )
-    }
-}
-
 extension Algebra.Ring.Commutative {
 
     public init(

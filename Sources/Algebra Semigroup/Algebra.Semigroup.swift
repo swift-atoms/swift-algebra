@@ -1,4 +1,4 @@
-import Algebra
+import Algebra_Magma
 
 extension Algebra {
 
@@ -22,3 +22,9 @@ extension Algebra {
 }
 
 extension Algebra.Semigroup: @unchecked Sendable where Element: Sendable {}
+
+extension Algebra.Semigroup {
+
+    @inlinable
+    public var magma: Algebra.Magma<Element> { .init(self) }
+}

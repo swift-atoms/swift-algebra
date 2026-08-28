@@ -25,3 +25,33 @@ extension Algebra {
 }
 
 extension Algebra.VectorSpace: @unchecked Sendable where Scalar: Sendable, Vector: Sendable {}
+
+extension Algebra.VectorSpace {
+
+    @inlinable
+    public var zero: Vector { vectors.identity }
+
+    @inlinable
+    public func adding(_ lhs: Vector, _ rhs: Vector) -> Vector {
+        vectors.combining(lhs, rhs)
+    }
+
+    @inlinable
+    public func subtracting(_ lhs: Vector, _ rhs: Vector) -> Vector {
+        vectors.combining(lhs, vectors.inverting(rhs))
+    }
+
+    @inlinable
+    public func negating(_ vector: Vector) -> Vector {
+        vectors.inverting(vector)
+    }
+
+    @inlinable
+    public var module: Algebra.Module<Scalar, Vector> {
+        .init(
+            scalars: scalars.ring.ring,
+            vectors: vectors,
+            scaling: scaling
+        )
+    }
+}

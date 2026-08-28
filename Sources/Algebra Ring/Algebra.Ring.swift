@@ -1,4 +1,5 @@
 import Algebra_Group
+import Algebra_Semiring
 
 extension Algebra {
 
@@ -21,3 +22,40 @@ extension Algebra {
 }
 
 extension Algebra.Ring: Sendable where Element: Sendable {}
+
+extension Algebra.Ring {
+
+    @inlinable
+    public var zero: Element { additive.identity }
+
+    @inlinable
+    public var one: Element { multiplicative.identity }
+
+    @inlinable
+    public func adding(_ lhs: Element, _ rhs: Element) -> Element {
+        additive.combining(lhs, rhs)
+    }
+
+    @inlinable
+    public func negating(_ element: Element) -> Element {
+        additive.inverting(element)
+    }
+
+    @inlinable
+    public func multiplying(_ lhs: Element, _ rhs: Element) -> Element {
+        multiplicative.combining(lhs, rhs)
+    }
+
+    @inlinable
+    public func subtracting(_ lhs: Element, _ rhs: Element) -> Element {
+        additive.combining(lhs, additive.inverting(rhs))
+    }
+
+    @inlinable
+    public var semiring: Algebra.Semiring<Element> {
+        .init(
+            additive: additive.commutative,
+            multiplicative: multiplicative
+        )
+    }
+}

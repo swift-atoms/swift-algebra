@@ -7,9 +7,3 @@ extension Algebra.Semigroup {
         self.init(combining: semilattice.combining)
     }
 }
-
-extension Algebra.Semilattice {
-
-    @inlinable
-    public var semigroup: Algebra.Semigroup<Element> { .init(self) }
-}

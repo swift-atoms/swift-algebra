@@ -26,3 +26,12 @@ extension Algebra {
 }
 
 extension Algebra.Monoid: @unchecked Sendable where Element: Sendable {}
+
+extension Algebra.Monoid {
+
+    @inlinable
+    public var semigroup: Algebra.Semigroup<Element> { .init(self) }
+
+    @inlinable
+    public var magma: Algebra.Magma<Element> { .init(self) }
+}

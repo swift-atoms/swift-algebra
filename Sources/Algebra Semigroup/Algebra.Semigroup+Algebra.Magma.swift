@@ -7,9 +7,3 @@ extension Algebra.Magma {
         self.init(combining: semigroup.combining)
     }
 }
-
-extension Algebra.Semigroup {
-
-    @inlinable
-    public var magma: Algebra.Magma<Element> { .init(self) }
-}
