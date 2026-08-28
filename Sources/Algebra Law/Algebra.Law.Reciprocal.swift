@@ -8,7 +8,7 @@ extension Algebra.Law {
 extension Algebra.Law.Reciprocal {
 
     @inlinable
-    public static func check<Element: Equatable & Sendable, C: Swift.Collection<Element>>(
+    public static func check<Element: Equatable, C: Swift.Collection<Element>>(
         of field: Algebra.Field<Element>,
         over elements: C
     ) -> Algebra.Law.Violation<Element>? {

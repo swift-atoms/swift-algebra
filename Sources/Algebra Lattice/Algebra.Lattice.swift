@@ -20,8 +20,6 @@ extension Algebra {
     }
 }
 
-extension Algebra.Lattice: Sendable where Element: Sendable {}
-
 extension Algebra.Lattice {
 
     @inlinable
@@ -36,9 +34,9 @@ extension Algebra.Lattice {
     @inlinable
     public init(
         bottom: Element,
-        join: @escaping (Element, Element) -> Element,
+        join: @escaping (borrowing Element, borrowing Element) -> Element,
         top: Element,
-        meet: @escaping (Element, Element) -> Element
+        meet: @escaping (borrowing Element, borrowing Element) -> Element
     ) {
         self.init(
             join: .init(identity: bottom, combining: join),
@@ -50,7 +48,10 @@ extension Algebra.Lattice {
 extension Algebra.Lattice {
 
     @inlinable
-    public func leq(_ lhs: Element, _ rhs: Element) -> Bool where Element: Equatable {
+    public func leq(
+        _ lhs: borrowing Element,
+        _ rhs: borrowing Element
+    ) -> Bool where Element: Equatable {
         join(lhs, rhs) == rhs
     }
 }

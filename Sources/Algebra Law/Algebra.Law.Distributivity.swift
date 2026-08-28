@@ -8,7 +8,7 @@ extension Algebra.Law {
 extension Algebra.Law.Distributivity {
 
     @inlinable
-    public static func left<Element: Equatable & Sendable, C: Swift.Collection<Element>>(
+    public static func left<Element: Equatable, C: Swift.Collection<Element>>(
         of ring: Algebra.Ring<Element>,
         over elements: C
     ) -> Algebra.Law.Violation<Element>? {
@@ -32,7 +32,7 @@ extension Algebra.Law.Distributivity {
     }
 
     @inlinable
-    public static func right<Element: Equatable & Sendable, C: Swift.Collection<Element>>(
+    public static func right<Element: Equatable, C: Swift.Collection<Element>>(
         of ring: Algebra.Ring<Element>,
         over elements: C
     ) -> Algebra.Law.Violation<Element>? {
@@ -57,8 +57,8 @@ extension Algebra.Law.Distributivity {
 
     @inlinable
     public static func scalar<
-        Scalar: Sendable,
-        Vector: Equatable & Sendable,
+        Scalar,
+        Vector: Equatable,
         CS: Swift.Collection<Scalar>,
         CV: Swift.Collection<Vector>
     >(
@@ -87,8 +87,8 @@ extension Algebra.Law.Distributivity {
 
     @inlinable
     public static func addition<
-        Scalar: Equatable & Sendable,
-        Vector: Equatable & Sendable,
+        Scalar: Equatable,
+        Vector: Equatable,
         CS: Swift.Collection<Scalar>,
         CV: Swift.Collection<Vector>
     >(

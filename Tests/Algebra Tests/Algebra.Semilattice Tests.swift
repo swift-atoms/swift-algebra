@@ -41,7 +41,9 @@ extension `Algebra.Semilattice Tests`.Unit {
 
 extension `Algebra.Semilattice Tests`.Laws {
 
-    static let maxL = Algebra.Semilattice<Int>(identity: .min, combining: max)
+    static var maxL: Algebra.Semilattice<Int> {
+        .init(identity: .min, combining: max)
+    }
 
     @Test
     func `associativity holds`() {

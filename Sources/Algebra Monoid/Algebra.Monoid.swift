@@ -7,25 +7,26 @@ extension Algebra {
 
         public var identity: Element
 
-        public var combining: (Element, Element) -> Element
+        public var combining: (borrowing Element, borrowing Element) -> Element
 
         @inlinable
         public init(
             identity: Element,
-            combining: @escaping (Element, Element) -> Element
+            combining: @escaping (borrowing Element, borrowing Element) -> Element
         ) {
             self.identity = identity
             self.combining = combining
         }
 
         @inlinable
-        public func callAsFunction(_ lhs: Element, _ rhs: Element) -> Element {
+        public func callAsFunction(
+            _ lhs: borrowing Element,
+            _ rhs: borrowing Element
+        ) -> Element {
             combining(lhs, rhs)
         }
     }
 }
-
-extension Algebra.Monoid: @unchecked Sendable where Element: Sendable {}
 
 extension Algebra.Monoid {
 

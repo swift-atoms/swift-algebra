@@ -14,8 +14,6 @@ extension Algebra.Semiring {
     }
 }
 
-extension Algebra.Semiring.Commutative: Sendable where Element: Sendable {}
-
 extension Algebra.Semiring.Commutative {
 
     @inlinable

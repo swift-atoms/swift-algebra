@@ -14,18 +14,21 @@ extension Algebra.Monoid {
     }
 }
 
-extension Algebra.Monoid.Commutative: Sendable where Element: Sendable {}
-
 extension Algebra.Monoid.Commutative {
 
     @inlinable
     public var identity: Element { monoid.identity }
 
     @inlinable
-    public var combining: (Element, Element) -> Element { monoid.combining }
+    public var combining: (borrowing Element, borrowing Element) -> Element {
+        monoid.combining
+    }
 
     @inlinable
-    public func callAsFunction(_ lhs: Element, _ rhs: Element) -> Element {
+    public func callAsFunction(
+        _ lhs: borrowing Element,
+        _ rhs: borrowing Element
+    ) -> Element {
         combining(lhs, rhs)
     }
 }

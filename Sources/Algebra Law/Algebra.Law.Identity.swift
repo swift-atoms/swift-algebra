@@ -8,7 +8,7 @@ extension Algebra.Law {
 extension Algebra.Law.Identity {
 
     @inlinable
-    public static func left<Element: Equatable & Sendable, C: Swift.Collection<Element>>(
+    public static func left<Element: Equatable, C: Swift.Collection<Element>>(
         of monoid: Algebra.Monoid<Element>,
         over elements: C
     ) -> Algebra.Law.Violation<Element>? {
@@ -22,7 +22,7 @@ extension Algebra.Law.Identity {
     }
 
     @inlinable
-    public static func right<Element: Equatable & Sendable, C: Swift.Collection<Element>>(
+    public static func right<Element: Equatable, C: Swift.Collection<Element>>(
         of monoid: Algebra.Monoid<Element>,
         over elements: C
     ) -> Algebra.Law.Violation<Element>? {

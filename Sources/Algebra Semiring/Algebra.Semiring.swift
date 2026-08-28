@@ -20,8 +20,6 @@ extension Algebra {
     }
 }
 
-extension Algebra.Semiring: Sendable where Element: Sendable {}
-
 extension Algebra.Semiring {
 
     @inlinable
@@ -31,12 +29,12 @@ extension Algebra.Semiring {
     public var one: Element { multiplicative.identity }
 
     @inlinable
-    public func adding(_ lhs: Element, _ rhs: Element) -> Element {
+    public func adding(_ lhs: borrowing Element, _ rhs: borrowing Element) -> Element {
         additive.combining(lhs, rhs)
     }
 
     @inlinable
-    public func multiplying(_ lhs: Element, _ rhs: Element) -> Element {
+    public func multiplying(_ lhs: borrowing Element, _ rhs: borrowing Element) -> Element {
         multiplicative.combining(lhs, rhs)
     }
 }
@@ -50,12 +48,12 @@ extension Algebra.Semiring.Commutative {
     public var one: Element { semiring.one }
 
     @inlinable
-    public func adding(_ lhs: Element, _ rhs: Element) -> Element {
+    public func adding(_ lhs: borrowing Element, _ rhs: borrowing Element) -> Element {
         semiring.adding(lhs, rhs)
     }
 
     @inlinable
-    public func multiplying(_ lhs: Element, _ rhs: Element) -> Element {
+    public func multiplying(_ lhs: borrowing Element, _ rhs: borrowing Element) -> Element {
         semiring.multiplying(lhs, rhs)
     }
 }

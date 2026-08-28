@@ -9,7 +9,7 @@ extension Algebra.Law.Commutativity {
 
     @inlinable
     public static func check<Element: Equatable, C: Swift.Collection<Element>>(
-        of combining: @Sendable (Element, Element) -> Element,
+        of combining: (borrowing Element, borrowing Element) -> Element,
         over elements: C
     ) -> Algebra.Law.Violation<Element>? {
         for a in elements {

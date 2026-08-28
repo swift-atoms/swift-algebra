@@ -8,7 +8,7 @@ extension Algebra.Law {
 extension Algebra.Law.Inverse {
 
     @inlinable
-    public static func left<Element: Equatable & Sendable, C: Swift.Collection<Element>>(
+    public static func left<Element: Equatable, C: Swift.Collection<Element>>(
         of group: Algebra.Group<Element>,
         over elements: C
     ) -> Algebra.Law.Violation<Element>? {
@@ -22,7 +22,7 @@ extension Algebra.Law.Inverse {
     }
 
     @inlinable
-    public static func right<Element: Equatable & Sendable, C: Swift.Collection<Element>>(
+    public static func right<Element: Equatable, C: Swift.Collection<Element>>(
         of group: Algebra.Group<Element>,
         over elements: C
     ) -> Algebra.Law.Violation<Element>? {

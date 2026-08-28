@@ -9,8 +9,8 @@ extension Algebra.Law.Action {
 
     @inlinable
     public static func identity<
-        Scalar: Sendable,
-        Vector: Equatable & Sendable,
+        Scalar,
+        Vector: Equatable,
         C: Swift.Collection<Vector>
     >(
         of module: Algebra.Module<Scalar, Vector>,

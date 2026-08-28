@@ -8,7 +8,7 @@ extension Algebra.Law {
 extension Algebra.Law.Annihilation {
 
     @inlinable
-    public static func zero<Element: Equatable & Sendable, C: Swift.Collection<Element>>(
+    public static func zero<Element: Equatable, C: Swift.Collection<Element>>(
         of ring: Algebra.Ring<Element>,
         over elements: C
     ) -> Algebra.Law.Violation<Element>? {

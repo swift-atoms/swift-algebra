@@ -9,13 +9,13 @@ extension Algebra {
 
         public var vectors: Algebra.Group<Vector>.Abelian
 
-        public var scaling: (Scalar, Vector) -> Vector
+        public var scaling: (borrowing Scalar, borrowing Vector) -> Vector
 
         @inlinable
         public init(
             scalars: Algebra.Ring<Scalar>,
             vectors: Algebra.Group<Vector>.Abelian,
-            scaling: @escaping (Scalar, Vector) -> Vector
+            scaling: @escaping (borrowing Scalar, borrowing Vector) -> Vector
         ) {
             self.scalars = scalars
             self.vectors = vectors
@@ -23,8 +23,6 @@ extension Algebra {
         }
     }
 }
-
-extension Algebra.Module: @unchecked Sendable where Scalar: Sendable, Vector: Sendable {}
 
 extension Algebra.Module {
 
@@ -35,12 +33,12 @@ extension Algebra.Module {
     public var one: Scalar { scalars.one }
 
     @inlinable
-    public func adding(_ lhs: Vector, _ rhs: Vector) -> Vector {
+    public func adding(_ lhs: borrowing Vector, _ rhs: borrowing Vector) -> Vector {
         vectors.combining(lhs, rhs)
     }
 
     @inlinable
-    public func negating(_ vector: Vector) -> Vector {
+    public func negating(_ vector: borrowing Vector) -> Vector {
         vectors.inverting(vector)
     }
 }

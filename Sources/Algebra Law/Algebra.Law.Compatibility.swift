@@ -9,8 +9,8 @@ extension Algebra.Law.Compatibility {
 
     @inlinable
     public static func scalar<
-        Scalar: Equatable & Sendable,
-        Vector: Equatable & Sendable,
+        Scalar: Equatable,
+        Vector: Equatable,
         CS: Swift.Collection<Scalar>,
         CV: Swift.Collection<Vector>
     >(

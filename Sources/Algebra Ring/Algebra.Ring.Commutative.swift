@@ -15,8 +15,6 @@ extension Algebra.Ring {
     }
 }
 
-extension Algebra.Ring.Commutative: Sendable where Element: Sendable {}
-
 extension Algebra.Ring.Commutative {
 
     @inlinable
@@ -32,22 +30,22 @@ extension Algebra.Ring.Commutative {
     public var one: Element { ring.one }
 
     @inlinable
-    public func adding(_ lhs: Element, _ rhs: Element) -> Element {
+    public func adding(_ lhs: borrowing Element, _ rhs: borrowing Element) -> Element {
         ring.adding(lhs, rhs)
     }
 
     @inlinable
-    public func negating(_ element: Element) -> Element {
+    public func negating(_ element: borrowing Element) -> Element {
         ring.negating(element)
     }
 
     @inlinable
-    public func multiplying(_ lhs: Element, _ rhs: Element) -> Element {
+    public func multiplying(_ lhs: borrowing Element, _ rhs: borrowing Element) -> Element {
         ring.multiplying(lhs, rhs)
     }
 
     @inlinable
-    public func subtracting(_ lhs: Element, _ rhs: Element) -> Element {
+    public func subtracting(_ lhs: borrowing Element, _ rhs: borrowing Element) -> Element {
         ring.subtracting(lhs, rhs)
     }
 

@@ -7,15 +7,15 @@ extension Algebra {
 
         public var identity: Element
 
-        public var combining: (Element, Element) -> Element
+        public var combining: (borrowing Element, borrowing Element) -> Element
 
-        public var inverting: (Element) -> Element
+        public var inverting: (borrowing Element) -> Element
 
         @inlinable
         public init(
             identity: Element,
-            combining: @escaping (Element, Element) -> Element,
-            inverting: @escaping (Element) -> Element
+            combining: @escaping (borrowing Element, borrowing Element) -> Element,
+            inverting: @escaping (borrowing Element) -> Element
         ) {
             self.identity = identity
             self.combining = combining
@@ -23,13 +23,14 @@ extension Algebra {
         }
 
         @inlinable
-        public func callAsFunction(_ lhs: Element, _ rhs: Element) -> Element {
+        public func callAsFunction(
+            _ lhs: borrowing Element,
+            _ rhs: borrowing Element
+        ) -> Element {
             combining(lhs, rhs)
         }
     }
 }
-
-extension Algebra.Group: @unchecked Sendable where Element: Sendable {}
 
 extension Algebra.Group {
 

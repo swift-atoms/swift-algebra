@@ -36,7 +36,9 @@ extension `Algebra.Lattice Tests`.Unit {
 
 extension `Algebra.Lattice Tests`.Laws {
 
-    static let l = Algebra.Lattice<Int>.minMax(bottom: .min, top: .max)
+    static var l: Algebra.Lattice<Int> {
+        .minMax(bottom: .min, top: .max)
+    }
 
     @Test
     func `join and meet are idempotent`() {
