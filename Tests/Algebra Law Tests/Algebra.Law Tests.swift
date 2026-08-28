@@ -112,7 +112,7 @@ extension Algebra.Law.Test.Unit {
     func `identity left passes for valid monoid`() {
         let result = Algebra.Law.Identity.left(
             of: Algebra.Law.Test.intMonoid,
-            over: AnySequence(Algebra.Law.Test.testElements)
+            over: Algebra.Law.Test.testElements
         )
         #expect(result == nil)
     }
@@ -121,7 +121,7 @@ extension Algebra.Law.Test.Unit {
     func `identity right passes for valid monoid`() {
         let result = Algebra.Law.Identity.right(
             of: Algebra.Law.Test.intMonoid,
-            over: AnySequence(Algebra.Law.Test.testElements)
+            over: Algebra.Law.Test.testElements
         )
         #expect(result == nil)
     }
@@ -130,7 +130,7 @@ extension Algebra.Law.Test.Unit {
     func `inverse left passes for valid group`() {
         let result = Algebra.Law.Inverse.left(
             of: Algebra.Law.Test.intGroup,
-            over: AnySequence(Algebra.Law.Test.testElements)
+            over: Algebra.Law.Test.testElements
         )
         #expect(result == nil)
     }
@@ -139,7 +139,7 @@ extension Algebra.Law.Test.Unit {
     func `inverse right passes for valid group`() {
         let result = Algebra.Law.Inverse.right(
             of: Algebra.Law.Test.intGroup,
-            over: AnySequence(Algebra.Law.Test.testElements)
+            over: Algebra.Law.Test.testElements
         )
         #expect(result == nil)
     }
@@ -175,7 +175,7 @@ extension Algebra.Law.Test.Unit {
     func `annihilation passes for valid ring`() {
         let result = Algebra.Law.Annihilation.zero(
             of: Algebra.Law.Test.intRing,
-            over: AnySequence(Algebra.Law.Test.testElements)
+            over: Algebra.Law.Test.testElements
         )
         #expect(result == nil)
     }
@@ -184,7 +184,7 @@ extension Algebra.Law.Test.Unit {
     func `action identity accepts a sequence`() {
         let result = Algebra.Law.Action.identity(
             of: Algebra.Law.Test.intModule,
-            over: AnySequence(Algebra.Law.Test.testElements)
+            over: Algebra.Law.Test.testElements
         )
         #expect(result == nil)
     }
@@ -193,7 +193,7 @@ extension Algebra.Law.Test.Unit {
     func `scalar distributivity accepts a scalar sequence`() {
         let result = Algebra.Law.Distributivity.scalar(
             of: Algebra.Law.Test.intModule,
-            over: AnySequence(Algebra.Law.Test.testElements),
+            over: Algebra.Law.Test.testElements,
             Algebra.Law.Test.testElements
         )
         #expect(result == nil)
@@ -214,7 +214,7 @@ extension Algebra.Law.Test.EdgeCase {
     func `identity fails for broken monoid`() {
         let result = Algebra.Law.Identity.left(
             of: Algebra.Law.Test.brokenMonoid,
-            over: AnySequence([0, 2])
+            over: [0, 2]
         )
         #expect(result != nil)
     }
@@ -223,7 +223,7 @@ extension Algebra.Law.Test.EdgeCase {
     func `inverse fails for broken group`() {
         let result = Algebra.Law.Inverse.left(
             of: Algebra.Law.Test.brokenGroup,
-            over: AnySequence([1, 2])
+            over: [1, 2]
         )
         #expect(result != nil)
     }
@@ -250,7 +250,7 @@ extension Algebra.Law.Test.EdgeCase {
     func `annihilation fails for broken ring`() {
         let result = Algebra.Law.Annihilation.zero(
             of: Algebra.Law.Test.brokenAnnihilationRing,
-            over: AnySequence([1, 2, 3])
+            over: [1, 2, 3]
         )
         #expect(result != nil)
     }
@@ -259,7 +259,7 @@ extension Algebra.Law.Test.EdgeCase {
     func `reciprocal fails for broken field`() {
         let result = Algebra.Law.Reciprocal.check(
             of: Algebra.Law.Test.brokenReciprocalField,
-            over: AnySequence([true, false])
+            over: [true, false]
         )
         #expect(result != nil)
     }
