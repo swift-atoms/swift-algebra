@@ -1,6 +1,6 @@
 import Testing
 
-@testable import Algebra
+@testable import Algebra_Semiring
 
 @Suite
 struct `Algebra.Semiring Tests` {

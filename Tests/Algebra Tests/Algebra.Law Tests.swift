@@ -1,6 +1,6 @@
 import Testing
 
-@testable import Algebra
+@testable import Algebra_Law
 
 extension Algebra.Law {
     @Suite struct Test {

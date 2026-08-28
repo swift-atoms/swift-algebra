@@ -1,6 +1,6 @@
 import Testing
 
-@testable import Algebra
+@testable import Algebra_Group
 
 @Suite
 struct `Algebra.Group.Abelian Tests` {

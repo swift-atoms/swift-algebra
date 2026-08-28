@@ -1,7 +1,6 @@
 import Testing
 
-@testable import Algebra
-import Algebra_Standard_Library_Integration
+@testable import Algebra_Lattice
 
 @Suite
 struct `Algebra.Lattice Tests` {

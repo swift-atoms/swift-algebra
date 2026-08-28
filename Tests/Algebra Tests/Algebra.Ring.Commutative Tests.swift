@@ -1,6 +1,6 @@
 import Testing
 
-@testable import Algebra
+@testable import Algebra_Ring
 
 @Suite
 struct `Algebra.Ring.Commutative Tests` {

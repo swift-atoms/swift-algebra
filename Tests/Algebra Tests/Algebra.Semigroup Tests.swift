@@ -1,6 +1,6 @@
 import Testing
 
-@testable import Algebra
+@testable import Algebra_Semigroup
 
 @Suite
 struct `Algebra.Semigroup Tests` {
