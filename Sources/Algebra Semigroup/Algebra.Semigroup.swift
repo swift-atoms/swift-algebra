@@ -1,4 +1,4 @@
-import Algebra_Primitive
+import Algebra
 
 extension Algebra {
 

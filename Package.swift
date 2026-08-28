@@ -14,8 +14,8 @@ let package = Package(
     products: [
 
         .library(
-            name: "Algebra Primitive",
-            targets: ["Algebra Primitive"]
+            name: "Algebra",
+            targets: ["Algebra"]
         ),
 
         .library(
@@ -63,29 +63,19 @@ let package = Package(
             name: "Algebra Law",
             targets: ["Algebra Law"]
         ),
-
-        .library(
-            name: "Algebra",
-            targets: ["Algebra"]
-        ),
-
-        .library(
-            name: "Algebra Test Support",
-            targets: ["Algebra Test Support"]
-        ),
     ],
     dependencies: [],
     targets: [
 
         .target(
-            name: "Algebra Primitive",
+            name: "Algebra",
             dependencies: []
         ),
 
         .target(
             name: "Algebra Magma",
             dependencies: [
-                "Algebra Primitive"
+                "Algebra"
             ]
         ),
         .target(
@@ -153,37 +143,10 @@ let package = Package(
             ]
         ),
 
-        .target(
-            name: "Algebra",
-            dependencies: [
-                "Algebra Primitive",
-                "Algebra Magma",
-                "Algebra Semigroup",
-                "Algebra Monoid",
-                "Algebra Semiring",
-                "Algebra Semilattice",
-                "Algebra Lattice",
-                "Algebra Group",
-                "Algebra Ring",
-                "Algebra Field",
-                "Algebra Module",
-                "Algebra Law",
-            ]
-        ),
-
-        .target(
-            name: "Algebra Test Support",
-            dependencies: [
-                "Algebra"
-            ],
-            path: "Tests/Support"
-        ),
-
         .testTarget(
             name: "Algebra Tests",
             dependencies: [
                 "Algebra",
-                "Algebra Test Support",
                 "Algebra Magma",
                 "Algebra Semigroup",
                 "Algebra Monoid",

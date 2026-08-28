@@ -13,7 +13,7 @@ Witness value types for the algebraic tower — magma, semigroup, monoid, group,
 A bounded join-semilattice is the algebraic core of a state-based CRDT: any associative, commutative, *idempotent* merge with an identity converges. The witness makes that structure explicit and reusable.
 
 ```swift
-import Algebra
+import Algebra_Semilattice
 
 // A grow-only counter merges by taking the per-replica maximum.
 // `max` is associative, commutative, and idempotent — a bounded semilattice with bottom 0.
@@ -31,7 +31,7 @@ merge.leq(3, 5)                        // true
 Stack two semilattices and you get a bounded lattice, with join, meet, and the order they share:
 
 ```swift
-import Algebra
+import Algebra_Lattice
 
 // Any Comparable chain is a distributive bounded lattice: join = max, meet = min.
 let lattice = Algebra.Lattice<Int>.minMax(bottom: .min, top: .max)
@@ -41,7 +41,7 @@ lattice.meet(3, 7)   // 3   (∧ = greatest lower bound)
 lattice.leq(3, 7)    // true
 ```
 
-The same vocabulary scales up to rings and fields, where convenience accessors (`zero`, `one`, `adding`, `multiplying`, `reciprocal`) read off the underlying monoids and groups. The `Algebra.Law` harnesses verify a witness's invariants over a finite sample of elements, returning an `Algebra.Law.Violation?` that is `nil` when the law holds — pure functions with no traps, ready to drop into a test.
+The same vocabulary scales up to rings and fields, where convenience accessors (`zero`, `one`, `adding`, `multiplying`, `reciprocal`) read off the underlying monoids and groups. Import `Algebra_Law` to use the `Algebra.Law` harnesses, which verify a witness's invariants over a finite sample of elements and return an `Algebra.Law.Violation?` that is `nil` when the law holds — pure functions with no traps, ready to drop into a test.
 
 ---
 
@@ -49,7 +49,7 @@ The same vocabulary scales up to rings and fields, where convenience accessors (
 
 ```swift
 dependencies: [
-    .package(url: "https://github.com/swift-molecules/swift-algebra.git", branch: "main")
+    .package(url: "https://github.com/swift-atoms/swift-algebra.git", branch: "main")
 ]
 ```
 
@@ -57,12 +57,12 @@ dependencies: [
 .target(
     name: "App",
     dependencies: [
-        .product(name: "Algebra", package: "swift-algebra"),
+        .product(name: "Algebra Semilattice", package: "swift-algebra"),
     ]
 )
 ```
 
-Import `Algebra` for the whole tower, or depend on a single rung (e.g. `Algebra Semilattice`) to pull in only what you use.
+Depend on and import the layer you use, such as the `Algebra Semilattice` product and its `Algebra_Semilattice` module. The `Algebra` product is only the dependency-free base namespace module; it is not an umbrella for the layered modules.
 
 ---
 
@@ -72,7 +72,7 @@ The package is split along the algebraic tower so each rung is an independent pr
 
 | Product | Target | Purpose |
 |---------|--------|---------|
-| `Algebra Primitive` | `Sources/Algebra Primitive/` | The empty `Algebra` namespace enum that every structure extends. |
+| `Algebra` | `Sources/Algebra/` | The dependency-free base module containing the empty `Algebra` namespace enum that every structure extends. |
 | `Algebra Magma` | `Sources/Algebra Magma/` | `Algebra.Magma` — a set with one binary operation, no laws. |
 | `Algebra Semigroup` | `Sources/Algebra Semigroup/` | `Algebra.Semigroup` — associative magma. |
 | `Algebra Monoid` | `Sources/Algebra Monoid/` | `Algebra.Monoid` and `Algebra.Monoid.Commutative` — semigroup with identity. |
@@ -84,8 +84,6 @@ The package is split along the algebraic tower so each rung is an independent pr
 | `Algebra Field` | `Sources/Algebra Field/` | `Algebra.Field` and `Algebra.Field.Unit` — ring with a partial reciprocal. |
 | `Algebra Module` | `Sources/Algebra Module/` | `Algebra.Module` and `Algebra.VectorSpace` — scalars acting on a vector group. |
 | `Algebra Law` | `Sources/Algebra Law/` | `Algebra.Law` verification harnesses (associativity, commutativity, identity, inverse, distributivity, annihilation, reciprocal, action, compatibility) returning `Algebra.Law.Violation?`. |
-| `Algebra` | `Sources/Algebra/` | Umbrella re-exporting every rung above. |
-| `Algebra Test Support` | `Tests/Support/` | Re-exports the umbrella for test consumers. |
 
 Foundation-free.
 
