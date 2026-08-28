@@ -10,11 +10,13 @@ extension Algebra.Law.Commutativity {
     @inlinable
     public static func check<
         Element: Equatable,
-        C: Swift.Collection<Element>
+        Sequence: Swift.Sequence<Element>
     >(
         of combining: (borrowing Element, borrowing Element) -> Element,
-        over elements: C
+        over elements: Sequence
     ) -> Algebra.Law.Violation<Element>? {
+        let elements = Array(elements)
+
         for a in elements {
             for b in elements {
                 let lhs = combining(a, b)

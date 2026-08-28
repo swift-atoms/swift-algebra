@@ -11,13 +11,16 @@ extension Algebra.Law.Compatibility {
     public static func scalar<
         Scalar: Equatable,
         Vector: Equatable,
-        CS: Swift.Collection<Scalar>,
-        CV: Swift.Collection<Vector>
+        Scalars: Swift.Sequence<Scalar>,
+        Vectors: Swift.Sequence<Vector>
     >(
         of module: Algebra.Module<Scalar, Vector>,
-        over scalars: CS,
-        _ vectors: CV
+        over scalars: Scalars,
+        _ vectors: Vectors
     ) -> Algebra.Law.Violation<Vector>? {
+        let scalars = Array(scalars)
+        let vectors = Array(vectors)
+
         for r in scalars {
             for s in scalars {
                 for m in vectors {

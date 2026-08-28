@@ -8,10 +8,15 @@ extension Algebra.Law {
 extension Algebra.Law.Distributivity {
 
     @inlinable
-    public static func left<Element: Equatable, C: Swift.Collection<Element>>(
+    public static func left<
+        Element: Equatable,
+        Sequence: Swift.Sequence<Element>
+    >(
         of ring: Algebra.Ring<Element>,
-        over elements: C
+        over elements: Sequence
     ) -> Algebra.Law.Violation<Element>? {
+        let elements = Array(elements)
+
         for a in elements {
             for b in elements {
                 for c in elements {
@@ -32,10 +37,15 @@ extension Algebra.Law.Distributivity {
     }
 
     @inlinable
-    public static func right<Element: Equatable, C: Swift.Collection<Element>>(
+    public static func right<
+        Element: Equatable,
+        Sequence: Swift.Sequence<Element>
+    >(
         of ring: Algebra.Ring<Element>,
-        over elements: C
+        over elements: Sequence
     ) -> Algebra.Law.Violation<Element>? {
+        let elements = Array(elements)
+
         for a in elements {
             for b in elements {
                 for c in elements {
@@ -59,13 +69,15 @@ extension Algebra.Law.Distributivity {
     public static func scalar<
         Scalar,
         Vector: Equatable,
-        CS: Swift.Sequence<Scalar>,
-        CV: Swift.Collection<Vector>
+        Scalars: Swift.Sequence<Scalar>,
+        Vectors: Swift.Sequence<Vector>
     >(
         of module: Algebra.Module<Scalar, Vector>,
-        over scalars: CS,
-        _ vectors: CV
+        over scalars: Scalars,
+        _ vectors: Vectors
     ) -> Algebra.Law.Violation<Vector>? {
+        let vectors = Array(vectors)
+
         for r in scalars {
             for v in vectors {
                 for w in vectors {
@@ -89,13 +101,16 @@ extension Algebra.Law.Distributivity {
     public static func addition<
         Scalar: Equatable,
         Vector: Equatable,
-        CS: Swift.Collection<Scalar>,
-        CV: Swift.Collection<Vector>
+        Scalars: Swift.Sequence<Scalar>,
+        Vectors: Swift.Sequence<Vector>
     >(
         of module: Algebra.Module<Scalar, Vector>,
-        over scalars: CS,
-        _ vectors: CV
+        over scalars: Scalars,
+        _ vectors: Vectors
     ) -> Algebra.Law.Violation<Vector>? {
+        let scalars = Array(scalars)
+        let vectors = Array(vectors)
+
         for r in scalars {
             for s in scalars {
                 for v in vectors {
