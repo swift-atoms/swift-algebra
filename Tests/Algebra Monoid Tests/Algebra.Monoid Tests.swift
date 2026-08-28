@@ -2,13 +2,15 @@ import Testing
 
 @testable import Algebra_Monoid
 
-@Suite
-struct `Algebra.Monoid Tests` {
-    @Suite struct Unit {}
-    @Suite struct EdgeCase {}
+private enum Monoid {}
+
+extension Monoid {
+    @Suite
+    struct Test {
+    }
 }
 
-extension `Algebra.Monoid Tests`.Unit {
+extension Monoid.Test {
     @Test
     func `init stores identity and combining`() {
         let monoid = Algebra.Monoid<Int>(identity: 0, combining: { $0 &+ $1 })
@@ -43,7 +45,7 @@ extension `Algebra.Monoid Tests`.Unit {
     }
 }
 
-extension `Algebra.Monoid Tests`.EdgeCase {
+extension Monoid.Test {
     @Test
     func `multiplicative monoid identity is one`() {
         let monoid = Algebra.Monoid<Int>(identity: 1, combining: { $0 &* $1 })

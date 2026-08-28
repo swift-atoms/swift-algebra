@@ -2,13 +2,15 @@ import Testing
 
 @testable import Algebra_Group
 
-@Suite
-struct `Algebra.Group.Abelian Tests` {
-    @Suite struct Unit {}
-    @Suite struct EdgeCase {}
+private enum Abelian {}
+
+extension Abelian {
+    @Suite
+    struct Test {
+    }
 }
 
-extension `Algebra.Group.Abelian Tests`.Unit {
+extension Abelian.Test {
     @Test
     func `init wraps group`() {
         let group = Algebra.Group<Int>(
@@ -93,7 +95,7 @@ extension `Algebra.Group.Abelian Tests`.Unit {
     }
 }
 
-extension `Algebra.Group.Abelian Tests`.EdgeCase {
+extension Abelian.Test {
     @Test
     func `abelian group with self-inverse elements`() {
         let group = Algebra.Group<Bool>(

@@ -2,13 +2,15 @@ import Testing
 
 @testable import Algebra_Ring
 
-@Suite
-struct `Algebra.Ring Tests` {
-    @Suite struct Unit {}
-    @Suite struct EdgeCase {}
+private enum Ring {}
+
+extension Ring {
+    @Suite
+    struct Test {
+    }
 }
 
-extension `Algebra.Ring Tests`.Unit {
+extension Ring.Test {
     static var intRing: Algebra.Ring<Int> {
         .init(
             additive: .init(
@@ -74,17 +76,17 @@ extension `Algebra.Ring Tests`.Unit {
     }
 }
 
-extension `Algebra.Ring Tests`.EdgeCase {
+extension Ring.Test {
     @Test
     func `zero annihilates under multiplication`() {
-        let ring = `Algebra.Ring Tests`.Unit.intRing
+        let ring = Ring.Test.intRing
         #expect(ring.multiplying(ring.zero, 42) == ring.zero)
         #expect(ring.multiplying(42, ring.zero) == ring.zero)
     }
 
     @Test
     func `distributivity left holds`() {
-        let ring = `Algebra.Ring Tests`.Unit.intRing
+        let ring = Ring.Test.intRing
         let a = 2
         let b = 3
         let c = 4
@@ -96,7 +98,7 @@ extension `Algebra.Ring Tests`.EdgeCase {
 
     @Test
     func `distributivity right holds`() {
-        let ring = `Algebra.Ring Tests`.Unit.intRing
+        let ring = Ring.Test.intRing
         let a = 2
         let b = 3
         let c = 4

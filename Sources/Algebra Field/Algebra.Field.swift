@@ -26,14 +26,6 @@ extension Algebra {
 
 extension Algebra.Field {
 
-    public enum Error: Swift.Error, Sendable {
-
-        case nonInvertible
-    }
-}
-
-extension Algebra.Field {
-
     @inlinable
     public var zero: Element { additive.identity }
 

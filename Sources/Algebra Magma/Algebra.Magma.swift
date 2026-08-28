@@ -14,12 +14,15 @@ extension Algebra {
             self.combining = combining
         }
 
-        @inlinable
-        public func callAsFunction(
-            _ lhs: borrowing Element,
-            _ rhs: borrowing Element
-        ) -> Element {
-            combining(lhs, rhs)
-        }
+    }
+}
+
+extension Algebra.Magma where Element: ~Copyable & ~Escapable {
+    @inlinable
+    public func callAsFunction(
+        _ lhs: borrowing Element,
+        _ rhs: borrowing Element
+    ) -> Element {
+        combining(lhs, rhs)
     }
 }

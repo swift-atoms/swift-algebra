@@ -2,8 +2,13 @@ import Testing
 
 @testable import Algebra_Module
 
-@Suite
-struct `Algebra.Module Tests` {
+extension Algebra {
+    @Suite
+    struct Test {
+    }
+}
+
+extension Algebra.Test {
     static var integerModule: Algebra.Module<Int, Int> {
         .init(
             scalars: .init(

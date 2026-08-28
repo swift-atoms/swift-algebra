@@ -10,13 +10,15 @@ private struct NonescapableMagmaElement: ~Copyable, ~Escapable {}
 
 private typealias NonescapableMagma = Algebra.Magma<NonescapableMagmaElement>
 
-@Suite
-struct `Algebra.Magma Tests` {
-    @Suite struct Unit {}
-    @Suite struct EdgeCase {}
+private enum Magma {}
+
+extension Magma {
+    @Suite
+    struct Test {
+    }
 }
 
-extension `Algebra.Magma Tests`.Unit {
+extension Magma.Test {
     @Test
     func `init stores combining operation`() {
         let magma = Algebra.Magma<Int>(combining: { $0 &+ $1 })
@@ -47,7 +49,7 @@ extension `Algebra.Magma Tests`.Unit {
     }
 }
 
-extension `Algebra.Magma Tests`.EdgeCase {
+extension Magma.Test {
     @Test
     func `combining with non-associative operation`() {
         let magma = Algebra.Magma<Int>(combining: { $0 &- $1 })

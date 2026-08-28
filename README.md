@@ -82,7 +82,7 @@ The package is split along the algebraic tower so each rung is an independent pr
 | `Algebra Group` | `Sources/Algebra Group/` | `Algebra.Group` and `Algebra.Group.Abelian` — monoid with inverses. |
 | `Algebra Ring` | `Sources/Algebra Ring/` | `Algebra.Ring` and its commutative variant — additive abelian group with multiplicative monoid. |
 | `Algebra Field` | `Sources/Algebra Field/` | `Algebra.Field` and `Algebra.Field.Unit` — ring with a partial reciprocal. |
-| `Algebra Module` | `Sources/Algebra Module/` | `Algebra.Module` and `Algebra.VectorSpace` — scalars acting on a vector group. |
+| `Algebra Module` | `Sources/Algebra Module/` | `Algebra.Module` and `Algebra.Vector.Space` — scalars acting on a vector group. |
 | `Algebra Law` | `Sources/Algebra Law/` | `Algebra.Law` verification harnesses (associativity, commutativity, identity, inverse, distributivity, annihilation, reciprocal, action, compatibility) returning `Algebra.Law.Violation?`. |
 
 Foundation-free.

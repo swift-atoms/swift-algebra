@@ -2,13 +2,15 @@ import Testing
 
 @testable import Algebra_Monoid
 
-@Suite
-struct `Algebra.Monoid.Commutative Tests` {
-    @Suite struct Unit {}
-    @Suite struct EdgeCase {}
+private enum Commutative {}
+
+extension Commutative {
+    @Suite
+    struct Test {
+    }
 }
 
-extension `Algebra.Monoid.Commutative Tests`.Unit {
+extension Commutative.Test {
     @Test
     func `init wraps monoid`() {
         let monoid = Algebra.Monoid<Int>(identity: 0, combining: { $0 &+ $1 })
@@ -39,7 +41,7 @@ extension `Algebra.Monoid.Commutative Tests`.Unit {
     }
 }
 
-extension `Algebra.Monoid.Commutative Tests`.EdgeCase {
+extension Commutative.Test {
     @Test
     func `multiplicative commutative monoid`() {
         let monoid = Algebra.Monoid<Int>(identity: 1, combining: { $0 &* $1 })

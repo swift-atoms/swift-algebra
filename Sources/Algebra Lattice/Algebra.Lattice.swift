@@ -59,6 +59,8 @@ extension Algebra.Lattice {
 extension Algebra.Lattice where Element: Comparable {
 
     @inlinable
+    // swift-linter:disable:next compound identifier
+    // REASON: `minMax` is the indivisible paired operation naming this standard lattice.
     public static func minMax(bottom: Element, top: Element) -> Self {
         .init(
             join: .maximum(bottom: bottom),

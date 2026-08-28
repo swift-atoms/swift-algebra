@@ -4,8 +4,6 @@ import Testing
 
 extension Algebra.Law {
     @Suite struct Test {
-        @Suite struct Unit {}
-        @Suite struct EdgeCase {}
     }
 }
 
@@ -98,7 +96,7 @@ extension Algebra.Law.Test {
     }
 }
 
-extension Algebra.Law.Test.Unit {
+extension Algebra.Law.Test {
     @Test
     func `associativity passes for valid semigroup`() {
         let result = Algebra.Law.Associativity.check(
@@ -200,7 +198,7 @@ extension Algebra.Law.Test.Unit {
     }
 }
 
-extension Algebra.Law.Test.EdgeCase {
+extension Algebra.Law.Test {
     @Test
     func `associativity fails for broken semigroup`() {
         let result = Algebra.Law.Associativity.check(

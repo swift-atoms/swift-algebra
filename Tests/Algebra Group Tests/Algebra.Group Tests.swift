@@ -2,13 +2,15 @@ import Testing
 
 @testable import Algebra_Group
 
-@Suite
-struct `Algebra.Group Tests` {
-    @Suite struct Unit {}
-    @Suite struct EdgeCase {}
+private enum Group {}
+
+extension Group {
+    @Suite
+    struct Test {
+    }
 }
 
-extension `Algebra.Group Tests`.Unit {
+extension Group.Test {
     @Test
     func `init stores identity, combining, and inverting`() {
         let group = Algebra.Group<Int>(
@@ -78,7 +80,7 @@ extension `Algebra.Group Tests`.Unit {
     }
 }
 
-extension `Algebra.Group Tests`.EdgeCase {
+extension Group.Test {
     @Test
     func `double inverse returns original`() {
         let group = Algebra.Group<Int>(

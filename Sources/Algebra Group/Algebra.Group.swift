@@ -22,13 +22,16 @@ extension Algebra {
             self.inverting = inverting
         }
 
-        @inlinable
-        public func callAsFunction(
-            _ lhs: borrowing Element,
-            _ rhs: borrowing Element
-        ) -> Element {
-            combining(lhs, rhs)
-        }
+    }
+}
+
+extension Algebra.Group {
+    @inlinable
+    public func callAsFunction(
+        _ lhs: borrowing Element,
+        _ rhs: borrowing Element
+    ) -> Element {
+        combining(lhs, rhs)
     }
 }
 

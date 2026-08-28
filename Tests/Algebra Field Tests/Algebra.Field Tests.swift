@@ -2,13 +2,15 @@ import Testing
 
 @testable import Algebra_Field
 
-@Suite
-struct `Algebra.Field Tests` {
-    @Suite struct Unit {}
-    @Suite struct EdgeCase {}
+private enum Field {}
+
+extension Field {
+    @Suite
+    struct Test {
+    }
 }
 
-extension `Algebra.Field Tests`.Unit {
+extension Field.Test {
     static var boolField: Algebra.Field<Bool> {
         .init(
             additive: .init(
@@ -149,10 +151,10 @@ extension `Algebra.Field Tests`.Unit {
     }
 }
 
-extension `Algebra.Field Tests`.EdgeCase {
+extension Field.Test {
     @Test
     func `field distributivity holds`() {
-        let field = `Algebra.Field Tests`.Unit.boolField
+        let field = Field.Test.boolField
         let a = true
         let b = true
         let c = false
@@ -164,7 +166,7 @@ extension `Algebra.Field Tests`.EdgeCase {
 
     @Test
     func `additive inverse produces zero`() {
-        let field = `Algebra.Field Tests`.Unit.boolField
+        let field = Field.Test.boolField
         #expect(field.adding(true, field.negating(true)) == field.zero)
     }
 }

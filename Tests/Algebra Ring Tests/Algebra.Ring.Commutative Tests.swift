@@ -2,13 +2,15 @@ import Testing
 
 @testable import Algebra_Ring
 
-@Suite
-struct `Algebra.Ring.Commutative Tests` {
-    @Suite struct Unit {}
-    @Suite struct EdgeCase {}
+private enum Commutative {}
+
+extension Commutative {
+    @Suite
+    struct Test {
+    }
 }
 
-extension `Algebra.Ring.Commutative Tests`.Unit {
+extension Commutative.Test {
     static var intCommutativeRing: Algebra.Ring<Int>.Commutative {
         .init(
             ring: .init(
@@ -75,10 +77,10 @@ extension `Algebra.Ring.Commutative Tests`.Unit {
     }
 }
 
-extension `Algebra.Ring.Commutative Tests`.EdgeCase {
+extension Commutative.Test {
     @Test
     func `multiplicative commutativity holds`() {
-        let commutative = `Algebra.Ring.Commutative Tests`.Unit.intCommutativeRing
+        let commutative = Commutative.Test.intCommutativeRing
         #expect(commutative.multiplying(3, 4) == commutative.multiplying(4, 3))
     }
 }

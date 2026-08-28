@@ -10,13 +10,15 @@ private struct NonescapableSemigroupElement: ~Copyable, ~Escapable {}
 
 private typealias NonescapableSemigroup = Algebra.Semigroup<NonescapableSemigroupElement>
 
-@Suite
-struct `Algebra.Semigroup Tests` {
-    @Suite struct Unit {}
-    @Suite struct EdgeCase {}
+private enum Semigroup {}
+
+extension Semigroup {
+    @Suite
+    struct Test {
+    }
 }
 
-extension `Algebra.Semigroup Tests`.Unit {
+extension Semigroup.Test {
     @Test
     func `init stores combining operation`() {
         let semigroup = Algebra.Semigroup<Int>(combining: { $0 &+ $1 })
@@ -53,7 +55,7 @@ extension `Algebra.Semigroup Tests`.Unit {
     }
 }
 
-extension `Algebra.Semigroup Tests`.EdgeCase {
+extension Semigroup.Test {
     @Test
     func `combining with string concatenation`() {
         let semigroup = Algebra.Semigroup<String>(combining: { $0 + $1 })
