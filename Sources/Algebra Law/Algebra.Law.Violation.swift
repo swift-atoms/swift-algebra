@@ -22,5 +22,3 @@ extension Algebra.Law {
         }
     }
 }
-
-extension Algebra.Law.Violation: Sendable where Element: Sendable {}

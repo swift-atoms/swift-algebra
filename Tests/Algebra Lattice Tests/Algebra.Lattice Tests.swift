@@ -14,7 +14,7 @@ extension Lattice.Test {
 
     @Test
     func `join is max, meet is min for the min/max lattice`() {
-        let l = Algebra.Lattice<Int>.minMax(bottom: .min, top: .max)
+        let l = Algebra.Lattice<Int>.ordered(bottom: .min, top: .max)
         #expect(l.join(3, 7) == 7)
         #expect(l.meet(3, 7) == 3)
     }
@@ -37,7 +37,7 @@ extension Lattice.Test {
 extension Lattice.Test {
 
     static var l: Algebra.Lattice<Int> {
-        .minMax(bottom: .min, top: .max)
+        .ordered(bottom: .min, top: .max)
     }
 
     @Test
@@ -74,7 +74,7 @@ extension Lattice.Test {
 
     @Test
     func `bottom is the join identity`() {
-        let l = Algebra.Lattice<Int>.minMax(bottom: .min, top: .max)
+        let l = Algebra.Lattice<Int>.ordered(bottom: .min, top: .max)
         for a in [0, 1, 42, -7, Int.max] {
             #expect(l.join(l.bottom, a) == a)
         }
@@ -82,7 +82,7 @@ extension Lattice.Test {
 
     @Test
     func `top is the meet identity`() {
-        let l = Algebra.Lattice<Int>.minMax(bottom: .min, top: .max)
+        let l = Algebra.Lattice<Int>.ordered(bottom: .min, top: .max)
         for a in [0, 1, 42, -7, Int.min] {
             #expect(l.meet(l.top, a) == a)
         }
@@ -93,7 +93,7 @@ extension Lattice.Test {
 
     @Test
     func `leq matches the numeric order for the min/max lattice`() {
-        let l = Algebra.Lattice<Int>.minMax(bottom: .min, top: .max)
+        let l = Algebra.Lattice<Int>.ordered(bottom: .min, top: .max)
         #expect(l.leq(3, 7) == true)
         #expect(l.leq(7, 3) == false)
         #expect(l.leq(5, 5) == true)

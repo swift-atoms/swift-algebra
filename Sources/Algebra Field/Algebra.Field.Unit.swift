@@ -16,5 +16,3 @@ extension Algebra.Field {
         }
     }
 }
-
-extension Algebra.Field.Unit: Sendable where Element: Sendable {}

@@ -41,6 +41,10 @@ let package = Package(
             targets: ["Algebra Lattice"]
         ),
         .library(
+            name: "Algebra Boolean",
+            targets: ["Algebra Boolean"]
+        ),
+        .library(
             name: "Algebra Group",
             targets: ["Algebra Group"]
         ),
@@ -138,6 +142,13 @@ let package = Package(
             ]
         ),
         .target(
+            name: "Algebra Boolean",
+            dependencies: [
+                .target(name: "Algebra Lattice"),
+                .target(name: "Algebra Ring"),
+            ]
+        ),
+        .target(
             name: "Algebra Field",
             dependencies: [
                 .target(
@@ -218,6 +229,12 @@ let package = Package(
                 .target(
                     name: "Algebra Lattice"
                 )
+            ]
+        ),
+        .testTarget(
+            name: "Algebra Boolean Tests",
+            dependencies: [
+                .target(name: "Algebra Boolean")
             ]
         ),
         .testTarget(
