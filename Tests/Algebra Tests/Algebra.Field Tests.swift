@@ -6,11 +6,11 @@ private enum Field {}
 
 extension Field {
     @Suite
-    struct Test {
+    struct `Fields preserve arithmetic laws and reject invalid reciprocals` {
     }
 }
 
-extension Field.Test {
+extension Field.`Fields preserve arithmetic laws and reject invalid reciprocals` {
     static var boolField: Algebra.Field<Bool> {
         .init(
             additive: .init(
@@ -151,10 +151,10 @@ extension Field.Test {
     }
 }
 
-extension Field.Test {
+extension Field.`Fields preserve arithmetic laws and reject invalid reciprocals` {
     @Test
     func `field distributivity holds`() {
-        let field = Field.Test.boolField
+        let field = Field.`Fields preserve arithmetic laws and reject invalid reciprocals`.boolField
         let a = true
         let b = true
         let c = false
@@ -166,7 +166,7 @@ extension Field.Test {
 
     @Test
     func `additive inverse produces zero`() {
-        let field = Field.Test.boolField
+        let field = Field.`Fields preserve arithmetic laws and reject invalid reciprocals`.boolField
         #expect(field.adding(true, field.negating(true)) == field.zero)
     }
 }

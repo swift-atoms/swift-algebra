@@ -6,11 +6,11 @@ private enum Ring {}
 
 extension Ring {
     @Suite
-    struct Test {
+    struct `Rings preserve additive and multiplicative structure` {
     }
 }
 
-extension Ring.Test {
+extension Ring.`Rings preserve additive and multiplicative structure` {
     static var intRing: Algebra.Ring<Int> {
         .init(
             additive: .init(
@@ -76,17 +76,17 @@ extension Ring.Test {
     }
 }
 
-extension Ring.Test {
+extension Ring.`Rings preserve additive and multiplicative structure` {
     @Test
     func `zero annihilates under multiplication`() {
-        let ring = Ring.Test.intRing
+        let ring = Ring.`Rings preserve additive and multiplicative structure`.intRing
         #expect(ring.multiplying(ring.zero, 42) == ring.zero)
         #expect(ring.multiplying(42, ring.zero) == ring.zero)
     }
 
     @Test
     func `distributivity left holds`() {
-        let ring = Ring.Test.intRing
+        let ring = Ring.`Rings preserve additive and multiplicative structure`.intRing
         let a = 2
         let b = 3
         let c = 4
@@ -98,7 +98,7 @@ extension Ring.Test {
 
     @Test
     func `distributivity right holds`() {
-        let ring = Ring.Test.intRing
+        let ring = Ring.`Rings preserve additive and multiplicative structure`.intRing
         let a = 2
         let b = 3
         let c = 4

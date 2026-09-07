@@ -6,11 +6,11 @@ private enum Lattice {}
 
 extension Lattice {
     @Suite
-    struct Test {
+    struct `Lattices preserve join meet bounds and induced ordering` {
     }
 }
 
-extension Lattice.Test {
+extension Lattice.`Lattices preserve join meet bounds and induced ordering` {
 
     @Test
     func `join is max, meet is min for the min/max lattice`() {
@@ -34,7 +34,7 @@ extension Lattice.Test {
     }
 }
 
-extension Lattice.Test {
+extension Lattice.`Lattices preserve join meet bounds and induced ordering` {
 
     static var l: Algebra.Lattice<Int> {
         .ordered(bottom: .min, top: .max)
@@ -43,18 +43,18 @@ extension Lattice.Test {
     @Test
     func `join and meet are idempotent`() {
         for a in [0, 1, 42, -7, Int.max] {
-            #expect(Lattice.Test.l.join(a, a) == a)
-            #expect(Lattice.Test.l.meet(a, a) == a)
+            #expect(Lattice.`Lattices preserve join meet bounds and induced ordering`.l.join(a, a) == a)
+            #expect(Lattice.`Lattices preserve join meet bounds and induced ordering`.l.meet(a, a) == a)
         }
     }
 
     @Test
     func `join and meet are commutative`() {
         #expect(
-            Lattice.Test.l.join(3, 7) == Lattice.Test.l.join(7, 3)
+            Lattice.`Lattices preserve join meet bounds and induced ordering`.l.join(3, 7) == Lattice.`Lattices preserve join meet bounds and induced ordering`.l.join(7, 3)
         )
         #expect(
-            Lattice.Test.l.meet(3, 7) == Lattice.Test.l.meet(7, 3)
+            Lattice.`Lattices preserve join meet bounds and induced ordering`.l.meet(3, 7) == Lattice.`Lattices preserve join meet bounds and induced ordering`.l.meet(7, 3)
         )
     }
 
@@ -70,7 +70,7 @@ extension Lattice.Test {
     }
 }
 
-extension Lattice.Test {
+extension Lattice.`Lattices preserve join meet bounds and induced ordering` {
 
     @Test
     func `bottom is the join identity`() {
@@ -89,7 +89,7 @@ extension Lattice.Test {
     }
 }
 
-extension Lattice.Test {
+extension Lattice.`Lattices preserve join meet bounds and induced ordering` {
 
     @Test
     func `leq matches the numeric order for the min/max lattice`() {

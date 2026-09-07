@@ -6,11 +6,11 @@ private enum Monoid {}
 
 extension Monoid {
     @Suite
-    struct Test {
+    struct `Monoids preserve identities and underlying combination` {
     }
 }
 
-extension Monoid.Test {
+extension Monoid.`Monoids preserve identities and underlying combination` {
     @Test
     func `init stores identity and combining`() {
         let monoid = Algebra.Monoid<Int>(identity: 0, combining: { $0 &+ $1 })
@@ -45,7 +45,7 @@ extension Monoid.Test {
     }
 }
 
-extension Monoid.Test {
+extension Monoid.`Monoids preserve identities and underlying combination` {
     @Test
     func `multiplicative monoid identity is one`() {
         let monoid = Algebra.Monoid<Int>(identity: 1, combining: { $0 &* $1 })
@@ -54,7 +54,7 @@ extension Monoid.Test {
     }
 
     @Test
-    func `string monoid with empty identity`() {
+    func `The empty string is a left and right identity for string concatenation`() {
         let monoid = Algebra.Monoid<String>(identity: "", combining: { $0 + $1 })
         #expect(monoid.combining(monoid.identity, "hello") == "hello")
         #expect(monoid.combining("hello", monoid.identity) == "hello")

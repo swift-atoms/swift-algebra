@@ -6,11 +6,11 @@ private enum Abelian {}
 
 extension Abelian {
     @Suite
-    struct Test {
+    struct `Abelian groups preserve commutativity and underlying group operations` {
     }
 }
 
-extension Abelian.Test {
+extension Abelian.`Abelian groups preserve commutativity and underlying group operations` {
     @Test
     func `init wraps group`() {
         let group = Algebra.Group<Int>(
@@ -95,9 +95,9 @@ extension Abelian.Test {
     }
 }
 
-extension Abelian.Test {
+extension Abelian.`Abelian groups preserve commutativity and underlying group operations` {
     @Test
-    func `abelian group with self-inverse elements`() {
+    func `Self inverse elements combine with themselves to produce the group identity`() {
         let group = Algebra.Group<Bool>(
             identity: false,
             combining: { $0 != $1 },

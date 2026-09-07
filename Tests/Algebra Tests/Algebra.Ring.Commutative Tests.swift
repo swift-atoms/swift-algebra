@@ -6,11 +6,11 @@ private enum Commutative {}
 
 extension Commutative {
     @Suite
-    struct Test {
+    struct `Commutative rings preserve ring operations and commutative multiplication` {
     }
 }
 
-extension Commutative.Test {
+extension Commutative.`Commutative rings preserve ring operations and commutative multiplication` {
     static var intCommutativeRing: Algebra.Ring<Int>.Commutative {
         .init(
             ring: .init(
@@ -64,23 +64,23 @@ extension Commutative.Test {
     }
 
     @Test
-    func `additive accessible via ring`() {
+    func `The underlying commutative ring exposes additive identity zero`() {
         let commutative = Self.intCommutativeRing
         #expect(commutative.ring.additive.identity == 0)
     }
 
     @Test
-    func `multiplicative monoid accessible via ring`() {
+    func `A commutative ring projects to a multiplicative monoid with identity one`() {
         let commutative = Self.intCommutativeRing
         let monoid = Algebra.Monoid<Int>.Commutative(commutative)
         #expect(monoid.identity == 1)
     }
 }
 
-extension Commutative.Test {
+extension Commutative.`Commutative rings preserve ring operations and commutative multiplication` {
     @Test
     func `multiplicative commutativity holds`() {
-        let commutative = Commutative.Test.intCommutativeRing
+        let commutative = Commutative.`Commutative rings preserve ring operations and commutative multiplication`.intCommutativeRing
         #expect(commutative.multiplying(3, 4) == commutative.multiplying(4, 3))
     }
 }

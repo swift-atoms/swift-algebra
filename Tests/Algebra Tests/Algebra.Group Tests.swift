@@ -6,11 +6,11 @@ private enum Group {}
 
 extension Group {
     @Suite
-    struct Test {
+    struct `Groups preserve identities inverses and underlying operations` {
     }
 }
 
-extension Group.Test {
+extension Group.`Groups preserve identities inverses and underlying operations` {
     @Test
     func `init stores identity, combining, and inverting`() {
         let group = Algebra.Group<Int>(
@@ -80,7 +80,7 @@ extension Group.Test {
     }
 }
 
-extension Group.Test {
+extension Group.`Groups preserve identities inverses and underlying operations` {
     @Test
     func `double inverse returns original`() {
         let group = Algebra.Group<Int>(

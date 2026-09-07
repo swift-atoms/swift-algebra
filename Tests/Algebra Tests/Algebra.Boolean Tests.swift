@@ -2,7 +2,7 @@ import Algebra
 import Testing
 
 @Suite
-struct `Algebra Boolean Tests` {
+struct `Boolean algebra operations agree with their algebraic views` {
 
     let boolean = Algebra.Boolean<Bool>(
         falsity: false,

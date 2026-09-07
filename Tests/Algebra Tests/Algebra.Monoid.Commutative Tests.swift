@@ -6,11 +6,11 @@ private enum Commutative {}
 
 extension Commutative {
     @Suite
-    struct Test {
+    struct `Commutative monoids preserve identities and commutative combination` {
     }
 }
 
-extension Commutative.Test {
+extension Commutative.`Commutative monoids preserve identities and commutative combination` {
     @Test
     func `init wraps monoid`() {
         let monoid = Algebra.Monoid<Int>(identity: 0, combining: { $0 &+ $1 })
@@ -41,9 +41,9 @@ extension Commutative.Test {
     }
 }
 
-extension Commutative.Test {
+extension Commutative.`Commutative monoids preserve identities and commutative combination` {
     @Test
-    func `multiplicative commutative monoid`() {
+    func `Commutative monoid multiplication produces the same result in either order`() {
         let monoid = Algebra.Monoid<Int>(identity: 1, combining: { $0 &* $1 })
         let commutative = Algebra.Monoid<Int>.Commutative(monoid: monoid)
         #expect(commutative.combining(3, 4) == commutative.combining(4, 3))

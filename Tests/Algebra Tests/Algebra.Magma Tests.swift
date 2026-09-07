@@ -14,11 +14,11 @@ private enum Magma {}
 
 extension Magma {
     @Suite
-    struct Test {
+    struct `Magmas apply the supplied operation to their elements` {
     }
 }
 
-extension Magma.Test {
+extension Magma.`Magmas apply the supplied operation to their elements` {
     @Test
     func `init stores combining operation`() {
         let magma = Algebra.Magma<Int>(combining: { $0 &+ $1 })
@@ -32,13 +32,13 @@ extension Magma.Test {
     }
 
     @Test
-    func `combining with multiplication`() {
+    func `Magma combination applies the supplied multiplication`() {
         let magma = Algebra.Magma<Int>(combining: { $0 &* $1 })
         #expect(magma.combining(3, 4) == 12)
     }
 
     @Test
-    func `supports move-only elements`() {
+    func `Magma combination consumes noncopyable elements`() {
         let magma = Algebra.Magma<MoveOnlyMagmaElement>(
             combining: { lhs, rhs in .init(value: lhs.value + rhs.value) }
         )
@@ -49,9 +49,9 @@ extension Magma.Test {
     }
 }
 
-extension Magma.Test {
+extension Magma.`Magmas apply the supplied operation to their elements` {
     @Test
-    func `combining with non-associative operation`() {
+    func `Magma combination supports a nonassociative operation`() {
         let magma = Algebra.Magma<Int>(combining: { $0 &- $1 })
         let leftAssoc = magma.combining(magma.combining(10, 3), 2)
         let rightAssoc = magma.combining(10, magma.combining(3, 2))

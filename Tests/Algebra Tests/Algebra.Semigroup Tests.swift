@@ -14,11 +14,11 @@ private enum Semigroup {}
 
 extension Semigroup {
     @Suite
-    struct Test {
+    struct `Semigroups preserve the supplied associative operation` {
     }
 }
 
-extension Semigroup.Test {
+extension Semigroup.`Semigroups preserve the supplied associative operation` {
     @Test
     func `init stores combining operation`() {
         let semigroup = Algebra.Semigroup<Int>(combining: { $0 &+ $1 })
@@ -44,7 +44,7 @@ extension Semigroup.Test {
     }
 
     @Test
-    func `supports move-only elements`() {
+    func `Semigroup combination consumes noncopyable elements`() {
         let semigroup = Algebra.Semigroup<MoveOnlySemigroupElement>(
             combining: { lhs, rhs in .init(value: lhs.value + rhs.value) }
         )
@@ -55,9 +55,9 @@ extension Semigroup.Test {
     }
 }
 
-extension Semigroup.Test {
+extension Semigroup.`Semigroups preserve the supplied associative operation` {
     @Test
-    func `combining with string concatenation`() {
+    func `Semigroup combination concatenates strings in order`() {
         let semigroup = Algebra.Semigroup<String>(combining: { $0 + $1 })
         let result = semigroup.combining(semigroup.combining("a", "b"), "c")
         #expect(result == "abc")

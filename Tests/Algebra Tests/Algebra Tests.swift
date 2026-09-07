@@ -4,11 +4,11 @@ import Testing
 
 extension Algebra {
     @Suite
-    struct Test {
+    struct `The Algebra namespace is available to clients` {
     }
 }
 
-extension Algebra.Test {
+extension Algebra.`The Algebra namespace is available to clients` {
     @Test
     func `namespace is available`() {
         _ = Algebra.self

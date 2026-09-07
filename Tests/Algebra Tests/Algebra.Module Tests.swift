@@ -4,11 +4,11 @@ import Testing
 
 extension Algebra {
     @Suite
-    struct ModuleTests {
+    struct `Modules delegate addition and scalar multiplication to their algebra` {
     }
 }
 
-extension Algebra.ModuleTests {
+extension Algebra.`Modules delegate addition and scalar multiplication to their algebra` {
     static var integerModule: Algebra.Module<Int, Int> {
         .init(
             scalars: .init(
