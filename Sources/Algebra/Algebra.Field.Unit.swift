@@ -1,4 +1,3 @@
-
 extension Algebra.Field {
 
     @frozen

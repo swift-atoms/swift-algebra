@@ -1,4 +1,3 @@
-
 extension Algebra.Magma {
 
     @inlinable

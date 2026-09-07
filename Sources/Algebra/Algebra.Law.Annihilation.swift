@@ -1,4 +1,3 @@
-
 extension Algebra.Law {
 
     public enum Annihilation {}

@@ -1,4 +1,3 @@
-
 extension Algebra.Semiring.Commutative {
 
     @inlinable

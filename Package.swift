@@ -13,8 +13,8 @@ let package = Package(
     ],
     products: [
         .library(name: "Algebra", targets: ["Algebra"]),
-        .library(name: "Algebra Standard Library Integration", targets: ["Algebra Standard Library Integration"]),
-        .library(name: "Algebra Foundation Library Integration", targets: ["Algebra Foundation Library Integration"]),
+
+        .library(name: "Algebra Foundation Integration", targets: ["Algebra Foundation Integration"]),
         .library(name: "Algebra Test Support", targets: ["Algebra Test Support"]),
     ],
     dependencies: [],
@@ -25,20 +25,13 @@ let package = Package(
             ],
             path: "Sources/Algebra"
         ),
+        
         .target(
-            name: "Algebra Standard Library Integration",
+            name: "Algebra Foundation Integration",
             dependencies: [
                 .target(name: "Algebra"),
             ],
-            path: "Sources/Algebra Standard Library Integration"
-        ),
-        .target(
-            name: "Algebra Foundation Library Integration",
-            dependencies: [
-                .target(name: "Algebra"),
-                .target(name: "Algebra Standard Library Integration"),
-            ],
-            path: "Sources/Algebra Foundation Library Integration"
+            path: "Sources/Algebra Foundation Integration"
         ),
         .target(
             name: "Algebra Test Support",
@@ -52,8 +45,7 @@ let package = Package(
             dependencies: [
                 .target(name: "Algebra"),
                 .target(name: "Algebra Test Support"),
-                .target(name: "Algebra Standard Library Integration"),
-                .target(name: "Algebra Foundation Library Integration"),
+                .target(name: "Algebra Foundation Integration"),
             ],
             path: "Tests/Algebra Tests"
         ),
