@@ -12,277 +12,57 @@ let package = Package(
         .visionOS(.v27),
     ],
     products: [
-        .library(
-            name: "Algebra",
-            targets: ["Algebra"]
-        ),
-        .library(
-            name: "Algebra Magma",
-            targets: ["Algebra Magma"]
-        ),
-        .library(
-            name: "Algebra Semigroup",
-            targets: ["Algebra Semigroup"]
-        ),
-        .library(
-            name: "Algebra Monoid",
-            targets: ["Algebra Monoid"]
-        ),
-        .library(
-            name: "Algebra Semiring",
-            targets: ["Algebra Semiring"]
-        ),
-        .library(
-            name: "Algebra Semilattice",
-            targets: ["Algebra Semilattice"]
-        ),
-        .library(
-            name: "Algebra Lattice",
-            targets: ["Algebra Lattice"]
-        ),
-        .library(
-            name: "Algebra Boolean",
-            targets: ["Algebra Boolean"]
-        ),
-        .library(
-            name: "Algebra Group",
-            targets: ["Algebra Group"]
-        ),
-        .library(
-            name: "Algebra Ring",
-            targets: ["Algebra Ring"]
-        ),
-        .library(
-            name: "Algebra Field",
-            targets: ["Algebra Field"]
-        ),
-        .library(
-            name: "Algebra Module",
-            targets: ["Algebra Module"]
-        ),
-        .library(
-            name: "Algebra Law",
-            targets: ["Algebra Law"]
-        ),
+        .library(name: "Algebra", targets: ["Algebra"]),
+        .library(name: "Algebra Standard Library Integration", targets: ["Algebra Standard Library Integration"]),
+        .library(name: "Algebra Foundation Library Integration", targets: ["Algebra Foundation Library Integration"]),
+        .library(name: "Algebra Test Support", targets: ["Algebra Test Support"]),
     ],
     dependencies: [],
     targets: [
         .target(
             name: "Algebra",
-            dependencies: []
+            dependencies: [
+            ],
+            path: "Sources/Algebra"
         ),
         .target(
-            name: "Algebra Magma",
+            name: "Algebra Standard Library Integration",
             dependencies: [
-                .target(
-                    name: "Algebra"
-                )
-            ]
+                .target(name: "Algebra"),
+            ],
+            path: "Sources/Algebra Standard Library Integration"
         ),
         .target(
-            name: "Algebra Semigroup",
+            name: "Algebra Foundation Library Integration",
             dependencies: [
-                .target(
-                    name: "Algebra Magma"
-                )
-            ]
+                .target(name: "Algebra"),
+                .target(name: "Algebra Standard Library Integration"),
+            ],
+            path: "Sources/Algebra Foundation Library Integration"
         ),
         .target(
-            name: "Algebra Monoid",
+            name: "Algebra Test Support",
             dependencies: [
-                .target(
-                    name: "Algebra Semigroup"
-                )
-            ]
-        ),
-        .target(
-            name: "Algebra Semiring",
-            dependencies: [
-                .target(
-                    name: "Algebra Monoid"
-                )
-            ]
-        ),
-        .target(
-            name: "Algebra Semilattice",
-            dependencies: [
-                .target(
-                    name: "Algebra Monoid"
-                ),
-                .target(
-                    name: "Algebra Semigroup"
-                ),
-            ]
-        ),
-        .target(
-            name: "Algebra Lattice",
-            dependencies: [
-                .target(
-                    name: "Algebra Semilattice"
-                )
-            ]
-        ),
-        .target(
-            name: "Algebra Group",
-            dependencies: [
-                .target(
-                    name: "Algebra Monoid"
-                )
-            ]
-        ),
-        .target(
-            name: "Algebra Ring",
-            dependencies: [
-                .target(
-                    name: "Algebra Group"
-                ),
-                .target(
-                    name: "Algebra Semiring"
-                ),
-            ]
-        ),
-        .target(
-            name: "Algebra Boolean",
-            dependencies: [
-                .target(name: "Algebra Lattice"),
-                .target(name: "Algebra Ring"),
-            ]
-        ),
-        .target(
-            name: "Algebra Field",
-            dependencies: [
-                .target(
-                    name: "Algebra Ring"
-                )
-            ]
-        ),
-        .target(
-            name: "Algebra Module",
-            dependencies: [
-                .target(
-                    name: "Algebra Field"
-                )
-            ]
-        ),
-        .target(
-            name: "Algebra Law",
-            dependencies: [
-                .target(
-                    name: "Algebra Field"
-                ),
-                .target(
-                    name: "Algebra Module"
-                ),
-            ]
+                .target(name: "Algebra"),
+            ],
+            path: "Tests/Support"
         ),
         .testTarget(
             name: "Algebra Tests",
             dependencies: [
-                .target(
-                    name: "Algebra"
-                )
-            ]
-        ),
-        .testTarget(
-            name: "Algebra Magma Tests",
-            dependencies: [
-                .target(
-                    name: "Algebra Magma"
-                )
-            ]
-        ),
-        .testTarget(
-            name: "Algebra Semigroup Tests",
-            dependencies: [
-                .target(
-                    name: "Algebra Semigroup"
-                )
-            ]
-        ),
-        .testTarget(
-            name: "Algebra Monoid Tests",
-            dependencies: [
-                .target(
-                    name: "Algebra Monoid"
-                )
-            ]
-        ),
-        .testTarget(
-            name: "Algebra Semiring Tests",
-            dependencies: [
-                .target(
-                    name: "Algebra Semiring"
-                )
-            ]
-        ),
-        .testTarget(
-            name: "Algebra Semilattice Tests",
-            dependencies: [
-                .target(
-                    name: "Algebra Semilattice"
-                )
-            ]
-        ),
-        .testTarget(
-            name: "Algebra Lattice Tests",
-            dependencies: [
-                .target(
-                    name: "Algebra Lattice"
-                )
-            ]
-        ),
-        .testTarget(
-            name: "Algebra Boolean Tests",
-            dependencies: [
-                .target(name: "Algebra Boolean")
-            ]
-        ),
-        .testTarget(
-            name: "Algebra Group Tests",
-            dependencies: [
-                .target(
-                    name: "Algebra Group"
-                )
-            ]
-        ),
-        .testTarget(
-            name: "Algebra Ring Tests",
-            dependencies: [
-                .target(
-                    name: "Algebra Ring"
-                )
-            ]
-        ),
-        .testTarget(
-            name: "Algebra Field Tests",
-            dependencies: [
-                .target(
-                    name: "Algebra Field"
-                )
-            ]
-        ),
-        .testTarget(
-            name: "Algebra Module Tests",
-            dependencies: [
-                .target(
-                    name: "Algebra Module"
-                )
-            ]
-        ),
-        .testTarget(
-            name: "Algebra Law Tests",
-            dependencies: [
-                .target(
-                    name: "Algebra Law"
-                )
-            ]
+                .target(name: "Algebra"),
+                .target(name: "Algebra Test Support"),
+                .target(name: "Algebra Standard Library Integration"),
+                .target(name: "Algebra Foundation Library Integration"),
+            ],
+            path: "Tests/Algebra Tests"
         ),
     ],
     swiftLanguageModes: [.v6]
 )
 
-for target in package.targets where ![.system, .binary, .plugin, .macro].contains(target.type) {
-    let ecosystem: [SwiftSetting] = [
+for target in package.targets {
+    target.swiftSettings = [
         .strictMemorySafety(),
         .enableUpcomingFeature("ExistentialAny"),
         .enableUpcomingFeature("InternalImportsByDefault"),
@@ -291,8 +71,4 @@ for target in package.targets where ![.system, .binary, .plugin, .macro].contain
         .enableExperimentalFeature("Lifetimes"),
         .enableUpcomingFeature("InferIsolatedConformances"),
     ]
-
-    let package: [SwiftSetting] = []
-
-    target.swiftSettings = (target.swiftSettings ?? []) + ecosystem + package
 }
