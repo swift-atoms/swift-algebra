@@ -1,5 +1,3 @@
-# .github/metadata.yaml
-# Triaged by AI-assisted bulk pass (2026-04-29).
 description: "Magma-to-field algebraic-structure witnesses bundling operations as closures, with law-verification harnesses, for Swift."
 topics:
   - molecules
