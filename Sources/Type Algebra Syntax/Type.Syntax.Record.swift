@@ -50,10 +50,10 @@ extension Type.Syntax {
                 return "\(name): \(field.argument)" + (field.initial.map { " = \($0)" } ?? "")
             }.joined(separator: ", ")
         }
-        public func initializer(access: String, parameters selected: [String]? = nil) throws -> String {
+        public func initializer(access: String, parameters selected: [String]? = nil, prelude: String = "") throws -> String {
             let record = try selected.map(selecting) ?? self
             let assignments = record.fields.map { "self.\($0.name) = \($0.binding)" }.joined(separator: "\n")
-            return "\(access)init(\(record.parameters)) {\n\(assignments)\n}"
+            return "\(access)init(\(record.parameters)) {\n\(prelude.isEmpty ? "" : prelude + "\n")\(assignments)\n}"
         }
     }
 }
