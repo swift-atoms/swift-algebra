@@ -14,6 +14,7 @@ let package = Package(
     ],
     products: [
         .library(name: "Monoid Macro", targets: ["Monoid Macro"]),
+        .library(name: "Type Algebra", targets: ["Type Algebra"]),
         .library(name: "Type Algebra Syntax", targets: ["Type Algebra Syntax"]),
         .library(name: "Algebra", targets: ["Algebra"]),
 
@@ -21,15 +22,19 @@ let package = Package(
         .library(name: "Algebra Test Support", targets: ["Algebra Test Support"]),
     ],
     dependencies: [
+        .package(url: "https://github.com/pointfreeco/swift-custom-dump", from: "1.0.0"),
         .package(url: "https://github.com/swiftlang/swift-syntax.git", "603.0.2"..<"604.0.0"),
     ],
     targets: [
+        .target(name: "Type Algebra", dependencies: []),
+        .testTarget(name: "Type Algebra Tests", dependencies: ["Type Algebra", .product(name: "CustomDump", package: "swift-custom-dump")]),
         .testTarget(name: "Monoid Macro Tests", dependencies: [
             "Monoid Macro",
             "Algebra Test Support",
         ]),
         .testTarget(name: "Type Algebra Syntax Tests", dependencies: [
             "Type Algebra Syntax",
+            .product(name: "CustomDump", package: "swift-custom-dump"),
             .product(name: "SwiftParser", package: "swift-syntax"),
             .product(name: "SwiftSyntax", package: "swift-syntax"),
         ]),
@@ -49,6 +54,8 @@ let package = Package(
             "Type Algebra Syntax",
         ]),
         .target(name: "Type Algebra Syntax", dependencies: [
+            "Type Algebra",
+            .product(name: "SwiftSyntaxBuilder", package: "swift-syntax"),
             .product(name: "SwiftSyntax", package: "swift-syntax"),
         ]),
         .target(
