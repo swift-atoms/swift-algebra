@@ -1,4 +1,3 @@
-import CustomDump
 import Type_Algebra_Syntax
 import SwiftParser
 import SwiftSyntax
@@ -86,7 +85,7 @@ func invalidStoredConstructionIsDiagnosed(_ property: String) throws {
             collection: { optional, _, binding, positions in [optional ? "optional" : "list", binding] + positions },
             product: { _, fields, _ in fields.flatMap { $0.1 } })
     }
-    expectNoDifference(try positions("(Int, [A?], A)"), ["list", "element1", "optional", "element2", "element2", "(root).2"])
+    #expect(try positions("(Int, [A?], A)") == ["list", "element1", "optional", "element2", "element2", "(root).2"])
     #expect(throws: Type.Failure.self) { try positions("(A) -> Int") }
     #expect(throws: Type.Failure.self) { try positions("Unknown<A>") }
 }

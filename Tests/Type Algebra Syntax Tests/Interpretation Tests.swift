@@ -1,4 +1,3 @@
-import CustomDump
 import Foundation
 import SwiftSyntax
 import SwiftSyntaxBuilder
@@ -68,16 +67,16 @@ import Type_Algebra_Syntax
     let record = try Type.Syntax.Record([.init("first", type: "Int"), .init("second", type: "String")])
     let whole = record.projecting("source")
     let lens = try Type.Lens.coordinate("second", in: record.algebra)
-    expectNoDifference(try whole.applying(lens.get).expression, "source.second")
+    #expect(try whole.applying(lens.get).expression == "source.second")
     let update = try Type.Syntax.Interpretation.Product.product([whole, .value("replacement")]).applying(lens.put)
-    expectNoDifference(try record.constructing("Pair", from: update), "Pair(first: source.first, second: replacement)")
+    #expect(try record.constructing("Pair", from: update) == "Pair(first: source.first, second: replacement)")
     let selection = try record.algebra.selecting(["second", "first"])
-    expectNoDifference(try whole.applying(selection.projection).expression, "(source.second, source.first)")
+    #expect(try whole.applying(selection.projection).expression == "(source.second, source.first)")
     let empty = try record.algebra.selecting([])
-    expectNoDifference(try whole.applying(empty.projection).expression, "()")
+    #expect(try whole.applying(empty.projection).expression == "()")
     #expect(throws: Type.Failure.self) { try Type.Syntax.Interpretation.Product.product([]).applying(lens.get) }
     #expect(throws: Type.Failure.self) { try record.constructing("Pair", from: .product([])) }
     let renamed = Type.Syntax.Record(record.algebra) { .init("_" + $0.name, type: "Opaque", label: $0.name) }
-    expectNoDifference(try renamed.selecting(["second"]).fields.map(\.name), ["_second"])
-    expectNoDifference(try renamed.selecting(["second"]).algebra, try selection.record.excluding(["first"]).record)
+    #expect(try renamed.selecting(["second"]).fields.map(\.name) == ["_second"])
+    #expect(try renamed.selecting(["second"]).algebra == try selection.record.excluding(["first"]).record)
 }
