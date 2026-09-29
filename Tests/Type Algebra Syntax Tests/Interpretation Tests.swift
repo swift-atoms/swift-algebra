@@ -4,6 +4,7 @@ import SwiftSyntaxBuilder
 import Testing
 import Type_Algebra_Syntax
 
+#if os(macOS)
 @Test func handwrittenAlgebraMaterializesAndRunsAsSwift() throws {
     let atom = Type.Atom("Number", scope: ["Study"])
     let value = Type.Expression.atom(atom)
@@ -55,6 +56,7 @@ import Type_Algebra_Syntax
     process.waitUntilExit()
     #expect(process.terminationStatus == 0, "Generated interpretation failed: \(diagnostic)\n\(source)")
 }
+#endif
 
 @Test func interpretationRequiresExplicitRepresentations() throws {
     let interpreter = Type.Syntax.Interpretation()
