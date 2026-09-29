@@ -30,8 +30,8 @@ private let b = Type.Atom("B", scope: ["Example"])
             for j in 0..<4 {
                 let value = Type.Value.product([.atom(a, i), .atom(b, j)])
                 #expect(try paired.apply(value) == value)
-                #expect(try paired.followed(by: first).apply(value) == try first.apply(value))
-                #expect(try paired.followed(by: second).apply(value) == try second.apply(value))
+                #expect(try paired.followed(by: first).apply(value) == first.apply(value))
+                #expect(try paired.followed(by: second).apply(value) == second.apply(value))
             }
         }
     }
@@ -54,9 +54,9 @@ private let b = Type.Atom("B", scope: ["Example"])
         let i = try Type.Morphism.injection([.atom(a), .unit], at: 0)
         let end = Type.Morphism.terminal(from: i.codomain)
         let value = Type.Value.product([.atom(a, 2), .atom(b, 7)])
-        #expect(try p.followed(by: i).followed(by: end).apply(value) == try p.followed(by: i.followed(by: end)).apply(value))
-        #expect(try Type.Morphism.identity(p.domain).followed(by: p).apply(value) == try p.apply(value))
-        #expect(try p.followed(by: .identity(p.codomain)).apply(value) == try p.apply(value))
+        #expect(try p.followed(by: i).followed(by: end).apply(value) == p.followed(by: i.followed(by: end)).apply(value))
+        #expect(try Type.Morphism.identity(p.domain).followed(by: p).apply(value) == p.apply(value))
+        #expect(try p.followed(by: .identity(p.codomain)).apply(value) == p.apply(value))
     }
 
     @Test func checkedMapsRejectBadTypes() throws {
@@ -109,7 +109,7 @@ private let b = Type.Atom("B", scope: ["Example"])
                 let changed = try lens.put.apply(.product([whole, replacement]))
                 #expect(try lens.get.apply(changed) == replacement)
                 #expect(try lens.put.apply(.product([whole, lens.get.apply(whole)])) == whole)
-                #expect(try lens.put.apply(.product([changed, .atom(a, 7)])) == try lens.put.apply(.product([whole, .atom(a, 7)])))
+                #expect(try lens.put.apply(.product([changed, .atom(a, 7)])) == lens.put.apply(.product([whole, .atom(a, 7)])))
             }
         }
     }

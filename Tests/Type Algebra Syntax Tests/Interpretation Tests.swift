@@ -78,5 +78,5 @@ import Type_Algebra_Syntax
     #expect(throws: Type.Failure.self) { try record.constructing("Pair", from: .product([])) }
     let renamed = Type.Syntax.Record(record.algebra) { .init("_" + $0.name, type: "Opaque", label: $0.name) }
     #expect(try renamed.selecting(["second"]).fields.map(\.name) == ["_second"])
-    #expect(try renamed.selecting(["second"]).algebra == try selection.record.excluding(["first"]).record)
+    #expect(try renamed.selecting(["second"]).algebra == selection.record.excluding(["first"]).record)
 }
