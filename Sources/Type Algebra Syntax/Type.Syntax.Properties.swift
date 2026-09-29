@@ -1,8 +1,6 @@
 public import Type_Algebra
 public import SwiftSyntax
 
-/// The source-written stored instance properties, before accessor expansion.
-/// Every consumer shares this representation and selects its construction policy.
 extension Type.Syntax {
     public struct Properties {
         public struct Field {

@@ -1,5 +1,4 @@
 extension Type {
-    /// Finite polynomial syntax. Functions, lists and arbitrary effects cannot enter this grammar.
     public indirect enum Polynomial: Hashable, Sendable {
         case zero
         case unit
@@ -31,7 +30,6 @@ extension Type {
             }
         }
 
-        /// The formal derivative, preserving order and multiplicity of positions.
         public func derivative(withRespectTo variable: Variable) -> Self {
             switch self {
             case .zero, .unit, .atom: return .zero
@@ -46,7 +44,6 @@ extension Type {
             }
         }
 
-        /// Cardinality interpretation over a supplied finite model. Overflow is reported, never wrapped.
         public func cardinality(atoms: [Atom: Int] = [:], variables: [Variable: Int] = [:]) throws -> Int {
             func checked(_ value: Int?) throws -> Int {
                 guard let value, value >= 0 else { throw Failure("cardinality requires a nonnegative interpretation for every sort") }
@@ -69,7 +66,6 @@ extension Type {
             }
         }
 
-        /// Each direct occurrence in a sum of products supplies a separate, labelled hole.
         public struct Context: Hashable, Sendable {
             public let alternative: Int
             public let position: Int

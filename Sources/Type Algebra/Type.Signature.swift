@@ -15,7 +15,6 @@ extension Type {
         }
     }
 
-    /// A finite indexed family retains which output belongs to which input.
     public struct Signature: Equatable, Sendable {
         public let operations: [Operation]
         public init(_ operations: [Operation]) throws {
@@ -39,7 +38,6 @@ extension Type {
         }
     }
 
-    /// Explicit binding avoids pretending a recursive carrier is a finite expression.
     public struct Recursion: Equatable, Sendable {
         public enum Kind: Equatable, Sendable { case least, greatest }
         public let kind: Kind

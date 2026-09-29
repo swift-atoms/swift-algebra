@@ -1,6 +1,4 @@
 extension Type {
-    /// Checked terms in the free bicartesian closed language. Equality of terms is syntactic;
-    /// no claim of decidable extensional equality, or automatic proof of supplied laws, is made.
     public struct Morphism: Equatable, Sendable {
         public let domain: Expression
         public let codomain: Expression
@@ -28,7 +26,6 @@ extension Type {
         }
 
         public static func identity(_ type: Expression) -> Self { Self(type, type, .identity) }
-        /// A formal generator. A model must supply its meaning; declaring it proves no laws.
         public static func generator(_ name: Atom, domain: Expression, codomain: Expression) -> Self {
             Self(domain, codomain, .generator(name))
         }
@@ -73,7 +70,6 @@ extension Type {
         }
     }
 
-    /// An interpretation for first-order structural maps. Function values need a supplied model.
     public indirect enum Value: Equatable, Sendable {
         case unit
         case atom(Atom, Int)

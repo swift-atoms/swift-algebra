@@ -36,7 +36,6 @@ extension Type {
             return try selecting(fields.map(\.name).filter { !labels.contains($0) })
         }
 
-        /// Derive all labelled selections only on explicit request, with an allocation bound.
         public func selections(limit: Int = 4096) throws -> [Selection] {
             guard limit > 0 else { throw Failure("selection limit must be positive") }
             var labels: [[String]] = [[]]
@@ -48,7 +47,6 @@ extension Type {
         }
     }
 
-    /// A checked permutation supplies inverse maps by construction, without identifying their types.
     public struct Isomorphism: Equatable, Sendable {
         public let forward: Morphism
         public let backward: Morphism

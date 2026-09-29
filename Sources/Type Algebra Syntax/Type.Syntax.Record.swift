@@ -1,7 +1,6 @@
 public import Type_Algebra
 
 extension Type.Syntax {
-    /// Swift representation of a stored coordinate. Mathematical identity and selection live in Type.Record.
     public struct Record {
         public struct Field {
             public let name: String

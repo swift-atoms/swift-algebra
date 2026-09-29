@@ -1,6 +1,4 @@
 extension Type {
-    /// A structural coordinate lens, optionally changing the selected coordinate's type.
-    /// The unchanged-type specialization satisfies the ordinary get/put lens laws.
     public struct Lens: Equatable, Sendable {
         public let get: Morphism
         public let put: Morphism

@@ -50,7 +50,6 @@ extension Type.Syntax {
 }
 
 extension Type.Syntax.Recursion {
-    /// Direct, regular recursive positions only. Aliases and nonuniform recursion need explicit derivation.
     public static func isRecursive(_ type: TypeSyntax, in declaration: EnumDeclSyntax) -> Bool {
         let text = type.trimmedDescription
         let parameters = declaration.genericParameterClause?.parameters.map(\.name.text) ?? []
@@ -78,7 +77,6 @@ extension Type.Syntax.Recursion {
 }
 
 extension Type.Syntax.Recursion {
-    /// Reject visible cycles through more than one nominal enum. An imported alias cannot be resolved by SwiftSyntax.
     public static func validateNamespace(_ declaration: some DeclGroupSyntax) throws {
         let declarations = declaration.memberBlock.members.compactMap { $0.decl.as(EnumDeclSyntax.self) }
         let names = Set(declarations.map(\.name.text))

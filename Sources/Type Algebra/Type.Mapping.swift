@@ -1,6 +1,4 @@
 extension Type {
-    /// A language-independent plan for the action of a type constructor on maps.
-    /// The backend assigns variable names and emits closures; variance is decided here.
     public indirect enum Mapping: Equatable, Sendable {
         case identity
         case transform(Variable, Direction)

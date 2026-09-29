@@ -3,8 +3,6 @@ public import SwiftSyntax
 import SwiftSyntaxBuilder
 
 extension Type.Syntax {
-    /// One Swift representation of the core language. Atoms and nominal sums are explicit bindings;
-    /// this interpreter never invents a declaration for an imported sort or an effect constructor.
     public struct Interpretation {
         public let atoms: [Type.Atom: TypeSyntax]
         public let variables: [Type.Variable: TypeSyntax]
@@ -63,15 +61,11 @@ extension Type.Syntax {
                 """)
         }
 
-        /// This representation uses one payload per branch, including Void. The same branch convention
-        /// is used by the morphism interpreter below, so nullary and unary products stay unambiguous.
         public func coproduct(_ alternatives: [Type.Expression], named name: TokenSyntax, access: String = "") throws -> DeclSyntax {
             let cases = try alternatives.enumerated().map { "case branch\($0.offset)(\(try type($0.element)))" }
             return DeclSyntax(stringLiteral: "\(access)enum \(name.trimmedDescription) {\n\(cases.joined(separator: "\n"))\n}")
         }
 
-        /// The caller supplies hygienic names (a macro can use context.makeUniqueName).
-        /// Function and generator behavior is assumed pure, as required by the core laws.
         public func expression(_ map: Type.Morphism, appliedTo value: ExprSyntax,
             fresh: (String) -> TokenSyntax) throws -> ExprSyntax {
             let argument = fresh("value").text

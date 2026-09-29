@@ -1,7 +1,5 @@
 extension Type {
     public enum Program {
-        /// A fixed applicative batch: all operation choices are made before their results arrive.
-        /// A free applicative ranges over all finite batches of this form; no commutativity is assumed.
         public struct Batch: Equatable, Sendable {
             public let operations: [Operation]
             public let result: Expression
@@ -29,8 +27,6 @@ extension Type {
             return try .free(layer: signature.continuation(.variable(variable)), variable: variable, returning: result)
         }
 
-        /// Coinductive interaction-tree shape with return, visible operations and silent steps.
-        /// A Swift interpreter must separately choose a productive/lazy representation.
         public static func interaction(_ signature: Signature, returning result: Expression,
             variable: Variable) throws -> Recursion {
             let finite = try monadic(signature, returning: result, variable: variable)

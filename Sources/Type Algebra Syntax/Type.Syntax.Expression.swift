@@ -1,8 +1,6 @@
 public import Type_Algebra
 public import SwiftSyntax
 
-/// A source-level algebra, not a substitute for Swift's type checker.
-/// Unknown constructors retain their parameter occurrences and cannot silently become constants.
 extension Type.Syntax {
     public indirect enum Expression {
         case constant(TypeSyntax)
@@ -111,7 +109,6 @@ extension Type.Syntax.Expression {
 }
 
 extension Type.Syntax.Expression {
-    /// Identifier positions, excluding tuple labels and qualified member names.
     public static func references(in syntax: TypeSyntax, parameters: Set<String>) -> Set<String> {
         final class References: SyntaxVisitor {
             let parameters: Set<String>

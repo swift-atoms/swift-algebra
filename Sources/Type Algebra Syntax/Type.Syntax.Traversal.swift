@@ -1,8 +1,6 @@
 import Type_Algebra
 
 extension Type.Syntax {
-    /// Interpret the same finite-position plan for folding and effectful reconstruction.
-    /// Callers supply their effect operations; only this adapter handles Swift container spellings.
     public enum Traversal {
         public static func interpret<Output>(_ type: Expression, value: String, parameter: String,
             constant: (Expression, String) throws -> Output,

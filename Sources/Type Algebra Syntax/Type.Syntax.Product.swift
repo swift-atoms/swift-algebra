@@ -1,7 +1,6 @@
 public import Type_Algebra
 public import SwiftSyntax
 
-/// Common, explicit eligibility for reconstructing an unconstrained generic value.
 extension Type.Syntax {
     public struct Product {
         public let declaration: StructDeclSyntax

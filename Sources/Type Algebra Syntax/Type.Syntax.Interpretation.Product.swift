@@ -1,8 +1,6 @@
 public import Type_Algebra
 
 extension Type.Syntax.Interpretation {
-    /// Symbolic interpretation of cartesian maps. Leaves must be stable bindings or projections,
-    /// not effectful expressions: pairing can duplicate them and terminal can discard them.
     public indirect enum Product {
         case value(String)
         case product([Self])

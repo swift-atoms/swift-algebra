@@ -1,5 +1,3 @@
-/// A language of type descriptions. This module does not import a compiler or a syntax library.
-/// Descriptions are not Swift metatypes. Atoms are opaque, explicitly identified sorts.
 public enum Type {
     public struct Atom: Hashable, Sendable {
         public let scope: [String]
@@ -40,11 +38,8 @@ public enum Type {
         case sum([Expression])
         case product([Expression])
         case exponential(domain: Expression, codomain: Expression)
-        /// Finite lists, the free monoid. Not a finite polynomial in its element variable.
         case list(Expression)
-        /// A named effect constructor; this declaration alone asserts no functor or monad laws.
         case effect(Atom, Expression)
-        /// A constructor whose action is not supplied. Occurrences must not disappear as constants.
         case opaque(Atom, Set<Variable>)
 
         public static func optional(_ value: Self) -> Self { .sum([.unit, value]) }
@@ -83,8 +78,6 @@ public enum Type {
             }
         }
 
-        /// Carrier formation uses strict positivity, not merely an even number of variance reversals.
-        /// A double contravariant function space has a covariant action but need not admit a fixed point.
         public func isStrictlyPositive(in variable: Variable) -> Bool {
             switch self {
             case .zero, .unit, .atom, .variable: return true
@@ -97,7 +90,6 @@ public enum Type {
             }
         }
 
-        /// Eligibility for finite structural traversal. Lists are traversable although not finite polynomials.
         public var isTraversable: Bool {
             switch self {
             case .zero, .unit, .atom, .variable: return true

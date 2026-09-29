@@ -2,7 +2,6 @@ public import Type_Algebra
 import SwiftSyntax
 
 extension Type.Syntax {
-    /// Swift emission for a mapping whose eligibility and variance are decided by Type.Mapping.
     public enum Mapping {
         public static func apply(_ type: Expression, to value: String,
             forward: [String: String], backward: [String: String] = [:], depth: Int = 0) throws -> String {

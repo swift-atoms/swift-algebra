@@ -1,7 +1,6 @@
 public import Algebra
 
 extension Algebra.Law {
-    /// An executable equation over supplied samples, not a proof over an infinite domain.
     public enum Equation {
         public static func check<Input, Observation: Equatable>(
             _ name: String, over samples: [Input],

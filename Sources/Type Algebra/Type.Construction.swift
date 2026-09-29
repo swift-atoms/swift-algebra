@@ -1,5 +1,4 @@
 extension Type {
-    /// The ordinary, nondependent type constructors in the zoo. Every operation supplies its extra sorts.
     public enum Construction {
         public static func predicate(on value: Expression) -> Expression {
             .exponential(domain: value, codomain: .sum([.unit, .unit]))
@@ -15,18 +14,14 @@ extension Type {
         public static func continuation(answer: Expression, value: Expression) -> Expression {
             .exponential(domain: .exponential(domain: value, codomain: answer), codomain: answer)
         }
-        /// State is returned even when the operation fails.
         public static func retaining(state: Expression, failure: Expression, value: Expression) -> Expression {
             .exponential(domain: state, codomain: .product([.sum([failure, value]), state]))
         }
-        /// Failure exposes no successor state. This shape alone does not promise external rollback.
         public static func discarding(state: Expression, failure: Expression, value: Expression) -> Expression {
             .exponential(domain: state, codomain: .sum([failure, .product([value, state])]))
         }
     }
 
-    /// Explicit data for the constructions that require predicates or relations.
-    /// Neither a predicate name nor a relation name is a proof of laws.
     public struct Refinement: Equatable, Sendable {
         public let base: Expression
         public let predicate: Atom
@@ -38,7 +33,6 @@ extension Type {
         public init(_ base: Expression, by relation: Atom) { self.base = base; self.relation = relation }
     }
 
-    /// Finite dependent sums/products: retain the index to its corresponding fiber.
     public struct Family: Equatable, Sendable {
         public let fibers: Record
         public init(_ fibers: Record) { self.fibers = fibers }

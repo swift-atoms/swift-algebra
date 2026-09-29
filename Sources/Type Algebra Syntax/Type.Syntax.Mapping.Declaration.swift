@@ -11,8 +11,6 @@ extension Type.Syntax.Mapping {
         }
     }
 
-    /// A Swift method interpreting the core mapping action. Semantic packages choose the
-    /// method and parameter directions; product/coproduct reconstruction is shared here.
     public static func members(of declaration: some DeclGroupSyntax, method: String,
         parameters mappings: [Parameter]) throws -> [DeclSyntax] {
         let parameters: [String]
