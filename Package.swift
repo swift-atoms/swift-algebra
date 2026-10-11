@@ -26,22 +26,22 @@ let package = Package(
     ],
     targets: [
         .target(name: "Type Algebra", dependencies: []),
-        .testTarget(name: "Type Algebra Tests", dependencies: ["Type Algebra"]),
+        .testTarget(name: "Type Algebra Tests", dependencies: [.target(name: "Type Algebra")]),
         .testTarget(name: "Monoid Macro Tests", dependencies: [
-            "Monoid Macro",
-            "Algebra Test Support",
+            .target(name: "Monoid Macro"),
+            .target(name: "Algebra Test Support"),
         ]),
         .testTarget(name: "Type Algebra Syntax Tests", dependencies: [
-            "Type Algebra Syntax",
+            .target(name: "Type Algebra Syntax"),
             .product(name: "SwiftParser", package: "swift-syntax"),
             .product(name: "SwiftSyntax", package: "swift-syntax"),
         ]),
         .target(name: "Monoid Macro", dependencies: [
-            "Monoid Macro Plugin",
-            "Algebra",
+            .target(name: "Monoid Macro Plugin"),
+            .target(name: "Algebra"),
         ]),
         .macro(name: "Monoid Macro Plugin", dependencies: [
-            "Monoid Macro Core",
+            .target(name: "Monoid Macro Core"),
             .product(name: "SwiftCompilerPlugin", package: "swift-syntax"),
             .product(name: "SwiftSyntaxMacros", package: "swift-syntax"),
             .product(name: "SwiftSyntax", package: "swift-syntax"),
@@ -49,10 +49,10 @@ let package = Package(
         .target(name: "Monoid Macro Core", dependencies: [
             .product(name: "SwiftSyntax", package: "swift-syntax"),
             .product(name: "SwiftSyntaxBuilder", package: "swift-syntax"),
-            "Type Algebra Syntax",
+            .target(name: "Type Algebra Syntax"),
         ]),
         .target(name: "Type Algebra Syntax", dependencies: [
-            "Type Algebra",
+            .target(name: "Type Algebra"),
             .product(name: "SwiftSyntaxBuilder", package: "swift-syntax"),
             .product(name: "SwiftSyntax", package: "swift-syntax"),
         ]),
@@ -82,7 +82,6 @@ let package = Package(
             dependencies: [
                 .target(name: "Algebra"),
                 .target(name: "Algebra Test Support"),
-                .target(name: "Algebra Foundation Integration"),
             ],
             path: "Tests/Algebra Tests"
         ),
@@ -90,7 +89,7 @@ let package = Package(
     swiftLanguageModes: [.v6]
 )
 
-for target in package.targets where ![.system, .binary, .plugin].contains(target.type) {
+for target in package.targets where ![.system, .binary, .plugin, .macro].contains(target.type) {
     target.swiftSettings = (target.swiftSettings ?? []) + [
         .strictMemorySafety(),
         .enableUpcomingFeature("ExistentialAny"),

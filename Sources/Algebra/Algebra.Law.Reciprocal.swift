@@ -8,7 +8,7 @@ extension Algebra.Law.Reciprocal {
     @inlinable
     public static func check<
         Element: Equatable,
-        Sequence: Swift.Sequence<Element>
+        Sequence: Swift::Sequence<Element>
     >(
         of field: Algebra.Field<Element>,
         over elements: Sequence

@@ -8,7 +8,7 @@ extension Algebra.Law.Distributivity {
     @inlinable
     public static func left<
         Element: Equatable,
-        Sequence: Swift.Sequence<Element>
+        Sequence: Swift::Sequence<Element>
     >(
         of ring: Algebra.Ring<Element>,
         over elements: Sequence
@@ -37,7 +37,7 @@ extension Algebra.Law.Distributivity {
     @inlinable
     public static func right<
         Element: Equatable,
-        Sequence: Swift.Sequence<Element>
+        Sequence: Swift::Sequence<Element>
     >(
         of ring: Algebra.Ring<Element>,
         over elements: Sequence
@@ -67,8 +67,8 @@ extension Algebra.Law.Distributivity {
     public static func scalar<
         Scalar,
         Vector: Equatable,
-        Scalars: Swift.Sequence<Scalar>,
-        Vectors: Swift.Sequence<Vector>
+        Scalars: Swift::Sequence<Scalar>,
+        Vectors: Swift::Sequence<Vector>
     >(
         of module: Algebra.Module<Scalar, Vector>,
         over scalars: Scalars,
@@ -99,8 +99,8 @@ extension Algebra.Law.Distributivity {
     public static func addition<
         Scalar: Equatable,
         Vector: Equatable,
-        Scalars: Swift.Sequence<Scalar>,
-        Vectors: Swift.Sequence<Vector>
+        Scalars: Swift::Sequence<Scalar>,
+        Vectors: Swift::Sequence<Vector>
     >(
         of module: Algebra.Module<Scalar, Vector>,
         over scalars: Scalars,

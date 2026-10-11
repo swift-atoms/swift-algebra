@@ -2,51 +2,52 @@ public import Type_Algebra
 public import SwiftSyntax
 
 extension Type.Syntax {
-    public enum Recursion {
-        public static func access(of declaration: some DeclGroupSyntax) -> String {
-            declaration.modifiers.contains { $0.name.tokenKind == .keyword(.public) }
-                ? "public "
-                : declaration.modifiers.contains { $0.name.text == "package" } ? "package " : ""
-        }
-
-        public static func elements(
-            of declaration: EnumDeclSyntax
-        ) -> [EnumCaseElementSyntax] {
-            declaration.memberBlock.members
-                .compactMap { $0.decl.as(EnumCaseDeclSyntax.self) }
-                .flatMap(\.elements)
-        }
-
-        public static func parameters(
-            of element: EnumCaseElementSyntax
-        ) -> [EnumCaseParameterSyntax] {
-            Array(element.parameterClause?.parameters ?? [])
-        }
-
-        public static func pattern(
-            of parameters: [EnumCaseParameterSyntax]
-        ) -> String {
-            arguments(of: parameters)
-        }
-
-        public static func arguments(
-            of parameters: [EnumCaseParameterSyntax]
-        ) -> String {
-            parameters.enumerated().map { index, parameter in
-                guard let label = label(of: parameter) else { return "value\(index)" }
-                return "\(label): value\(index)"
-            }.joined(separator: ", ")
-        }
-
-        public static func label(
-            of parameter: EnumCaseParameterSyntax
-        ) -> String? {
-            guard let label = parameter.firstName, label.text != "_" else { return nil }
-            return label.trimmedDescription
-        }
+    public enum Recursion {}
 
 }
 
+extension Type.Syntax.Recursion {
+    public static func access(of declaration: some DeclGroupSyntax) -> String {
+        declaration.modifiers.contains { $0.name.tokenKind == .keyword(.public) }
+            ? "public "
+            : declaration.modifiers.contains { $0.name.text == "package" } ? "package " : ""
+    }
+
+    public static func elements(
+        of declaration: EnumDeclSyntax
+    ) -> [EnumCaseElementSyntax] {
+        declaration.memberBlock.members
+            .compactMap { $0.decl.as(EnumCaseDeclSyntax.self) }
+            .flatMap(\.elements)
+    }
+
+    public static func parameters(
+        of element: EnumCaseElementSyntax
+    ) -> [EnumCaseParameterSyntax] {
+        Array(element.parameterClause?.parameters ?? [])
+    }
+
+    public static func pattern(
+        of parameters: [EnumCaseParameterSyntax]
+    ) -> String {
+        arguments(of: parameters)
+    }
+
+    public static func arguments(
+        of parameters: [EnumCaseParameterSyntax]
+    ) -> String {
+        parameters.enumerated().map { index, parameter in
+            guard let label = label(of: parameter) else { return "value\(index)" }
+            return "\(label): value\(index)"
+        }.joined(separator: ", ")
+    }
+
+    public static func label(
+        of parameter: EnumCaseParameterSyntax
+    ) -> String? {
+        guard let label = parameter.firstName, label.text != "_" else { return nil }
+        return label.trimmedDescription
+    }
 }
 
 extension Type.Syntax.Recursion {

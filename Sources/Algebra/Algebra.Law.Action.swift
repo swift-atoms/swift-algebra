@@ -9,7 +9,7 @@ extension Algebra.Law.Action {
     public static func identity<
         Scalar,
         Vector: Equatable,
-        Sequence: Swift.Sequence<Vector>
+        Sequence: Swift::Sequence<Vector>
     >(
         of module: Algebra.Module<Scalar, Vector>,
         over vectors: Sequence

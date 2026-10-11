@@ -8,8 +8,6 @@ extension Type.Syntax {
             public let binding: PatternBindingSyntax
             public let name: String
             public let type: TypeSyntax
-            public var isMutable: Bool { declaration.bindingSpecifier.tokenKind == .keyword(.var) }
-            public var defaultValue: ExprSyntax? { binding.initializer?.value }
         }
 
         public let declaration: StructDeclSyntax
@@ -64,4 +62,9 @@ extension Type.Syntax {
         }
     }
 
+}
+
+extension Type.Syntax.Properties.Field {
+    public var isMutable: Bool { declaration.bindingSpecifier.tokenKind == .keyword(.var) }
+    public var defaultValue: ExprSyntax? { binding.initializer?.value }
 }

@@ -8,7 +8,7 @@ extension Algebra.Law.Annihilation {
     @inlinable
     public static func zero<
         Element: Equatable,
-        Sequence: Swift.Sequence<Element>
+        Sequence: Swift::Sequence<Element>
     >(
         of ring: Algebra.Ring<Element>,
         over elements: Sequence

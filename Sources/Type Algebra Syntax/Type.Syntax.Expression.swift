@@ -17,8 +17,6 @@ extension Type.Syntax {
             public init(label: String?, type: Type.Syntax.Expression) { self.label = label; self.type = type }
         }
 
-        public typealias Polarity = Type.Polarity
-
         public init(_ syntax: TypeSyntax, parameters: Set<String>) {
             let references = Self.references(in: syntax, parameters: parameters)
             guard !references.isEmpty else { self = .constant(syntax); return }
@@ -58,35 +56,40 @@ extension Type.Syntax {
             }
             self = .unsupported(syntax, references)
         }
+    }
 
-        public var algebra: Type.Expression {
-            switch self {
-            case .constant(let syntax): return .atom(.init(syntax.trimmedDescription, scope: ["Swift"]))
-            case .parameter(let name): return .variable(.init(name))
-            case .array(let element): return .list(element.algebra)
-            case .optional(let element): return .optional(element.algebra)
-            case .tuple(let coordinates): return .product(coordinates.map { $0.type.algebra })
-            case .arrow(let inputs, let output): return .exponential(domain: .product(inputs.map(\.algebra)), codomain: output.algebra)
-            case .unsupported(let syntax, let names): return .opaque(.init(syntax.trimmedDescription, scope: ["Swift"]), Set(names.map(Type.Variable.init)))
-            }
-        }
+}
 
-        public func polarity(of parameter: String) -> Polarity { algebra.polarity(of: .init(parameter)) }
-        public var isTraversable: Bool { algebra.isTraversable }
-        public var isPolynomial: Bool { (try? Type.Polynomial(algebra)) != nil }
+extension Type.Syntax.Expression {
 
-        public var diagnostic: String? {
-            switch self {
-            case .unsupported(let syntax, _):
-                return "unsupported type constructor, effect, or ownership in `\(syntax.trimmedDescription)`; supply an explicit implementation"
-            case .array(let element), .optional(let element): return element.diagnostic
-            case .tuple(let fields): return fields.compactMap { $0.type.diagnostic }.first
-            case .arrow(let inputs, let output): return (inputs + [output]).compactMap(\.diagnostic).first
-            default: return nil
-            }
+    public typealias Polarity = Type.Polarity
+
+    public var algebra: Type.Expression {
+        switch self {
+        case .constant(let syntax): return .atom(.init(syntax.trimmedDescription, scope: ["Swift"]))
+        case .parameter(let name): return .variable(.init(name))
+        case .array(let element): return .list(element.algebra)
+        case .optional(let element): return .optional(element.algebra)
+        case .tuple(let coordinates): return .product(coordinates.map { $0.type.algebra })
+        case .arrow(let inputs, let output): return .exponential(domain: .product(inputs.map(\.algebra)), codomain: output.algebra)
+        case .unsupported(let syntax, let names): return .opaque(.init(syntax.trimmedDescription, scope: ["Swift"]), Set(names.map(Type.Variable.init)))
         }
     }
 
+    public func polarity(of parameter: String) -> Polarity { algebra.polarity(of: .init(parameter)) }
+    public var isTraversable: Bool { algebra.isTraversable }
+    public var isPolynomial: Bool { (try? Type.Polynomial(algebra)) != nil }
+
+    public var diagnostic: String? {
+        switch self {
+        case .unsupported(let syntax, _):
+            return "unsupported type constructor, effect, or ownership in `\(syntax.trimmedDescription)`; supply an explicit implementation"
+        case .array(let element), .optional(let element): return element.diagnostic
+        case .tuple(let fields): return fields.compactMap { $0.type.diagnostic }.first
+        case .arrow(let inputs, let output): return (inputs + [output]).compactMap(\.diagnostic).first
+        default: return nil
+        }
+    }
 }
 
 extension Type.Syntax.Expression {

@@ -8,7 +8,7 @@ extension Algebra.Law.Associativity {
     @inlinable
     public static func check<
         Element: Equatable,
-        Sequence: Swift.Sequence<Element>
+        Sequence: Swift::Sequence<Element>
     >(
         of semigroup: Algebra.Semigroup<Element>,
         over elements: Sequence

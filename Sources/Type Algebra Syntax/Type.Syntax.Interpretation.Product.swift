@@ -4,29 +4,32 @@ extension Type.Syntax.Interpretation {
     public indirect enum Product {
         case value(String)
         case product([Self])
+    }
+}
 
-        public var expression: String {
-            switch self {
-            case .value(let value): return value
-            case .product(let fields):
-                return fields.count == 1 ? fields[0].expression : "(" + fields.map(\.expression).joined(separator: ", ") + ")"
-            }
+extension Type.Syntax.Interpretation.Product {
+
+    public var expression: String {
+        switch self {
+        case .value(let value): return value
+        case .product(let fields):
+            return fields.count == 1 ? fields[0].expression : "(" + fields.map(\.expression).joined(separator: ", ") + ")"
         }
+    }
 
-        public func applying(_ map: Type.Morphism) throws -> Self {
-            switch map.term {
-            case .identity: return self
-            case .composition(let first, let second): return try applying(first).applying(second)
-            case .projection(let index):
-                guard case .product(let fields) = self, case .product(let factors) = map.domain,
-                    fields.count == factors.count, fields.indices.contains(index) else {
-                    throw Type.Failure("product representation does not match projection")
-                }
-                return fields[index]
-            case .pairing(let maps): return .product(try maps.map { try applying($0) })
-            case .terminal: return .product([])
-            default: throw Type.Failure("this interpretation requires a cartesian map")
+    public func applying(_ map: Type.Morphism) throws -> Self {
+        switch map.term {
+        case .identity: return self
+        case .composition(let first, let second): return try applying(first).applying(second)
+        case .projection(let index):
+            guard case .product(let fields) = self, case .product(let factors) = map.domain,
+                fields.count == factors.count, fields.indices.contains(index) else {
+                throw Type.Failure("product representation does not match projection")
             }
+            return fields[index]
+        case .pairing(let maps): return .product(try maps.map { try applying($0) })
+        case .terminal: return .product([])
+        default: throw Type.Failure("this interpretation requires a cartesian map")
         }
     }
 }

@@ -33,7 +33,7 @@ extension Semilattice.`Semilattices preserve idempotent combination bounds and i
 
     @Test
     func `convenience init produces correct semilattice`() {
-        let direct = Algebra.Semilattice<Int>(identity: 0, combining: { Swift.max($0, $1) })
+        let direct = Algebra.Semilattice<Int>(identity: 0, combining: { Swift::max($0, $1) })
         #expect(direct.identity == 0)
         #expect(direct.combining(5, 3) == 5)
     }

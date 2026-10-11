@@ -8,7 +8,7 @@ extension Algebra.Law.Commutativity {
     @inlinable
     public static func check<
         Element: Equatable,
-        Sequence: Swift.Sequence<Element>
+        Sequence: Swift::Sequence<Element>
     >(
         of combining: (borrowing Element, borrowing Element) -> Element,
         over elements: Sequence

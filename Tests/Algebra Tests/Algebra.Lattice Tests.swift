@@ -23,9 +23,9 @@ extension Lattice.`Lattices preserve join meet bounds and induced ordering` {
     func `convenience init wires bounds and operations`() {
         let l = Algebra.Lattice<Int>(
             bottom: .min,
-            join: { Swift.max($0, $1) },
+            join: { Swift::max($0, $1) },
             top: .max,
-            meet: { Swift.min($0, $1) }
+            meet: { Swift::min($0, $1) }
         )
         #expect(l.bottom == .min)
         #expect(l.top == .max)

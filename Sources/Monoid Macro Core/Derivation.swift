@@ -1,7 +1,9 @@
 import Type_Algebra_Syntax
 public import SwiftSyntax
 import SwiftSyntaxBuilder
-public enum Derivation {
+public enum Derivation {}
+
+extension Derivation {
     public static func members(of declaration: some DeclGroupSyntax) throws -> [DeclSyntax] {
         guard let structure = declaration.as(StructDeclSyntax.self) else { throw Type.Failure("@Monoid derives product monoids on structs; sums need an explicit operation") }
         let properties = Type.Syntax.Properties(structure, requiresMemberwise: true)

@@ -8,7 +8,7 @@ extension Algebra.Law.Inverse {
     @inlinable
     public static func left<
         Element: Equatable,
-        Sequence: Swift.Sequence<Element>
+        Sequence: Swift::Sequence<Element>
     >(
         of group: Algebra.Group<Element>,
         over elements: Sequence
@@ -25,7 +25,7 @@ extension Algebra.Law.Inverse {
     @inlinable
     public static func right<
         Element: Equatable,
-        Sequence: Swift.Sequence<Element>
+        Sequence: Swift::Sequence<Element>
     >(
         of group: Algebra.Group<Element>,
         over elements: Sequence

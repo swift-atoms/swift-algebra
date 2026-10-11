@@ -9,8 +9,8 @@ extension Algebra.Law.Compatibility {
     public static func scalar<
         Scalar: Equatable,
         Vector: Equatable,
-        Scalars: Swift.Sequence<Scalar>,
-        Vectors: Swift.Sequence<Vector>
+        Scalars: Swift::Sequence<Scalar>,
+        Vectors: Swift::Sequence<Vector>
     >(
         of module: Algebra.Module<Scalar, Vector>,
         over scalars: Scalars,
