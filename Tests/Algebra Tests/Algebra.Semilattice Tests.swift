@@ -60,15 +60,22 @@ extension Semilattice.`Semilattices preserve idempotent combination bounds and i
         let a = 3
         let b = 7
         #expect(
-            Semilattice.`Semilattices preserve idempotent combination bounds and induced ordering`.maxL.combining(a, b)
-                == Semilattice.`Semilattices preserve idempotent combination bounds and induced ordering`.maxL.combining(b, a)
+            Semilattice.`Semilattices preserve idempotent combination bounds and induced ordering`
+                .maxL.combining(a, b)
+                == Semilattice
+                .`Semilattices preserve idempotent combination bounds and induced ordering`.maxL
+                .combining(b, a)
         )
     }
 
     @Test
     func `idempotency holds`() {
         for a in [0, 1, 42, -7, Int.max] {
-            #expect(Semilattice.`Semilattices preserve idempotent combination bounds and induced ordering`.maxL.combining(a, a) == a)
+            #expect(
+                Semilattice
+                    .`Semilattices preserve idempotent combination bounds and induced ordering`.maxL
+                    .combining(a, a) == a
+            )
         }
     }
 
@@ -76,16 +83,24 @@ extension Semilattice.`Semilattices preserve idempotent combination bounds and i
     func `identity is bottom`() {
         for a in [0, 1, 42, -7, Int.max] {
             #expect(
-                Semilattice.`Semilattices preserve idempotent combination bounds and induced ordering`.maxL.combining(
-                    Semilattice.`Semilattices preserve idempotent combination bounds and induced ordering`.maxL.identity,
-                    a
-                ) == a
+                Semilattice
+                    .`Semilattices preserve idempotent combination bounds and induced ordering`.maxL
+                    .combining(
+                        Semilattice
+                            .`Semilattices preserve idempotent combination bounds and induced ordering`
+                            .maxL.identity,
+                        a
+                    ) == a
             )
             #expect(
-                Semilattice.`Semilattices preserve idempotent combination bounds and induced ordering`.maxL.combining(
-                    a,
-                    Semilattice.`Semilattices preserve idempotent combination bounds and induced ordering`.maxL.identity
-                ) == a
+                Semilattice
+                    .`Semilattices preserve idempotent combination bounds and induced ordering`.maxL
+                    .combining(
+                        a,
+                        Semilattice
+                            .`Semilattices preserve idempotent combination bounds and induced ordering`
+                            .maxL.identity
+                    ) == a
             )
         }
     }

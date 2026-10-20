@@ -9,7 +9,6 @@ import Testing
         @Suite struct Lattice {}
     }
 
-
 }
 
 extension `Bool Algebra Tests`.Unit.Monoid {

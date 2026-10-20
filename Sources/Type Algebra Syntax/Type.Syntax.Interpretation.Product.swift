@@ -13,7 +13,9 @@ extension Type.Syntax.Interpretation.Product {
         switch self {
         case .value(let value): return value
         case .product(let fields):
-            return fields.count == 1 ? fields[0].expression : "(" + fields.map(\.expression).joined(separator: ", ") + ")"
+            return fields.count == 1
+                ? fields[0].expression
+                : "(" + fields.map(\.expression).joined(separator: ", ") + ")"
         }
     }
 
@@ -23,7 +25,8 @@ extension Type.Syntax.Interpretation.Product {
         case .composition(let first, let second): return try applying(first).applying(second)
         case .projection(let index):
             guard case .product(let fields) = self, case .product(let factors) = map.domain,
-                fields.count == factors.count, fields.indices.contains(index) else {
+                fields.count == factors.count, fields.indices.contains(index)
+            else {
                 throw Type.Failure("product representation does not match projection")
             }
             return fields[index]
@@ -39,12 +42,16 @@ extension Type.Syntax.Record {
         .product(fields.map { .value("\(value).\($0.name)") })
     }
 
-    public func constructing(_ name: String, from value: Type.Syntax.Interpretation.Product) throws -> String {
+    public func constructing(
+        _ name: String,
+        from value: Type.Syntax.Interpretation.Product
+    ) throws -> String {
         guard case .product(let components) = value, components.count == fields.count else {
             throw Type.Failure("record construction requires one value per field")
         }
-        return name + "(" + zip(fields, components).map { field, component in
-            (field.label == "_" ? "" : "\(field.label): ") + component.expression
-        }.joined(separator: ", ") + ")"
+        return name + "("
+            + zip(fields, components).map { field, component in
+                (field.label == "_" ? "" : "\(field.label): ") + component.expression
+            }.joined(separator: ", ") + ")"
     }
 }

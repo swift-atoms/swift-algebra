@@ -80,7 +80,9 @@ extension Commutative.`Commutative rings preserve ring operations and commutativ
 extension Commutative.`Commutative rings preserve ring operations and commutative multiplication` {
     @Test
     func `multiplicative commutativity holds`() {
-        let commutative = Commutative.`Commutative rings preserve ring operations and commutative multiplication`.intCommutativeRing
+        let commutative = Commutative
+            .`Commutative rings preserve ring operations and commutative multiplication`
+            .intCommutativeRing
         #expect(commutative.multiplying(3, 4) == commutative.multiplying(4, 3))
     }
 }

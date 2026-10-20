@@ -2,7 +2,10 @@ public enum Type {
     public struct Atom: Hashable, Sendable {
         public let scope: [String]
         public let name: String
-        public init(_ name: String, scope: [String] = []) { self.name = name; self.scope = scope }
+        public init(_ name: String, scope: [String] = []) {
+            self.name = name
+            self.scope = scope
+        }
     }
 
     public struct Variable: Hashable, Sendable {
@@ -62,8 +65,10 @@ public enum Type {
             switch self {
             case .zero, .unit, .atom: return []
             case .variable(let value): return [value]
-            case .sum(let values), .product(let values): return values.reduce([]) { $0.union($1.variables) }
-            case .exponential(let domain, let codomain): return domain.variables.union(codomain.variables)
+            case .sum(let values), .product(let values):
+                return values.reduce([]) { $0.union($1.variables) }
+            case .exponential(let domain, let codomain):
+                return domain.variables.union(codomain.variables)
             case .list(let value), .effect(_, let value): return value.variables
             case .opaque(_, let values): return values
             }
@@ -72,7 +77,8 @@ public enum Type {
         public var containsExponential: Bool {
             switch self {
             case .exponential: return true
-            case .sum(let values), .product(let values): return values.contains { $0.containsExponential }
+            case .sum(let values), .product(let values):
+                return values.contains { $0.containsExponential }
             case .list(let value), .effect(_, let value): return value.containsExponential
             default: return false
             }
@@ -81,10 +87,12 @@ public enum Type {
         public func isStrictlyPositive(in variable: Variable) -> Bool {
             switch self {
             case .zero, .unit, .atom, .variable: return true
-            case .sum(let values), .product(let values): return values.allSatisfy { $0.isStrictlyPositive(in: variable) }
+            case .sum(let values), .product(let values):
+                return values.allSatisfy { $0.isStrictlyPositive(in: variable) }
             case .list(let value): return value.isStrictlyPositive(in: variable)
             case .exponential(let domain, let codomain):
-                return !domain.variables.contains(variable) && codomain.isStrictlyPositive(in: variable)
+                return !domain.variables.contains(variable)
+                    && codomain.isStrictlyPositive(in: variable)
             case .effect(_, let value): return !value.variables.contains(variable)
             case .opaque(_, let variables): return !variables.contains(variable)
             }
@@ -102,14 +110,24 @@ public enum Type {
         public func substituting(_ substitutions: [Variable: Self]) throws -> Self {
             switch self {
             case .variable(let value): return substitutions[value] ?? self
-            case .sum(let values): return .sum(try values.map { try $0.substituting(substitutions) })
-            case .product(let values): return .product(try values.map { try $0.substituting(substitutions) })
+            case .sum(let values):
+                return .sum(try values.map { try $0.substituting(substitutions) })
+            case .product(let values):
+                return .product(try values.map { try $0.substituting(substitutions) })
             case .exponential(let domain, let codomain):
-                return .exponential(domain: try domain.substituting(substitutions), codomain: try codomain.substituting(substitutions))
+                return .exponential(
+                    domain: try domain.substituting(substitutions),
+                    codomain: try codomain.substituting(substitutions)
+                )
             case .list(let value): return .list(try value.substituting(substitutions))
-            case .effect(let effect, let value): return .effect(effect, try value.substituting(substitutions))
+            case .effect(let effect, let value):
+                return .effect(effect, try value.substituting(substitutions))
             case .opaque(_, let variables):
-                guard variables.isDisjoint(with: substitutions.keys) else { throw Failure("substitution through an opaque constructor requires an explicit interpretation") }
+                guard variables.isDisjoint(with: substitutions.keys) else {
+                    throw Failure(
+                        "substitution through an opaque constructor requires an explicit interpretation"
+                    )
+                }
                 return self
             default: return self
             }

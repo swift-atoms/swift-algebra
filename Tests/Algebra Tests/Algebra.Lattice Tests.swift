@@ -43,18 +43,24 @@ extension Lattice.`Lattices preserve join meet bounds and induced ordering` {
     @Test
     func `join and meet are idempotent`() {
         for a in [0, 1, 42, -7, Int.max] {
-            #expect(Lattice.`Lattices preserve join meet bounds and induced ordering`.l.join(a, a) == a)
-            #expect(Lattice.`Lattices preserve join meet bounds and induced ordering`.l.meet(a, a) == a)
+            #expect(
+                Lattice.`Lattices preserve join meet bounds and induced ordering`.l.join(a, a) == a
+            )
+            #expect(
+                Lattice.`Lattices preserve join meet bounds and induced ordering`.l.meet(a, a) == a
+            )
         }
     }
 
     @Test
     func `join and meet are commutative`() {
         #expect(
-            Lattice.`Lattices preserve join meet bounds and induced ordering`.l.join(3, 7) == Lattice.`Lattices preserve join meet bounds and induced ordering`.l.join(7, 3)
+            Lattice.`Lattices preserve join meet bounds and induced ordering`.l.join(3, 7)
+                == Lattice.`Lattices preserve join meet bounds and induced ordering`.l.join(7, 3)
         )
         #expect(
-            Lattice.`Lattices preserve join meet bounds and induced ordering`.l.meet(3, 7) == Lattice.`Lattices preserve join meet bounds and induced ordering`.l.meet(7, 3)
+            Lattice.`Lattices preserve join meet bounds and induced ordering`.l.meet(3, 7)
+                == Lattice.`Lattices preserve join meet bounds and induced ordering`.l.meet(7, 3)
         )
     }
 

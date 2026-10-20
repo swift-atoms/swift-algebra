@@ -1,5 +1,5 @@
-import Type_Algebra
 import Testing
+import Type_Algebra
 
 private let x = Type.Variable("X")
 private let y = Type.Variable("Y")
@@ -38,12 +38,16 @@ private let b = Type.Atom("B", scope: ["Example"])
 
     @Test func coproductUniversalProperty() throws {
         let alternatives: [Type.Expression] = [.atom(a), .atom(b)]
-        let injections = try alternatives.indices.map { try Type.Morphism.injection(alternatives, at: $0) }
+        let injections = try alternatives.indices.map {
+            try Type.Morphism.injection(alternatives, at: $0)
+        }
         let eliminate = try Type.Morphism.elimination(to: .sum(alternatives), injections)
         for i in 0..<3 {
             for (index, atom) in [a, b].enumerated() {
                 let value = Type.Value.atom(atom, i)
-                #expect(try injections[index].followed(by: eliminate).apply(value) == .sum(index, value))
+                #expect(
+                    try injections[index].followed(by: eliminate).apply(value) == .sum(index, value)
+                )
             }
         }
     }
@@ -54,17 +58,28 @@ private let b = Type.Atom("B", scope: ["Example"])
         let i = try Type.Morphism.injection([.atom(a), .unit], at: 0)
         let end = Type.Morphism.terminal(from: i.codomain)
         let value = Type.Value.product([.atom(a, 2), .atom(b, 7)])
-        #expect(try p.followed(by: i).followed(by: end).apply(value) == p.followed(by: i.followed(by: end)).apply(value))
+        #expect(
+            try p.followed(by: i).followed(by: end).apply(value)
+                == p.followed(by: i.followed(by: end)).apply(value)
+        )
         #expect(try Type.Morphism.identity(p.domain).followed(by: p).apply(value) == p.apply(value))
         #expect(try p.followed(by: .identity(p.codomain)).apply(value) == p.apply(value))
     }
 
     @Test func checkedMapsRejectBadTypes() throws {
-        #expect(throws: Type.Failure.self) { try Type.Morphism.identity(.atom(a)).followed(by: .identity(.atom(b))) }
+        #expect(throws: Type.Failure.self) {
+            try Type.Morphism.identity(.atom(a)).followed(by: .identity(.atom(b)))
+        }
         #expect(throws: Type.Failure.self) { try Type.Morphism.projection([], at: 0) }
-        #expect(throws: Type.Failure.self) { try Type.Morphism.pairing(from: .atom(a), [.identity(.atom(b))]) }
-        #expect(throws: Type.Failure.self) { try Type.Morphism.identity(.atom(a)).apply(.atom(b, 1)) }
-        #expect(throws: Type.Failure.self) { try Type.Equation(.identity(.atom(a)), .identity(.atom(b))) }
+        #expect(throws: Type.Failure.self) {
+            try Type.Morphism.pairing(from: .atom(a), [.identity(.atom(b))])
+        }
+        #expect(throws: Type.Failure.self) {
+            try Type.Morphism.identity(.atom(a)).apply(.atom(b, 1))
+        }
+        #expect(throws: Type.Failure.self) {
+            try Type.Equation(.identity(.atom(a)), .identity(.atom(b)))
+        }
     }
 
     @Test func subproductsAndPermutations() throws {
@@ -95,7 +110,10 @@ private let b = Type.Atom("B", scope: ["Example"])
         let lens = try Type.Lens.coordinate("left", in: record, replacingWith: .variable(x))
         let whole = Type.Value.product([.atom(a, 3), .atom(b, 7)])
         #expect(try lens.get.apply(whole) == .atom(a, 3))
-        #expect(try lens.put.apply(.product([whole, .variable(x, 9)])) == .product([.variable(x, 9), .atom(b, 7)]))
+        #expect(
+            try lens.put.apply(.product([whole, .variable(x, 9)]))
+                == .product([.variable(x, 9), .atom(b, 7)])
+        )
         #expect(throws: Type.Failure.self) { try lens.put.apply(.product([whole, .atom(a, 9)])) }
     }
 
@@ -109,7 +127,10 @@ private let b = Type.Atom("B", scope: ["Example"])
                 let changed = try lens.put.apply(.product([whole, replacement]))
                 #expect(try lens.get.apply(changed) == replacement)
                 #expect(try lens.put.apply(.product([whole, lens.get.apply(whole)])) == whole)
-                #expect(try lens.put.apply(.product([changed, .atom(a, 7)])) == lens.put.apply(.product([whole, .atom(a, 7)])))
+                #expect(
+                    try lens.put.apply(.product([changed, .atom(a, 7)]))
+                        == lens.put.apply(.product([whole, .atom(a, 7)]))
+                )
             }
         }
     }
@@ -122,64 +143,111 @@ private let b = Type.Atom("B", scope: ["Example"])
                 #expect(try derivative.cardinality(variables: [x: n, y: m]) == 2 * n * m)
             }
         }
-        #expect(try polynomial.derivative(withRespectTo: y).derivative(withRespectTo: y).cardinality(variables: [x: 3, y: 4]) == 0)
+        #expect(
+            try polynomial.derivative(withRespectTo: y).derivative(withRespectTo: y).cardinality(
+                variables: [x: 3, y: 4]) == 0
+        )
         #expect(throws: Type.Failure.self) { try Type.Polynomial(.list(.variable(x))) }
-        #expect(throws: Type.Failure.self) { try Type.Polynomial(.exponential(domain: .variable(x), codomain: .unit)) }
-        #expect(throws: Type.Failure.self) { try Type.Polynomial.product([.atom(a), .atom(b)]).cardinality(atoms: [a: Int.max, b: 2]) }
+        #expect(throws: Type.Failure.self) {
+            try Type.Polynomial(.exponential(domain: .variable(x), codomain: .unit))
+        }
+        #expect(throws: Type.Failure.self) {
+            try Type.Polynomial.product([.atom(a), .atom(b)]).cardinality(atoms: [a: Int.max, b: 2])
+        }
     }
 
     @Test func contextsRetainConstructorAndPosition() throws {
-        let tree = Type.Polynomial.sum([.product([.atom(a)]), .product([.variable(x), .atom(b), .variable(x)])])
+        let tree = Type.Polynomial.sum([
+            .product([.atom(a)]), .product([.variable(x), .atom(b), .variable(x)]),
+        ])
         let contexts = try tree.contexts(for: x)
         #expect(contexts.map(\.alternative) == [1, 1])
         #expect(contexts.map(\.position) == [0, 2])
         #expect(contexts[0].remainder == [.atom(b), .variable(x)])
-        #expect(throws: Type.Failure.self) { try Type.Polynomial.sum([.product([.sum([.variable(x)])])]).contexts(for: x) }
+        #expect(throws: Type.Failure.self) {
+            try Type.Polynomial.sum([.product([.sum([.variable(x)])])]).contexts(for: x)
+        }
     }
 
     @Test func varianceAndMappingAreIndependentOfSwift() throws {
         let mixed = Type.Expression.exponential(domain: .variable(x), codomain: .variable(x))
         #expect(mixed.polarity(of: x) == [.positive, .negative])
         #expect(throws: Type.Failure.self) { try Type.Mapping.derive(mixed, forward: [x]) }
-        #expect(try Type.Mapping.derive(mixed, forward: [x], backward: [x]) == .exponential(domain: .transform(x, .backward), codomain: .transform(x, .forward)))
-        let twice = Type.Expression.exponential(domain: .exponential(domain: .variable(x), codomain: .unit), codomain: .unit)
+        #expect(
+            try Type.Mapping.derive(mixed, forward: [x], backward: [x])
+                == .exponential(domain: .transform(x, .backward), codomain: .transform(x, .forward))
+        )
+        let twice = Type.Expression.exponential(
+            domain: .exponential(domain: .variable(x), codomain: .unit),
+            codomain: .unit
+        )
         #expect(twice.polarity(of: x) == .positive)
         _ = try Type.Mapping.derive(twice, forward: [x])
         let truth = Type.Expression.sum([.unit, .unit])
-        let doublePower = Type.Expression.exponential(domain: .exponential(domain: .variable(x), codomain: truth), codomain: truth)
+        let doublePower = Type.Expression.exponential(
+            domain: .exponential(domain: .variable(x), codomain: truth),
+            codomain: truth
+        )
         #expect(doublePower.polarity(of: x) == .positive)
         _ = try Type.Mapping.derive(doublePower, forward: [x])
-        #expect(throws: Type.Failure.self) { try Type.Recursion(.least, variable: x, body: doublePower) }
-        #expect(throws: Type.Failure.self) { try Type.Recursion(.greatest, variable: x, body: doublePower) }
+        #expect(throws: Type.Failure.self) {
+            try Type.Recursion(.least, variable: x, body: doublePower)
+        }
+        #expect(throws: Type.Failure.self) {
+            try Type.Recursion(.greatest, variable: x, body: doublePower)
+        }
         #expect(Type.Expression.list(.variable(x)).isTraversable)
         #expect(!mixed.isTraversable)
-        #expect(throws: Type.Failure.self) { try Type.Mapping.derive(.opaque(a, [x]), forward: [x]) }
+        #expect(throws: Type.Failure.self) {
+            try Type.Mapping.derive(.opaque(a, [x]), forward: [x])
+        }
     }
 
     @Test func signaturesRetainDependentResults() throws {
         let signature = try Type.Signature([
             .init("create", input: .atom(a), output: .atom(b)),
-            .init("delete", input: .atom(b), output: .unit)
+            .init("delete", input: .atom(b), output: .unit),
         ])
         #expect(try signature.response(to: "create") == .atom(b))
         #expect(try signature.response(to: "delete") == .unit)
         #expect(signature.request == .sum([.atom(a), .atom(b)]))
-        let program = try Type.Recursion.free(layer: signature.continuation(.variable(x)), variable: x, returning: .atom(a))
+        let program = try Type.Recursion.free(
+            layer: signature.continuation(.variable(x)),
+            variable: x,
+            returning: .atom(a)
+        )
         #expect(program.kind == .least)
         #expect(throws: Type.Failure.self) { try signature.response(to: "read") }
-        #expect(throws: Type.Failure.self) { try Type.Recursion(.least, variable: x, body: .exponential(domain: .variable(x), codomain: .unit)) }
-        #expect(throws: Type.Failure.self) { try Type.Recursion.free(layer: .variable(x), variable: x, returning: .variable(x)) }
-        let batch = try Type.Program.Batch(["create", "delete", "create"], in: signature, returning: .atom(a))
+        #expect(throws: Type.Failure.self) {
+            try Type.Recursion(
+                .least,
+                variable: x,
+                body: .exponential(domain: .variable(x), codomain: .unit)
+            )
+        }
+        #expect(throws: Type.Failure.self) {
+            try Type.Recursion.free(layer: .variable(x), variable: x, returning: .variable(x))
+        }
+        let batch = try Type.Program.Batch(
+            ["create", "delete", "create"],
+            in: signature,
+            returning: .atom(a)
+        )
         #expect(batch.outputs == .product([.atom(b), .unit, .atom(b)]))
         #expect(try Type.Program.monadic(signature, returning: .atom(a), variable: x) == program)
-        #expect(try Type.Program.interaction(signature, returning: .atom(a), variable: x).kind == .greatest)
+        #expect(
+            try Type.Program.interaction(signature, returning: .atom(a), variable: x).kind
+                == .greatest
+        )
     }
 
     @Test func effectOrderAndPartialRecordsRemainDistinct() throws {
         let record = try Type.Record([.init("a", .atom(a)), .init("b", .atom(b))])
         #expect(record.partial != record.optional)
-        #expect(Type.Construction.retaining(state: .atom(a), failure: .atom(b), value: .unit)
-            != Type.Construction.discarding(state: .atom(a), failure: .atom(b), value: .unit))
+        #expect(
+            Type.Construction.retaining(state: .atom(a), failure: .atom(b), value: .unit)
+                != Type.Construction.discarding(state: .atom(a), failure: .atom(b), value: .unit)
+        )
         let partial = try Type.Polynomial(record.partial)
         #expect(try partial.cardinality(atoms: [a: 2, b: 3]) == 12)
         let whole = try Type.Polynomial(record.optional)

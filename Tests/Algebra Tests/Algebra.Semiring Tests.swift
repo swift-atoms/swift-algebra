@@ -23,26 +23,30 @@ extension Semiring.`Semirings preserve additive and multiplicative operations an
 extension Semiring.`Semirings preserve additive and multiplicative operations and laws` {
     @Test
     func `init stores additive and multiplicative structures`() {
-        let sr = Semiring.`Semirings preserve additive and multiplicative operations and laws`.boolSemiring
+        let sr = Semiring.`Semirings preserve additive and multiplicative operations and laws`
+            .boolSemiring
         #expect(sr.additive.identity == false)
         #expect(sr.multiplicative.identity == true)
     }
 
     @Test
     func `zero returns additive identity`() {
-        let sr = Semiring.`Semirings preserve additive and multiplicative operations and laws`.boolSemiring
+        let sr = Semiring.`Semirings preserve additive and multiplicative operations and laws`
+            .boolSemiring
         #expect(sr.zero == false)
     }
 
     @Test
     func `one returns multiplicative identity`() {
-        let sr = Semiring.`Semirings preserve additive and multiplicative operations and laws`.boolSemiring
+        let sr = Semiring.`Semirings preserve additive and multiplicative operations and laws`
+            .boolSemiring
         #expect(sr.one == true)
     }
 
     @Test
     func `adding delegates to additive monoid`() {
-        let sr = Semiring.`Semirings preserve additive and multiplicative operations and laws`.boolSemiring
+        let sr = Semiring.`Semirings preserve additive and multiplicative operations and laws`
+            .boolSemiring
         #expect(sr.adding(false, false) == false)
         #expect(sr.adding(false, true) == true)
         #expect(sr.adding(true, false) == true)
@@ -51,7 +55,8 @@ extension Semiring.`Semirings preserve additive and multiplicative operations an
 
     @Test
     func `multiplying delegates to multiplicative monoid`() {
-        let sr = Semiring.`Semirings preserve additive and multiplicative operations and laws`.boolSemiring
+        let sr = Semiring.`Semirings preserve additive and multiplicative operations and laws`
+            .boolSemiring
         #expect(sr.multiplying(true, true) == true)
         #expect(sr.multiplying(true, false) == false)
         #expect(sr.multiplying(false, true) == false)
@@ -62,7 +67,8 @@ extension Semiring.`Semirings preserve additive and multiplicative operations an
 extension Semiring.`Semirings preserve additive and multiplicative operations and laws` {
     @Test
     func `distributivity left holds`() {
-        let sr = Semiring.`Semirings preserve additive and multiplicative operations and laws`.boolSemiring
+        let sr = Semiring.`Semirings preserve additive and multiplicative operations and laws`
+            .boolSemiring
         for a in [true, false] {
             for b in [true, false] {
                 for c in [true, false] {
@@ -76,7 +82,8 @@ extension Semiring.`Semirings preserve additive and multiplicative operations an
 
     @Test
     func `distributivity right holds`() {
-        let sr = Semiring.`Semirings preserve additive and multiplicative operations and laws`.boolSemiring
+        let sr = Semiring.`Semirings preserve additive and multiplicative operations and laws`
+            .boolSemiring
         for a in [true, false] {
             for b in [true, false] {
                 for c in [true, false] {
@@ -90,7 +97,8 @@ extension Semiring.`Semirings preserve additive and multiplicative operations an
 
     @Test
     func `zero annihilates under multiplication`() {
-        let sr = Semiring.`Semirings preserve additive and multiplicative operations and laws`.boolSemiring
+        let sr = Semiring.`Semirings preserve additive and multiplicative operations and laws`
+            .boolSemiring
         for a in [true, false] {
             #expect(sr.multiplying(sr.zero, a) == sr.zero)
             #expect(sr.multiplying(a, sr.zero) == sr.zero)
@@ -108,7 +116,10 @@ extension Commutative {
 
 extension Commutative.`Commutative semirings delegate their operations to the underlying semiring` {
     static var commutative: Algebra.Semiring<Bool>.Commutative {
-        .init(semiring: Semiring.`Semirings preserve additive and multiplicative operations and laws`.boolSemiring)
+        .init(
+            semiring: Semiring.`Semirings preserve additive and multiplicative operations and laws`
+                .boolSemiring
+        )
     }
 
     @Test
@@ -131,14 +142,16 @@ extension Commutative.`Commutative semirings delegate their operations to the un
 extension Semiring.`Semirings preserve additive and multiplicative operations and laws` {
     @Test
     func `commutative monoid from semiring preserves additive identity`() {
-        let sr = Semiring.`Semirings preserve additive and multiplicative operations and laws`.boolSemiring
+        let sr = Semiring.`Semirings preserve additive and multiplicative operations and laws`
+            .boolSemiring
         let monoid = Algebra.Monoid<Bool>.Commutative(sr)
         #expect(monoid.identity == false)
     }
 
     @Test
     func `commutative monoid from semiring preserves additive combining`() {
-        let sr = Semiring.`Semirings preserve additive and multiplicative operations and laws`.boolSemiring
+        let sr = Semiring.`Semirings preserve additive and multiplicative operations and laws`
+            .boolSemiring
         let monoid = Algebra.Monoid<Bool>.Commutative(sr)
         #expect(monoid.combining(false, true) == true)
         #expect(monoid.combining(false, false) == false)

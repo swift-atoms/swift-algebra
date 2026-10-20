@@ -9,15 +9,27 @@ extension Type {
         public static func state(_ state: Expression, value: Expression) -> Expression {
             .exponential(domain: state, codomain: .product([value, state]))
         }
-        public static func writer(output: Expression, value: Expression) -> Expression { .product([value, output]) }
-        public static func exception(failure: Expression, value: Expression) -> Expression { .sum([failure, value]) }
+        public static func writer(output: Expression, value: Expression) -> Expression {
+            .product([value, output])
+        }
+        public static func exception(failure: Expression, value: Expression) -> Expression {
+            .sum([failure, value])
+        }
         public static func continuation(answer: Expression, value: Expression) -> Expression {
             .exponential(domain: .exponential(domain: value, codomain: answer), codomain: answer)
         }
-        public static func retaining(state: Expression, failure: Expression, value: Expression) -> Expression {
+        public static func retaining(
+            state: Expression,
+            failure: Expression,
+            value: Expression
+        ) -> Expression {
             .exponential(domain: state, codomain: .product([.sum([failure, value]), state]))
         }
-        public static func discarding(state: Expression, failure: Expression, value: Expression) -> Expression {
+        public static func discarding(
+            state: Expression,
+            failure: Expression,
+            value: Expression
+        ) -> Expression {
             .exponential(domain: state, codomain: .sum([failure, .product([value, state])]))
         }
     }
@@ -25,12 +37,18 @@ extension Type {
     public struct Refinement: Equatable, Sendable {
         public let base: Expression
         public let predicate: Atom
-        public init(_ base: Expression, satisfying predicate: Atom) { self.base = base; self.predicate = predicate }
+        public init(_ base: Expression, satisfying predicate: Atom) {
+            self.base = base
+            self.predicate = predicate
+        }
     }
     public struct Quotient: Equatable, Sendable {
         public let base: Expression
         public let relation: Atom
-        public init(_ base: Expression, by relation: Atom) { self.base = base; self.relation = relation }
+        public init(_ base: Expression, by relation: Atom) {
+            self.base = base
+            self.relation = relation
+        }
     }
 
     public struct Family: Equatable, Sendable {
@@ -39,7 +57,9 @@ extension Type {
         public var sum: Expression { fibers.alternatives }
         public var product: Expression { fibers.expression }
         public func fiber(at index: String) throws -> Expression {
-            guard let field = fibers.fields.first(where: { $0.name == index }) else { throw Failure("unknown family index") }
+            guard let field = fibers.fields.first(where: { $0.name == index }) else {
+                throw Failure("unknown family index")
+            }
             return field.type
         }
     }

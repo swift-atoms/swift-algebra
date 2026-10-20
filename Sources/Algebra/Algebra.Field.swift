@@ -13,7 +13,8 @@ extension Algebra {
         public init(
             additive: Algebra.Group<Element>.Abelian,
             multiplicative: Algebra.Monoid<Element>.Commutative,
-            reciprocal: @escaping (borrowing Element) throws(Algebra.Field<Element>.Error) -> Element
+            reciprocal:
+                @escaping (borrowing Element) throws(Algebra.Field<Element>.Error) -> Element
         ) {
             self.additive = additive
             self.multiplicative = multiplicative

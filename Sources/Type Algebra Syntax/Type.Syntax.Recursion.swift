@@ -1,5 +1,5 @@
-public import Type_Algebra
 public import SwiftSyntax
+public import Type_Algebra
 
 extension Type.Syntax {
     public enum Recursion {}
@@ -54,14 +54,21 @@ extension Type.Syntax.Recursion {
     public static func isRecursive(_ type: TypeSyntax, in declaration: EnumDeclSyntax) -> Bool {
         let text = type.trimmedDescription
         let parameters = declaration.genericParameterClause?.parameters.map(\.name.text) ?? []
-        let applied = declaration.name.text + (parameters.isEmpty ? "" : "<" + parameters.joined(separator: ",") + ">")
+        let applied =
+            declaration.name.text
+            + (parameters.isEmpty ? "" : "<" + parameters.joined(separator: ",") + ">")
         return text == "Self" || text.filter { !$0.isWhitespace } == applied
     }
 
     public static func validate(_ declaration: EnumDeclSyntax) throws {
-        guard declaration.genericParameterClause?.parameters.allSatisfy({ $0.inheritedType == nil }) ?? true,
-            declaration.genericWhereClause == nil else {
-            throw Type.Failure("recursive derivation requires unconstrained regular type parameters")
+        guard
+            declaration.genericParameterClause?.parameters.allSatisfy({ $0.inheritedType == nil })
+                ?? true,
+            declaration.genericWhereClause == nil
+        else {
+            throw Type.Failure(
+                "recursive derivation requires unconstrained regular type parameters"
+            )
         }
         for item in elements(of: declaration) {
             for parameter in parameters(of: item) {
@@ -70,7 +77,9 @@ extension Type.Syntax.Recursion {
                     $0.text == "Self" || $0.text == declaration.name.text
                 }
                 if mentionsSelf && !isRecursive(parameter.type, in: declaration) {
-                    throw Type.Failure("recursive occurrences must be direct regular payloads of Self, not `\(text)`; nested, nonuniform, and mutually recursive forms require an explicit derivation")
+                    throw Type.Failure(
+                        "recursive occurrences must be direct regular payloads of Self, not `\(text)`; nested, nonuniform, and mutually recursive forms require an explicit derivation"
+                    )
                 }
             }
         }
@@ -79,36 +88,52 @@ extension Type.Syntax.Recursion {
 
 extension Type.Syntax.Recursion {
     public static func validateNamespace(_ declaration: some DeclGroupSyntax) throws {
-        let declarations = declaration.memberBlock.members.compactMap { $0.decl.as(EnumDeclSyntax.self) }
+        let declarations = declaration.memberBlock.members.compactMap {
+            $0.decl.as(EnumDeclSyntax.self)
+        }
         let names = Set(declarations.map(\.name.text))
         var graph: [String: Set<String>] = [:]
         for enumeration in declarations {
-            graph[enumeration.name.text] = Set(elements(of: enumeration).flatMap { parameters(of: $0) }.flatMap {
-                Type.Syntax.Expression.references(in: $0.type, parameters: names)
-            }).subtracting([enumeration.name.text])
+            graph[enumeration.name.text] = Set(
+                elements(of: enumeration).flatMap { parameters(of: $0) }.flatMap {
+                    Type.Syntax.Expression.references(in: $0.type, parameters: names)
+                }
+            ).subtracting([enumeration.name.text])
         }
         func reaches(_ current: String, target: String, visited: Set<String>) -> Bool {
             if current == target { return true }
             guard !visited.contains(current) else { return false }
-            return graph[current, default: []].contains { reaches($0, target: target, visited: visited.union([current])) }
+            return graph[current, default: []].contains {
+                reaches($0, target: target, visited: visited.union([current]))
+            }
         }
         for name in names {
-            if graph[name, default: []].contains(where: { reaches($0, target: name, visited: []) }) {
-                throw Type.Failure("mutually recursive enums require an explicit multi-sorted fixed-point representation")
+            if graph[name, default: []].contains(where: { reaches($0, target: name, visited: []) })
+            {
+                throw Type.Failure(
+                    "mutually recursive enums require an explicit multi-sorted fixed-point representation"
+                )
             }
         }
     }
 }
 
 extension Type.Syntax.Recursion {
-    public static func polynomial(of declaration: EnumDeclSyntax, variable: Type.Variable) throws -> Type.Polynomial {
+    public static func polynomial(
+        of declaration: EnumDeclSyntax,
+        variable: Type.Variable
+    ) throws -> Type.Polynomial {
         try validate(declaration)
-        return .sum(elements(of: declaration).map { item in
-            .product(parameters(of: item).map { parameter in
-                isRecursive(parameter.type, in: declaration)
-                    ? .variable(variable)
-                    : .atom(.init(parameter.type.trimmedDescription, scope: ["Swift"]))
-            })
-        })
+        return .sum(
+            elements(of: declaration).map { item in
+                .product(
+                    parameters(of: item).map { parameter in
+                        isRecursive(parameter.type, in: declaration)
+                            ? .variable(variable)
+                            : .atom(.init(parameter.type.trimmedDescription, scope: ["Swift"]))
+                    }
+                )
+            }
+        )
     }
 }
