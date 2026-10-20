@@ -108,8 +108,7 @@ extension Type.Syntax.Recursion {
             }
         }
         for name in names {
-            if graph[name, default: []].contains(where: { reaches($0, target: name, visited: []) })
-            {
+            if graph[name, default: []].contains(where: { reaches($0, target: name, visited: []) }) {
                 throw Type.Failure(
                     "mutually recursive enums require an explicit multi-sorted fixed-point representation"
                 )

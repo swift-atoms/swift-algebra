@@ -9,8 +9,7 @@ extension Type.Syntax {
         public let fields: [Type.Syntax.Expression]
         public let access: String
 
-        public init(_ declaration: StructDeclSyntax, arity: Int, reconstructing: Bool = true) throws
-        {
+        public init(_ declaration: StructDeclSyntax, arity: Int, reconstructing: Bool = true) throws {
             self.declaration = declaration
             properties = Type.Syntax.Properties(declaration, requiresMemberwise: reconstructing)
             if !properties.diagnostics.isEmpty {

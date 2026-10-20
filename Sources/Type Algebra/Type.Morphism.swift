@@ -28,8 +28,7 @@ extension Type {
         }
 
         public static func identity(_ type: Expression) -> Self { Self(type, type, .identity) }
-        public static func generator(_ name: Atom, domain: Expression, codomain: Expression) -> Self
-        {
+        public static func generator(_ name: Atom, domain: Expression, codomain: Expression) -> Self {
             Self(domain, codomain, .generator(name))
         }
         public static func distribution(
