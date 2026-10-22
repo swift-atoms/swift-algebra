@@ -101,7 +101,8 @@ public enum Type {
         public var isTraversable: Bool {
             switch self {
             case .zero, .unit, .atom, .variable: return true
-            case .sum(let values), .product(let values): return values.allSatisfy(\.isTraversable)
+            case .sum(let values), .product(let values):
+                return values.allSatisfy { $0.isTraversable }
             case .list(let value): return value.isTraversable
             case .exponential, .effect, .opaque: return false
             }

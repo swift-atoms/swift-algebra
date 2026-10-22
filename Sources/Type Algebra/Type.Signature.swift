@@ -21,13 +21,13 @@ extension Type {
     public struct Signature: Equatable, Sendable {
         public let operations: [Operation]
         public init(_ operations: [Operation]) throws {
-            guard Set(operations.map(\.name)).count == operations.count else {
+            guard Set(operations.map { $0.name }).count == operations.count else {
                 throw Failure("operation identities must be unique")
             }
             self.operations = operations
         }
-        public var implementation: Expression { .product(operations.map(\.implementation)) }
-        public var request: Expression { .sum(operations.map(\.input)) }
+        public var implementation: Expression { .product(operations.map { $0.implementation }) }
+        public var request: Expression { .sum(operations.map { $0.input }) }
         public var exchanges: Expression {
             .sum(operations.map { .product([$0.input, $0.output]) })
         }

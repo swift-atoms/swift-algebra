@@ -28,8 +28,8 @@ extension Type {
             case .unit: return .unit
             case .atom(let value): return .atom(value)
             case .variable(let value): return .variable(value)
-            case .sum(let values): return .sum(values.map(\.expression))
-            case .product(let values): return .product(values.map(\.expression))
+            case .sum(let values): return .sum(values.map { $0.expression })
+            case .product(let values): return .product(values.map { $0.expression })
             }
         }
 
@@ -103,9 +103,9 @@ extension Type {
                         return Context(
                             alternative: alternative,
                             position: position,
-                            remainder: fields.enumerated().filter { $0.offset != position }.map(
-                                \.element
-                            )
+                            remainder: fields.enumerated().filter { $0.offset != position }.map {
+                                $0.element
+                            }
                         )
                     }
                     guard !field.expression.variables.contains(variable) else {

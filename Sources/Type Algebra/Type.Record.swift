@@ -10,13 +10,13 @@ extension Type {
         }
         public let fields: [Field]
         public init(_ fields: [Field]) throws {
-            guard Set(fields.map(\.name)).count == fields.count else {
+            guard Set(fields.map { $0.name }).count == fields.count else {
                 throw Failure("record labels must be unique")
             }
             self.fields = fields
         }
-        public var expression: Expression { .product(fields.map(\.type)) }
-        public var alternatives: Expression { .sum(fields.map(\.type)) }
+        public var expression: Expression { .product(fields.map { $0.type }) }
+        public var alternatives: Expression { .sum(fields.map { $0.type }) }
         public var partial: Expression { .product(fields.map { .optional($0.type) }) }
         public var optional: Expression { .optional(expression) }
         public var endomorphism: Expression {
@@ -38,7 +38,7 @@ extension Type {
                 }
                 return index
             }
-            let maps = try indices.map { try Morphism.projection(fields.map(\.type), at: $0) }
+            let maps = try indices.map { try Morphism.projection(fields.map { $0.type }, at: $0) }
             return Selection(
                 record: try Record(indices.map { fields[$0] }),
                 indices: indices,
@@ -47,7 +47,7 @@ extension Type {
         }
         public func excluding(_ labels: [String]) throws -> Selection {
             _ = try selecting(labels)
-            return try selecting(fields.map(\.name).filter { !labels.contains($0) })
+            return try selecting(fields.map { $0.name }.filter { !labels.contains($0) })
         }
 
         public func selections(limit: Int = 4096) throws -> [Selection] {
@@ -92,7 +92,7 @@ extension Type {
                 throw Failure("a permutation must include every coordinate")
             }
             let selected = try record.selecting(order)
-            let inverse = try selected.record.selecting(record.fields.map(\.name))
+            let inverse = try selected.record.selecting(record.fields.map { $0.name })
             return Self(forward: selected.projection, backward: inverse.projection)
         }
     }

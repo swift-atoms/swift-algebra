@@ -17,8 +17,8 @@ extension Type {
                 }
                 self.result = result
             }
-            public var inputs: Expression { .product(operations.map(\.input)) }
-            public var outputs: Expression { .product(operations.map(\.output)) }
+            public var inputs: Expression { .product(operations.map { $0.input }) }
+            public var outputs: Expression { .product(operations.map { $0.output }) }
             public var expression: Expression {
                 .product([inputs, .exponential(domain: outputs, codomain: result)])
             }

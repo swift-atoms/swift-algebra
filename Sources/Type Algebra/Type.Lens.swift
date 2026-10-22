@@ -11,7 +11,7 @@ extension Type {
             guard let index = record.fields.firstIndex(where: { $0.name == label }) else {
                 throw Failure("unknown lens coordinate")
             }
-            let types = record.fields.map(\.type)
+            let types = record.fields.map { $0.type }
             let domain = [record.expression, replacementType ?? types[index]]
             let old = try Morphism.projection(domain, at: 0)
             let replacement = try Morphism.projection(domain, at: 1)

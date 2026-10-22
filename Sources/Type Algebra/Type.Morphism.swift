@@ -67,7 +67,7 @@ extension Type {
             guard maps.allSatisfy({ $0.domain == domain }) else {
                 throw Failure("pairing requires a common domain")
             }
-            return Self(domain, .product(maps.map(\.codomain)), .pairing(maps))
+            return Self(domain, .product(maps.map { $0.codomain }), .pairing(maps))
         }
         public static func injection(_ alternatives: [Expression], at index: Int) throws -> Self {
             guard alternatives.indices.contains(index) else {
@@ -79,7 +79,7 @@ extension Type {
             guard maps.allSatisfy({ $0.codomain == codomain }) else {
                 throw Failure("elimination requires a common codomain")
             }
-            return Self(.sum(maps.map(\.domain)), codomain, .elimination(maps))
+            return Self(.sum(maps.map { $0.domain }), codomain, .elimination(maps))
         }
         public static func terminal(from domain: Expression) -> Self {
             Self(domain, .unit, .terminal)

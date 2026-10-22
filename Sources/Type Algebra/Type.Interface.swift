@@ -4,7 +4,9 @@ extension Type {
         public let children: Record
         public init(signature: Signature, children: Record) throws {
             guard
-                Set(signature.operations.map(\.name)).isDisjoint(with: children.fields.map(\.name))
+                Set(signature.operations.map { $0.name }).isDisjoint(
+                    with: children.fields.map { $0.name }
+                )
             else {
                 throw Failure("operations and child coordinates must have distinct identities")
             }
@@ -22,7 +24,7 @@ extension Type {
             try requestRecord(children: requests).alternatives
         }
         public func requestRecord(children requests: Record) throws -> Record {
-            guard requests.fields.map(\.name) == children.fields.map(\.name) else {
+            guard requests.fields.map({ $0.name }) == children.fields.map({ $0.name }) else {
                 throw Failure("child requests must match the child coordinates in order")
             }
             return try Record(
