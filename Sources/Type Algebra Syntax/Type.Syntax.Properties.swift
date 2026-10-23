@@ -59,12 +59,9 @@ extension Type.Syntax {
                         reasons.append("does not support lazy stored property `\(name)`")
                         continue
                     }
-                    if !variable.attributes.isEmpty {
-                        reasons.append(
-                            "does not support attributes or property wrappers on stored property `\(name)`"
-                        )
-                        continue
-                    }
+                    // An attribute stays the property's own: a peer macro (`@Column(as:)`) leaves the storage as declared,
+                    // and a property wrapper is initialized by the first `self.name = name`, as Swift's own memberwise
+                    // initializer does. A wrapper that cannot be initialized that way is the compiler's to diagnose.
                     if requiresMemberwise && variable.bindingSpecifier.tokenKind == .keyword(.let)
                         && binding.initializer != nil
                     {

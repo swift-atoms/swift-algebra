@@ -61,6 +61,15 @@ func invalidStoredConstructionIsDiagnosed(_ property: String) throws {
     #expect(!Type.Syntax.Properties(declaration, requiresMemberwise: true).diagnostics.isEmpty)
 }
 
+@Test(arguments: ["@Column(as: Text.self) var value: Int", "@Wrapped var value: Int", "@available(*, deprecated) let value: Int"])
+func anAttributedStoredPropertyIsAField(_ property: String) throws {
+    let file = Parser.parse(source: "struct S { \(property) }")
+    let declaration = try #require(file.statements.first?.item.as(StructDeclSyntax.self))
+    let properties = Type.Syntax.Properties(declaration, requiresMemberwise: true)
+    #expect(properties.diagnostics.isEmpty)
+    #expect(properties.fields.map(\.name) == ["value"])
+}
+
 @Test func visibleMutualRecursionIsRejected() throws {
     let source = Parser.parse(
         source: "enum Domain { indirect enum A { case b(B) }; indirect enum B { case a(A) } }"
