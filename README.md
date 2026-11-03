@@ -1,51 +1,31 @@
 # swift-algebra
 
-Use `Algebra` when you need an algebraic structure over a type (a monoid to fold with, a semilattice to merge with, a ring or field to compute in) as a value you pass around, not a protocol the type conforms to. One type can have several: `Int` under addition and `Int` under multiplication are two `Algebra.Monoid<Int>` values. Use `Algebra.Magma` or `Algebra.Semigroup` when the elements are noncopyable or nonescapable; they are the only structures that accept them.
-
-## Model
-
-Every structure is a `@frozen` struct of an identity and `@escaping` closures over `borrowing` operands. Copies share the closures. None is `Sendable`. Each richer structure is built from smaller ones and projects back down:
-
-- `Magma` (`combining`) → `Semigroup` → `Monoid` (`identity`) → `Group` (`inverting`). `.monoid`, `.semigroup` and `.magma` project down, and `init(_:)` converts.
-- `Monoid.Commutative` and `Group.Abelian` wrap a `monoid` or `group` to mark commutativity. `Semilattice` wraps a commutative monoid and adds `join` and `leq`.
-- `Lattice`: a `join` and a `meet` semilattice, with `bottom` and `top`. `Boolean` adds `complementing` and derives `exclusive`, `implication`, `equivalence`, a `semiring` (or, and) and a `ring` (xor, and).
-- `Semiring`: commutative `additive` monoid + `multiplicative` monoid. `Ring`: abelian `additive` group + monoid, adding `subtracting` and `negating`. Both have `.Commutative` wrappers.
-- `Field`: abelian group + commutative monoid + a throwing `reciprocal`. `dividing` and `unit(_:)` throw too. `unit` is the abelian group of `Unit` values (element with its inverse). `.ring` projects to `Ring.Commutative`.
-- `Module<Scalar, Vector>` scales an abelian group by a ring. `Vector.Space<Scalar, Element>` scales by a field and projects to `.module`.
-- `Magma`, `Semigroup`, `Monoid`, `Group`, `Monoid.Commutative`, `Group.Abelian` and `Semilattice` are callable: `monoid(a, b)` is `monoid.combining(a, b)`.
-- Ready-made instances: `Monoid<Bool>.conjunction` and `.disjunction`, the same on `Semilattice<Bool>`, `Lattice<Bool>()` and `Semiring<Bool>.Commutative()`. For `Comparable` elements there are `Semilattice.maximum(bottom:)`, `.minimum(top:)` and `Lattice.ordered(bottom:top:)`. `Monoid.transported(to:from:)` moves a monoid along a pair of conversions.
+Use this package when an algebraic structure over a type is a value you choose and pass around, not a protocol the type conforms to: `Int` under addition and `Int` under multiplication are two `Algebra.Monoid<Element>` values. Start from `Algebra.Magma<Element>`, `Algebra.Semigroup<Element>`, `Algebra.Monoid<Element>`, `Algebra.Group<Element>`, `Algebra.Semilattice<Element>`, `Algebra.Lattice<Element>`, `Algebra.Boolean<Element>`, `Algebra.Semiring<Element>`, `Algebra.Ring<Element>`, `Algebra.Field<Element>`, `Algebra.Module<Scalar, Vector>` or `Algebra.Vector.Space<Scalar, Element>`, and check a structure against sample elements with the checks under `Algebra.Law`. Attach `@Monoid_Macro.Monoid` to a struct to derive its product monoid. Use `Type.Expression` and `Type.Morphism` to reason about type shapes as values (isomorphisms, lenses, variance, recursion, derivatives), and `Type.Syntax.Expression` to read those shapes from SwiftSyntax and emit Swift source for them, as a macro does.
 
 ## Laws
 
-The initializers check nothing: a `Group` whose `inverting` is wrong still constructs. Check laws with `Algebra.Law` over sample elements. Each check returns `nil` when the law holds, or the first `Algebra.Law.Violation` (`law` name, `elements`, `lhs`, `rhs`):
-
-- `Associativity.check` and `Commutativity.check` try every triple or pair, so the cost is cubic or quadratic in the sample count.
-- `Identity.left`/`.right`, `Inverse.left`/`.right`, `Distributivity.left`/`.right`, `Annihilation.zero`.
-- `Reciprocal.check`: zero must throw. Any other element must have a reciprocal whose product with it is `one`, so throwing for a nonzero element is a violation.
-- Module laws (`Action.identity`, `Compatibility.scalar`, `Distributivity.scalar`, `Distributivity.addition`) put the two sides in `elements`, not the inputs.
-- `Algebra.Law.Equation.check(_:over:lhs:rhs:)`, in the test-support module, compares any two observations per sample.
-
-## Error Handling
-
-`Algebra.Field.Error` has one case, `.nonInvertible`. Your `reciprocal` throws it, and `dividing` and `unit(_:)` pass it on. The type-algebra and macro layers throw `Type.Failure`, a struct carrying a `description`.
-
-## Example
-
-```swift
-let addition = Algebra.Monoid<Int>(identity: 0, combining: +)
-let multiplication = Algebra.Monoid<Int>(identity: 1, combining: *)
-addition(2, 3)        // 5
-multiplication(2, 3)  // 6
-
-Algebra.Law.Associativity.check(of: addition.semigroup, over: [-1, 0, 1, 2])  // nil
-let broken = Algebra.Monoid<Int>(identity: 1, combining: +)
-Algebra.Law.Identity.left(of: broken, over: [0, 2])?.law                      // "identity-left"
-```
-
-## Deriving a product monoid
-
-`@Monoid` (in `Monoid_Macro`, which re-exports `Algebra`) on a struct adds a static `monoid` function returning `Algebra.Monoid<Self>`. It takes one `Algebra.Monoid` per stored property, labelled with the property's name and typed by its annotation, combines field by field, and uses the struct's `public` or `package` access. The macro emits an error for enums, `~Copyable` structs, custom initializers, `lazy` or observed properties, initialized `let`s, and properties without a type annotation. Attributed stored properties count as fields.
-
-## Type expressions
-
-`Type_Algebra` describes types as values: `Type.Expression` (zero, unit, atoms, variables, sums, products, exponentials, lists, effects, opaque constructors). Its tools are typed maps (`Type.Morphism`, applied to `Type.Value`), `Isomorphism`, `Record` selections, `Lens`, `Polynomial` derivatives and cardinalities, variance-checked `Mapping.derive`, operation `Signature`s, and strictly positive `Recursion`. All of these are `Sendable` and `Equatable`. Constructors and `apply` check their types and throw `Type.Failure` rather than build an ill-typed value. `Type_Algebra_Syntax` reads SwiftSyntax types and struct properties into these values, rejects nonregular and mutual recursion, and renders expressions and maps back to Swift source. To render a sum, you supply its nominal Swift type.
+- No initializer checks a law. `Algebra.Monoid<Element>.Commutative`, `Algebra.Group<Element>.Abelian`, `Algebra.Semilattice<Element>`, `Algebra.Ring<Element>.Commutative` and `Algebra.Semiring<Element>.Commutative` record the caller's claim of commutativity or idempotence. Nothing verifies it.
+- Each check under `Algebra.Law` walks the samples in sequence order, with the first argument in the outermost loop. It returns `nil` when the law holds and stops at the first `Algebra.Law.Violation<Element>` it finds. `Algebra.Law.Associativity.check`, `Algebra.Law.Distributivity.left` and `.right` try every triple, so their cost is cubic in the sample count. `Algebra.Law.Commutativity.check` tries every pair. `Algebra.Law.Compatibility.scalar` and `Algebra.Law.Distributivity.addition` cost scalars² × vectors, and `Algebra.Law.Distributivity.scalar` costs scalars × vectors².
+- `Algebra.Law.Violation<Element>.elements` holds the offending inputs, except for the three module laws `Algebra.Law.Compatibility.scalar`, `Algebra.Law.Distributivity.scalar` and `Algebra.Law.Distributivity.addition`, which put `[lhs, rhs]` there instead. `Algebra.Law.Annihilation.zero` checks 0 · a before a · 0 for each sample.
+- `Algebra.Law.Reciprocal.check` requires `reciprocal` to throw for `zero`: returning a value there is a violation. For every other element, `reciprocal` must return a value whose product with the element is `one`, and throwing is a violation.
+- `Algebra.Law.Equation.check` (in the test-support library) compares two observations per sample and leaves `elements` empty.
+- `leq(a, b)` on `Algebra.Semilattice<Element>` and `Algebra.Lattice<Element>` means `join(a, b) == b`, so `Algebra.Semilattice<Element>.minimum(top:)` orders elements in reverse.
+- `Algebra.Boolean<Element>` derives `exclusive` as `(a ∨ b) ∧ ¬(a ∧ b)`, `implication` as `¬a ∨ b` and `equivalence` as the negation of `exclusive`. Its `semiring` is (∨, ∧). Its `ring` is (`exclusive`, ∧), and every element is its own additive inverse.
+- `Algebra.Field<Element>.dividing(_:_:)` multiplies by `reciprocal(rhs)` and fails only when `reciprocal` throws. In `Algebra.Field<Element>.unit`, the combination of two units multiplies their elements and their inverses separately. That is the inverse of the product only because field multiplication commutes.
+- `Algebra.Monoid<Element>.transported(to:from:)` is a monoid only when the two conversions undo each other in both directions. Nothing checks this.
+- `@Monoid_Macro.Monoid` builds the identity from each field's identity and combines field by field, in declaration order. The result satisfies associativity and identity exactly when every component monoid does. A field is any stored instance property, with or without attributes. Static and computed properties are not fields. The macro emits an error for a non-struct, a `~Copyable` struct, a struct with a custom initializer, and a struct with a `lazy`, observed, untyped, pattern-bound or initialized-`let` property. The generated `monoid` is `public` or `package` when the struct is, and internal otherwise.
+- A `Type.Morphism` exists only with matching domain and codomain: its constructors and `followed(by:)` throw rather than build an ill-typed map. `Type.Morphism.apply(_:)` throws when the value does not inhabit the domain. It cannot run `generator`, `evaluation`, `curry`, `uncurry` or `initial` terms. `Type.Value.inhabits(_:)` compares atoms and variables by identity and ignores their witness index.
+- `Type.Record` and `Type.Signature` reject duplicate names. `Type.Interface` rejects an operation and a child with the same name, and `Type.Interface.requestRecord(children:)` requires the child names in their declared order.
+- `Type.Record.selecting(_:)` keeps the requested order and rejects repeated or unknown labels. `Type.Record.excluding(_:)` rejects unknown labels and keeps the remaining fields in record order. `Type.Record.selections(limit:)` enumerates all 2ⁿ subproducts, and throws before the family would grow past `limit`.
+- A `Type.Lens` from `Type.Lens.coordinate(_:in:replacingWith:)` satisfies get-put, put-get and put-put. With a replacement type, `put` changes the type of that coordinate and keeps the others.
+- `Type.Expression.polarity(of:)` flips under an exponential's domain. Inside `effect` or `opaque` it reports `.unknown`. `Type.Mapping.derive(_:forward:backward:direction:)` needs every covariant occurrence in `forward` and every contravariant one in `backward`. It always throws on `effect` and `opaque`, even when the variable does not occur there.
+- `Type.Recursion` accepts only a strictly positive body: the bound variable may not occur in an exponential's domain or inside `effect` or `opaque`. `Type.Recursion.free(layer:variable:returning:)` is the least fixed point of `result + layer`, and `Type.Recursion.cofree(layer:variable:observing:)` is the greatest of `result × layer`. Neither may mention the bound variable in its result. `Type.Program.monadic(_:returning:variable:)` is the free carrier over the signature's continuations, and rejects an operation that mentions the bound variable. `Type.Program.interaction(_:returning:variable:)` is the greatest fixed point of that body or one more step.
+- `Type.Expression.substituting(_:)` substitutes through `effect`. It throws on `opaque` only when the substitution binds one of its variables.
+- `Type.Polynomial.cardinality(atoms:variables:)` throws when a sort is missing or negative, and on `Int` overflow. `Type.Polynomial.contexts(for:)` needs a sum of products and rejects nested occurrences of the variable.
+- `Type.Construction.retaining(state:failure:value:)` keeps the state on failure. `Type.Construction.discarding(state:failure:value:)` loses it. `Type.Record.partial` (a product of optionals) is a different type from `Type.Record.optional` (an optional product).
+- `Type.Syntax.Expression.init(_:parameters:)` treats a type that names no parameter as a constant atom, even when it is generic. A module-qualified name is never a parameter. It recognises `[A]`, `A?`, `Array<A>`, `Optional<A>`, their `Swift.` spellings, tuples (a single unlabelled element unwraps), and plain function types. A function's parameters always form a product, even when there is only one. A function with effects, an `inout` or attributed parameter, a variadic, or any other generic becomes `unsupported`: it has a `diagnostic`, and its polarity is `.unknown`.
+- `Type.Syntax.Recursion.validate(_:)` accepts a recursive payload only when it is spelled `Self` or exactly the enum applied to its own parameters (whitespace aside), and only when the parameters are unconstrained. `Type.Syntax.Recursion.validateNamespace(_:)` rejects mutual recursion among the enums nested in one declaration.
+- `Type.Syntax.Interpretation.type(_:)` fixes the spelling of structural forms (`Swift.Never`, `Swift.Void`, tuples, functions, arrays). It accepts a supplied representation only for sums, effects and opaque constructors, and throws for any other unbound form. Generated coproduct cases are `branch0`, `branch1`, …. `Type.Syntax.Interpretation.record(_:named:access:escaping:)` marks function-typed fields and the fields named in `escaping` as `@escaping`, and rejects names that are not fields.
+- `Type.Syntax.Interpretation.Product.applying(_:)` interprets only cartesian maps: identity, composition, projection, pairing and terminal.
+- `Type.Syntax.Traversal.interpret(_:value:parameter:constant:transform:collection:product:)` visits positions depth-first in declaration order, and throws for shapes that are not traversable.
+- `Type.Syntax.Mapping.members(of:method:parameters:)` requires a struct or enum with one unconstrained generic parameter per mapping and no `where` clause. It makes every mapping argument `@escaping` once any mapping goes backward or any field holds a function.
