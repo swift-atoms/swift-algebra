@@ -2,12 +2,14 @@ import Testing
 
 @testable import Algebra
 
-extension Algebra.Law {
+enum `Algebra.Law Tests` {}
+
+extension `Algebra.Law Tests` {
     @Suite struct `Algebra law checks accept valid structures and identify violations` {
     }
 }
 
-extension Algebra.Law.`Algebra law checks accept valid structures and identify violations` {
+extension `Algebra.Law Tests`.`Algebra law checks accept valid structures and identify violations` {
 
     static var intSemigroup: Algebra.Semigroup<Int> {
         .init(combining: { $0 &+ $1 })
@@ -96,13 +98,13 @@ extension Algebra.Law.`Algebra law checks accept valid structures and identify v
     }
 }
 
-extension Algebra.Law.`Algebra law checks accept valid structures and identify violations` {
+extension `Algebra.Law Tests`.`Algebra law checks accept valid structures and identify violations` {
     @Test
     func `associativity passes for valid semigroup`() {
         let result = Algebra.Law.Associativity.check(
-            of: Algebra.Law.`Algebra law checks accept valid structures and identify violations`
+            of: `Algebra.Law Tests`.`Algebra law checks accept valid structures and identify violations`
                 .intSemigroup,
-            over: Algebra.Law.`Algebra law checks accept valid structures and identify violations`
+            over: `Algebra.Law Tests`.`Algebra law checks accept valid structures and identify violations`
                 .testElements
         )
         #expect(result == nil)
@@ -111,9 +113,9 @@ extension Algebra.Law.`Algebra law checks accept valid structures and identify v
     @Test
     func `identity left passes for valid monoid`() {
         let result = Algebra.Law.Identity.left(
-            of: Algebra.Law.`Algebra law checks accept valid structures and identify violations`
+            of: `Algebra.Law Tests`.`Algebra law checks accept valid structures and identify violations`
                 .intMonoid,
-            over: Algebra.Law.`Algebra law checks accept valid structures and identify violations`
+            over: `Algebra.Law Tests`.`Algebra law checks accept valid structures and identify violations`
                 .testElements
         )
         #expect(result == nil)
@@ -122,9 +124,9 @@ extension Algebra.Law.`Algebra law checks accept valid structures and identify v
     @Test
     func `identity right passes for valid monoid`() {
         let result = Algebra.Law.Identity.right(
-            of: Algebra.Law.`Algebra law checks accept valid structures and identify violations`
+            of: `Algebra.Law Tests`.`Algebra law checks accept valid structures and identify violations`
                 .intMonoid,
-            over: Algebra.Law.`Algebra law checks accept valid structures and identify violations`
+            over: `Algebra.Law Tests`.`Algebra law checks accept valid structures and identify violations`
                 .testElements
         )
         #expect(result == nil)
@@ -133,9 +135,9 @@ extension Algebra.Law.`Algebra law checks accept valid structures and identify v
     @Test
     func `inverse left passes for valid group`() {
         let result = Algebra.Law.Inverse.left(
-            of: Algebra.Law.`Algebra law checks accept valid structures and identify violations`
+            of: `Algebra.Law Tests`.`Algebra law checks accept valid structures and identify violations`
                 .intGroup,
-            over: Algebra.Law.`Algebra law checks accept valid structures and identify violations`
+            over: `Algebra.Law Tests`.`Algebra law checks accept valid structures and identify violations`
                 .testElements
         )
         #expect(result == nil)
@@ -144,9 +146,9 @@ extension Algebra.Law.`Algebra law checks accept valid structures and identify v
     @Test
     func `inverse right passes for valid group`() {
         let result = Algebra.Law.Inverse.right(
-            of: Algebra.Law.`Algebra law checks accept valid structures and identify violations`
+            of: `Algebra.Law Tests`.`Algebra law checks accept valid structures and identify violations`
                 .intGroup,
-            over: Algebra.Law.`Algebra law checks accept valid structures and identify violations`
+            over: `Algebra.Law Tests`.`Algebra law checks accept valid structures and identify violations`
                 .testElements
         )
         #expect(result == nil)
@@ -156,7 +158,7 @@ extension Algebra.Law.`Algebra law checks accept valid structures and identify v
     func `commutativity passes for commutative operation`() {
         let result = Algebra.Law.Commutativity.check(
             of: { (a: Int, b: Int) in a &+ b },
-            over: Algebra.Law.`Algebra law checks accept valid structures and identify violations`
+            over: `Algebra.Law Tests`.`Algebra law checks accept valid structures and identify violations`
                 .testElements
         )
         #expect(result == nil)
@@ -165,9 +167,9 @@ extension Algebra.Law.`Algebra law checks accept valid structures and identify v
     @Test
     func `distributivity left passes for valid ring`() {
         let result = Algebra.Law.Distributivity.left(
-            of: Algebra.Law.`Algebra law checks accept valid structures and identify violations`
+            of: `Algebra.Law Tests`.`Algebra law checks accept valid structures and identify violations`
                 .intRing,
-            over: Algebra.Law.`Algebra law checks accept valid structures and identify violations`
+            over: `Algebra.Law Tests`.`Algebra law checks accept valid structures and identify violations`
                 .testElements
         )
         #expect(result == nil)
@@ -176,9 +178,9 @@ extension Algebra.Law.`Algebra law checks accept valid structures and identify v
     @Test
     func `distributivity right passes for valid ring`() {
         let result = Algebra.Law.Distributivity.right(
-            of: Algebra.Law.`Algebra law checks accept valid structures and identify violations`
+            of: `Algebra.Law Tests`.`Algebra law checks accept valid structures and identify violations`
                 .intRing,
-            over: Algebra.Law.`Algebra law checks accept valid structures and identify violations`
+            over: `Algebra.Law Tests`.`Algebra law checks accept valid structures and identify violations`
                 .testElements
         )
         #expect(result == nil)
@@ -187,9 +189,9 @@ extension Algebra.Law.`Algebra law checks accept valid structures and identify v
     @Test
     func `annihilation passes for valid ring`() {
         let result = Algebra.Law.Annihilation.zero(
-            of: Algebra.Law.`Algebra law checks accept valid structures and identify violations`
+            of: `Algebra.Law Tests`.`Algebra law checks accept valid structures and identify violations`
                 .intRing,
-            over: Algebra.Law.`Algebra law checks accept valid structures and identify violations`
+            over: `Algebra.Law Tests`.`Algebra law checks accept valid structures and identify violations`
                 .testElements
         )
         #expect(result == nil)
@@ -198,9 +200,9 @@ extension Algebra.Law.`Algebra law checks accept valid structures and identify v
     @Test
     func `action identity accepts a sequence`() {
         let result = Algebra.Law.Action.identity(
-            of: Algebra.Law.`Algebra law checks accept valid structures and identify violations`
+            of: `Algebra.Law Tests`.`Algebra law checks accept valid structures and identify violations`
                 .intModule,
-            over: Algebra.Law.`Algebra law checks accept valid structures and identify violations`
+            over: `Algebra.Law Tests`.`Algebra law checks accept valid structures and identify violations`
                 .testElements
         )
         #expect(result == nil)
@@ -209,22 +211,22 @@ extension Algebra.Law.`Algebra law checks accept valid structures and identify v
     @Test
     func `scalar distributivity accepts a scalar sequence`() {
         let result = Algebra.Law.Distributivity.scalar(
-            of: Algebra.Law.`Algebra law checks accept valid structures and identify violations`
+            of: `Algebra.Law Tests`.`Algebra law checks accept valid structures and identify violations`
                 .intModule,
-            over: Algebra.Law.`Algebra law checks accept valid structures and identify violations`
+            over: `Algebra.Law Tests`.`Algebra law checks accept valid structures and identify violations`
                 .testElements,
-            Algebra.Law.`Algebra law checks accept valid structures and identify violations`
+            `Algebra.Law Tests`.`Algebra law checks accept valid structures and identify violations`
                 .testElements
         )
         #expect(result == nil)
     }
 }
 
-extension Algebra.Law.`Algebra law checks accept valid structures and identify violations` {
+extension `Algebra.Law Tests`.`Algebra law checks accept valid structures and identify violations` {
     @Test
     func `associativity fails for broken semigroup`() {
         let result = Algebra.Law.Associativity.check(
-            of: Algebra.Law.`Algebra law checks accept valid structures and identify violations`
+            of: `Algebra.Law Tests`.`Algebra law checks accept valid structures and identify violations`
                 .brokenSemigroup,
             over: [1, 2, 3]
         )
@@ -234,7 +236,7 @@ extension Algebra.Law.`Algebra law checks accept valid structures and identify v
     @Test
     func `identity fails for broken monoid`() {
         let result = Algebra.Law.Identity.left(
-            of: Algebra.Law.`Algebra law checks accept valid structures and identify violations`
+            of: `Algebra.Law Tests`.`Algebra law checks accept valid structures and identify violations`
                 .brokenMonoid,
             over: [0, 2]
         )
@@ -244,7 +246,7 @@ extension Algebra.Law.`Algebra law checks accept valid structures and identify v
     @Test
     func `inverse fails for broken group`() {
         let result = Algebra.Law.Inverse.left(
-            of: Algebra.Law.`Algebra law checks accept valid structures and identify violations`
+            of: `Algebra.Law Tests`.`Algebra law checks accept valid structures and identify violations`
                 .brokenGroup,
             over: [1, 2]
         )
@@ -263,7 +265,7 @@ extension Algebra.Law.`Algebra law checks accept valid structures and identify v
     @Test
     func `distributivity fails for broken ring`() {
         let result = Algebra.Law.Distributivity.left(
-            of: Algebra.Law.`Algebra law checks accept valid structures and identify violations`
+            of: `Algebra.Law Tests`.`Algebra law checks accept valid structures and identify violations`
                 .brokenDistributivityRing,
             over: [1, 2, 3]
         )
@@ -273,7 +275,7 @@ extension Algebra.Law.`Algebra law checks accept valid structures and identify v
     @Test
     func `annihilation fails for broken ring`() {
         let result = Algebra.Law.Annihilation.zero(
-            of: Algebra.Law.`Algebra law checks accept valid structures and identify violations`
+            of: `Algebra.Law Tests`.`Algebra law checks accept valid structures and identify violations`
                 .brokenAnnihilationRing,
             over: [1, 2, 3]
         )
@@ -283,7 +285,7 @@ extension Algebra.Law.`Algebra law checks accept valid structures and identify v
     @Test
     func `reciprocal fails for broken field`() {
         let result = Algebra.Law.Reciprocal.check(
-            of: Algebra.Law.`Algebra law checks accept valid structures and identify violations`
+            of: `Algebra.Law Tests`.`Algebra law checks accept valid structures and identify violations`
                 .brokenReciprocalField,
             over: [true, false]
         )

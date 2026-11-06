@@ -2,13 +2,13 @@ import Testing
 
 @testable import Algebra
 
-extension Algebra {
+extension `Algebra Tests` {
     @Suite
     struct `Modules delegate addition and scalar multiplication to their algebra` {
     }
 }
 
-extension Algebra.`Modules delegate addition and scalar multiplication to their algebra` {
+extension `Algebra Tests`.`Modules delegate addition and scalar multiplication to their algebra` {
     static var integerModule: Algebra.Module<Int, Int> {
         .init(
             scalars: .init(
