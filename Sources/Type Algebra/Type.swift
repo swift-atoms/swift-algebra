@@ -1,5 +1,4 @@
 public enum Type {
-
     public struct Polarity: OptionSet, Hashable, Sendable {
         public let rawValue: Int
         public init(rawValue: Int) { self.rawValue = rawValue }
@@ -132,7 +131,7 @@ extension Type {
         public init(_ name: String) { self.name = name }
     }
 
-    public struct Failure: Error, Equatable, Sendable, CustomStringConvertible {
+    public struct Failure: Swift.Error, Equatable, Sendable, CustomStringConvertible {
         public let description: String
         public init(_ description: String) { self.description = description }
     }
