@@ -11,6 +11,15 @@ extension Type.Syntax {
         case arrow([Type.Syntax.Expression], Type.Syntax.Expression)
         case unsupported(TypeSyntax, Set<String>)
 
+        public struct Coordinate {
+            public let label: String?
+            public let type: Type.Syntax.Expression
+            public init(label: String?, type: Type.Syntax.Expression) {
+                self.label = label
+                self.type = type
+            }
+        }
+
         public init(_ syntax: TypeSyntax, parameters: Set<String>) {
             let references = Self.references(in: syntax, parameters: parameters)
             guard !references.isEmpty else {
@@ -89,20 +98,11 @@ extension Type.Syntax {
             self = .unsupported(syntax, references)
         }
     }
+
 }
 
 extension Type.Syntax.Expression {
-    public struct Coordinate {
-        public let label: String?
-        public let type: Type.Syntax.Expression
-        public init(label: String?, type: Type.Syntax.Expression) {
-            self.label = label
-            self.type = type
-        }
-    }
-}
 
-extension Type.Syntax.Expression {
     public typealias Polarity = Type.Polarity
 
     public var algebra: Type.Expression {
