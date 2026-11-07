@@ -24,8 +24,12 @@ let package = Package(
         ),
         .library(name: "Algebra Test Support", targets: ["Algebra Test Support"]),
     ],
+    traits: [
+        .trait(name: "Symmetry", description: "Absorbed swift-symmetry-algebra: Phase, Rotation and Shear as groups")
+    ],
     dependencies: [
-        .package(url: "https://github.com/swiftlang/swift-syntax.git", "604.0.0"..<"605.0.0")
+        .package(url: "https://github.com/swiftlang/swift-syntax.git", "604.0.0"..<"605.0.0"),
+        .package(url: "https://github.com/swift-atoms/swift-symmetry.git", branch: "main"),
     ],
     targets: [
         .target(name: "Type Algebra", dependencies: []),
@@ -79,7 +83,9 @@ let package = Package(
         ),
         .target(
             name: "Algebra",
-            dependencies: [],
+            dependencies: [
+                .product(name: "Symmetry", package: "swift-symmetry", condition: .when(traits: ["Symmetry"]))
+            ],
             path: "Sources/Algebra"
         ),
 

@@ -2,6 +2,8 @@
 
 Use this package when an algebraic structure over a type is a value you choose and pass around, not a protocol the type conforms to: `Int` under addition and `Int` under multiplication are two `Algebra.Monoid<Element>` values. Start from `Algebra.Magma<Element>`, `Algebra.Semigroup<Element>`, `Algebra.Monoid<Element>`, `Algebra.Group<Element>`, `Algebra.Semilattice<Element>`, `Algebra.Lattice<Element>`, `Algebra.Boolean<Element>`, `Algebra.Semiring<Element>`, `Algebra.Ring<Element>`, `Algebra.Field<Element>`, `Algebra.Module<Scalar, Vector>` or `Algebra.Vector.Space<Scalar, Element>`, and check a structure against sample elements with the checks under `Algebra.Law`. Attach `@Monoid_Macro.Monoid` to a struct to derive its product monoid. Use `Type.Expression` and `Type.Morphism` to reason about type shapes as values (isomorphisms, lenses, variance, recursion, derivatives), and `Type.Syntax.Expression` to read those shapes from SwiftSyntax and emit Swift source for them, as a macro does.
 
+With the `Symmetry` trait, `Phase`, `Rotation<2, Scalar>` and `Shear<2, Scalar>` from swift-symmetry gain a static `group` of type `Algebra.Group<Self>.Abelian`; `Phase` also has `next`, `previous` and `opposite`, `Rotation` has `concatenating(_:)` and `inverted`, and `Shear` has `composed(with:)` and `inverted`. This was swift-symmetry-algebra.
+
 ## Laws
 
 - No initializer checks a law. `Algebra.Monoid<Element>.Commutative`, `Algebra.Group<Element>.Abelian`, `Algebra.Semilattice<Element>`, `Algebra.Ring<Element>.Commutative` and `Algebra.Semiring<Element>.Commutative` record the caller's claim of commutativity or idempotence. Nothing verifies it.
@@ -29,3 +31,7 @@ Use this package when an algebraic structure over a type is a value you choose a
 - `Type.Syntax.Interpretation.Product.applying(_:)` interprets only cartesian maps: identity, composition, projection, pairing and terminal.
 - `Type.Syntax.Traversal.interpret(_:value:parameter:constant:transform:collection:product:)` visits positions depth-first in declaration order, and throws for shapes that are not traversable.
 - `Type.Syntax.Mapping.members(of:method:parameters:)` requires a struct or enum with one unconstrained generic parameter per mapping and no `where` clause. It makes every mapping argument `@escaping` once any mapping goes backward or any field holds a function.
+- With `Symmetry`: `Phase.group` adds quarter turns modulo 4, with `Phase.zero` as the identity. `next`, `previous` and `opposite` add 1, 3 and 2 quarter turns, and `!` is `opposite`.
+- `Rotation.group` multiplies the two matrices, with `Rotation.identity` as the identity. It inverts by transposing, which is the true inverse only when the matrix is orthogonal. Nothing renormalizes, so repeated composition drifts by floating-point rounding.
+- `Shear.group` adds the `x` factors and the `y` factors, and inverts by negating both. It is not the product of the shears' matrices.
+- The `Abelian` claim on the three symmetry groups is not checked here.
