@@ -11,25 +11,28 @@ extension Type {
             self.signature = signature
             self.children = children
         }
-        public var implementation: Record {
-            get throws {
-                try Record(
-                    signature.operations.map { .init($0.name, $0.implementation) } + children.fields
-                )
-            }
-        }
-        public func requests(children requests: Record) throws -> Expression {
-            try requestRecord(children: requests).alternatives
-        }
-        public func requestRecord(children requests: Record) throws -> Record {
-            guard requests.fields.map(\.name) == children.fields.map(\.name) else {
-                throw Failure("child requests must match the child coordinates in order")
-            }
-            return try Record(
-                signature.operations.map { .init($0.name, $0.input) } + requests.fields
+    }
+}
+
+extension Type.Interface {
+    public var implementation: Record {
+        get throws {
+            try Record(
+                signature.operations.map { .init($0.name, $0.implementation) } + children.fields
             )
         }
     }
 
+    public func requests(children requests: Record) throws -> Expression {
+        try requestRecord(children: requests).alternatives
+    }
 
+    public func requestRecord(children requests: Record) throws -> Record {
+        guard requests.fields.map(\.name) == children.fields.map(\.name) else {
+            throw Failure("child requests must match the child coordinates in order")
+        }
+        return try Record(
+            signature.operations.map { .init($0.name, $0.input) } + requests.fields
+        )
+    }
 }
