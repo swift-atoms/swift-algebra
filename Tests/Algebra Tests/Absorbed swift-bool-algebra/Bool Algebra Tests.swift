@@ -1,17 +1,19 @@
 import Algebra
 import Testing
 
-@Suite struct `Bool Algebra Tests` {
-    @Suite struct Unit {
-        @Suite struct Monoid {}
-        @Suite struct Semiring {}
-        @Suite struct Semilattice {}
-        @Suite struct Lattice {}
-    }
+extension `Bool Algebra Tests`.`Bool Algebra Tests` {
+    @Suite struct `Bool Algebra Tests` {
+        @Suite struct Unit {
+            @Suite struct Monoid {}
+            @Suite struct Semiring {}
+            @Suite struct Semilattice {}
+            @Suite struct Lattice {}
+        }
 
+    }
 }
 
-extension `Bool Algebra Tests`.Unit.Monoid {
+extension `Bool Algebra Tests`.`Bool Algebra Tests`.Unit.Monoid {
     @Test
     func `conjunction monoid has identity true and combines with AND`() {
         let m = Algebra.Monoid<Bool>.conjunction
@@ -31,7 +33,7 @@ extension `Bool Algebra Tests`.Unit.Monoid {
     }
 }
 
-extension `Bool Algebra Tests`.Unit.Semiring {
+extension `Bool Algebra Tests`.`Bool Algebra Tests`.Unit.Semiring {
     @Test
     func `boolean semiring zero is false and one is true`() {
         let sr = Algebra.Semiring<Bool>.Commutative()
@@ -49,7 +51,7 @@ extension `Bool Algebra Tests`.Unit.Semiring {
     }
 }
 
-extension `Bool Algebra Tests`.Unit.Semilattice {
+extension `Bool Algebra Tests`.`Bool Algebra Tests`.Unit.Semilattice {
     @Test
     func `disjunction semilattice has identity false`() {
         let or = Algebra.Semilattice<Bool>.disjunction
@@ -82,7 +84,7 @@ extension `Bool Algebra Tests`.Unit.Semilattice {
     }
 }
 
-extension `Bool Algebra Tests`.Unit.Lattice {
+extension `Bool Algebra Tests`.`Bool Algebra Tests`.Unit.Lattice {
     @Test
     func `bool lattice: join is OR, meet is AND`() {
         let l = Algebra.Lattice<Bool>()
@@ -111,7 +113,7 @@ extension `Bool Algebra Tests`.Unit.Lattice {
     }
 }
 
-extension `Bool Algebra Tests`.Unit.Lattice {
+extension `Bool Algebra Tests`.`Bool Algebra Tests`.Unit.Lattice {
     @Test
     func `bool complement laws via native ! over the bool lattice`() {
         let l = Algebra.Lattice<Bool>()
