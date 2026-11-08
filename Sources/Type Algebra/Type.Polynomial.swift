@@ -21,100 +21,98 @@ extension Type {
                 )
             }
         }
-    }
-}
 
-extension Type.Polynomial {
-    public var expression: Expression {
-        switch self {
-        case .zero: return .zero
-        case .unit: return .unit
-        case .atom(let value): return .atom(value)
-        case .variable(let value): return .variable(value)
-        case .sum(let values): return .sum(values.map(\.expression))
-        case .product(let values): return .product(values.map(\.expression))
+        public var expression: Expression {
+            switch self {
+            case .zero: return .zero
+            case .unit: return .unit
+            case .atom(let value): return .atom(value)
+            case .variable(let value): return .variable(value)
+            case .sum(let values): return .sum(values.map(\.expression))
+            case .product(let values): return .product(values.map(\.expression))
+            }
         }
-    }
 
-    public func derivative(withRespectTo variable: Variable) -> Self {
-        switch self {
-        case .zero, .unit, .atom: return .zero
-        case .variable(let found): return found == variable ? .unit : .zero
-        case .sum(let values):
-            return .sum(values.map { $0.derivative(withRespectTo: variable) })
-        case .product(let values):
-            return .sum(
-                values.indices.map { hole in
-                    .product(
-                        values.enumerated().map { index, value in
-                            index == hole ? value.derivative(withRespectTo: variable) : value
-                        }
-                    )
-                }
-            )
-        }
-    }
-
-    public func cardinality(
-        atoms: [Atom: Int] = [:],
-        variables: [Variable: Int] = [:]
-    ) throws -> Int {
-        func checked(_ value: Int?) throws -> Int {
-            guard let value, value >= 0 else {
-                throw Failure(
-                    "cardinality requires a nonnegative interpretation for every sort"
+        public func derivative(withRespectTo variable: Variable) -> Self {
+            switch self {
+            case .zero, .unit, .atom: return .zero
+            case .variable(let found): return found == variable ? .unit : .zero
+            case .sum(let values):
+                return .sum(values.map { $0.derivative(withRespectTo: variable) })
+            case .product(let values):
+                return .sum(
+                    values.indices.map { hole in
+                        .product(
+                            values.enumerated().map { index, value in
+                                index == hole ? value.derivative(withRespectTo: variable) : value
+                            }
+                        )
+                    }
                 )
             }
-            return value
         }
-        switch self {
-        case .zero: return 0
-        case .unit: return 1
-        case .atom(let atom): return try checked(atoms[atom])
-        case .variable(let variable): return try checked(variables[variable])
-        case .sum(let values), .product(let values):
-            let product: Bool
-            product = if case .product = self { true } else { false }
-            return try values.reduce(product ? 1 : 0) { accumulated, value in
-                let next = try value.cardinality(atoms: atoms, variables: variables)
-                let result =
-                    product
-                    ? accumulated.multipliedReportingOverflow(by: next)
-                    : accumulated.addingReportingOverflow(next)
-                guard !result.overflow else { throw Failure("finite cardinality exceeds Int") }
-                return result.partialValue
-            }
-        }
-    }
 
-    public struct Context: Hashable, Sendable {
-        public let alternative: Int
-        public let position: Int
-        public let remainder: [Polynomial]
-    }
-
-    public func contexts(for variable: Variable) throws -> [Context] {
-        guard case .sum(let alternatives) = self else {
-            throw Failure("direct contexts require a sum of products")
-        }
-        return try alternatives.enumerated().flatMap { alternative, term in
-            guard case .product(let fields) = term else {
-                throw Failure("each constructor must be a product")
-            }
-            return try fields.enumerated().compactMap { position, field in
-                if field == .variable(variable) {
-                    return Context(
-                        alternative: alternative,
-                        position: position,
-                        remainder: fields.enumerated().filter { $0.offset != position }.map(
-                            \.element
-                        )
+        public func cardinality(
+            atoms: [Atom: Int] = [:],
+            variables: [Variable: Int] = [:]
+        ) throws -> Int {
+            func checked(_ value: Int?) throws -> Int {
+                guard let value, value >= 0 else {
+                    throw Failure(
+                        "cardinality requires a nonnegative interpretation for every sort"
                     )
                 }
-                guard !field.expression.variables.contains(variable) else {
-                    throw Failure("direct contexts do not support nested recursive positions")
+                return value
+            }
+            switch self {
+            case .zero: return 0
+            case .unit: return 1
+            case .atom(let atom): return try checked(atoms[atom])
+            case .variable(let variable): return try checked(variables[variable])
+            case .sum(let values), .product(let values):
+                let product: Bool
+                if case .product = self { product = true } else { product = false }
+                return try values.reduce(product ? 1 : 0) { accumulated, value in
+                    let next = try value.cardinality(atoms: atoms, variables: variables)
+                    let result =
+                        product
+                        ? accumulated.multipliedReportingOverflow(by: next)
+                        : accumulated.addingReportingOverflow(next)
+                    guard !result.overflow else { throw Failure("finite cardinality exceeds Int") }
+                    return result.partialValue
                 }
-                return nil
+            }
+        }
+
+        public struct Context: Hashable, Sendable {
+            public let alternative: Int
+            public let position: Int
+            public let remainder: [Polynomial]
+        }
+
+        public func contexts(for variable: Variable) throws -> [Context] {
+            guard case .sum(let alternatives) = self else {
+                throw Failure("direct contexts require a sum of products")
+            }
+            return try alternatives.enumerated().flatMap { alternative, term in
+                guard case .product(let fields) = term else {
+                    throw Failure("each constructor must be a product")
+                }
+                return try fields.enumerated().compactMap { position, field in
+                    if field == .variable(variable) {
+                        return Context(
+                            alternative: alternative,
+                            position: position,
+                            remainder: fields.enumerated().filter { $0.offset != position }.map(
+                                \.element
+                            )
+                        )
+                    }
+                    guard !field.expression.variables.contains(variable) else {
+                        throw Failure("direct contexts do not support nested recursive positions")
+                    }
+                    return nil
+                }
             }
         }
     }
