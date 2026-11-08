@@ -71,7 +71,7 @@ extension Type {
             case .variable(let variable): return try checked(variables[variable])
             case .sum(let values), .product(let values):
                 let product: Bool
-                if case .product = self { product = true } else { product = false }
+                product = if case .product = self { true } else { false }
                 return try values.reduce(product ? 1 : 0) { accumulated, value in
                     let next = try value.cardinality(atoms: atoms, variables: variables)
                     let result =
