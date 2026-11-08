@@ -1,4 +1,22 @@
 public enum Type {
+    public struct Atom: Hashable, Sendable {
+        public let scope: [String]
+        public let name: String
+        public init(_ name: String, scope: [String] = []) {
+            self.name = name
+            self.scope = scope
+        }
+    }
+
+    public struct Variable: Hashable, Sendable {
+        public let name: String
+        public init(_ name: String) { self.name = name }
+    }
+
+    public struct Failure: Error, Equatable, Sendable, CustomStringConvertible {
+        public let description: String
+        public init(_ description: String) { self.description = description }
+    }
 
     public struct Polarity: OptionSet, Hashable, Sendable {
         public let rawValue: Int
@@ -114,26 +132,5 @@ public enum Type {
             default: return self
             }
         }
-    }
-}
-
-extension Type {
-    public struct Atom: Hashable, Sendable {
-        public let scope: [String]
-        public let name: String
-        public init(_ name: String, scope: [String] = []) {
-            self.name = name
-            self.scope = scope
-        }
-    }
-
-    public struct Variable: Hashable, Sendable {
-        public let name: String
-        public init(_ name: String) { self.name = name }
-    }
-
-    public struct Failure: Error, Equatable, Sendable, CustomStringConvertible {
-        public let description: String
-        public init(_ description: String) { self.description = description }
     }
 }
