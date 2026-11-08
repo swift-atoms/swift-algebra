@@ -3,6 +3,13 @@ public import Type_Algebra
 
 extension Type.Syntax {
     public struct Properties {
+        public struct Field {
+            public let declaration: VariableDeclSyntax
+            public let binding: PatternBindingSyntax
+            public let name: String
+            public let type: TypeSyntax
+        }
+
         public let declaration: StructDeclSyntax
         public let fields: [Field]
         public let diagnostics: [String]
@@ -72,15 +79,7 @@ extension Type.Syntax {
             diagnostics = reasons
         }
     }
-}
 
-extension Type.Syntax.Properties {
-    public struct Field {
-        public let declaration: VariableDeclSyntax
-        public let binding: PatternBindingSyntax
-        public let name: String
-        public let type: TypeSyntax
-    }
 }
 
 extension Type.Syntax.Properties.Field {
