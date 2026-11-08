@@ -5,7 +5,7 @@ import Testing
 import Type_Algebra_Syntax
 
 #if os(macOS)
-    @Test func handwrittenAlgebraMaterializesAndRunsAsSwift() throws {
+    @Test func `handwritten algebra materializes and runs as swift`() throws {
         let atom = Type.Atom("Number", scope: ["Study"])
         let value = Type.Expression.atom(atom)
         let alternatives: [Type.Expression] = [value, .unit]
@@ -86,14 +86,14 @@ import Type_Algebra_Syntax
     }
 #endif
 
-@Test func interpretationRequiresExplicitRepresentations() throws {
+@Test func `interpretation requires explicit representations`() throws {
     let interpreter = Type.Syntax.Interpretation()
     #expect(throws: Type.Failure.self) { try interpreter.type(.atom(.init("Unknown"))) }
     #expect(throws: Type.Failure.self) { try interpreter.type(.sum([.unit, .unit])) }
     #expect(throws: Type.Failure.self) { try interpreter.type(.effect(.init("Async"), .unit)) }
 }
 
-@Test func productInterpretationFollowsMapsAndRetainsRepresentation() throws {
+@Test func `product interpretation follows maps and retains representation`() throws {
     let record = try Type.Syntax.Record([
         .init("first", type: "Int"), .init("second", type: "String"),
     ])

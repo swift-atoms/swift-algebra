@@ -7,7 +7,7 @@ import Testing
     let label: String
 }
 @Monoid private struct Unit: Equatable {}
-@Test func productMonoidInheritsItsChosenComponentLaws() {
+@Test func `product monoid inherits its chosen component laws`() {
     let integers = Algebra.Monoid<Int>(identity: 0, combining: +)
     let strings = Algebra.Monoid<String>(identity: "", combining: +)
     let monoid = Totals.monoid(count: integers, label: strings)
@@ -31,7 +31,7 @@ import Testing
     )
     #expect(Unit.monoid().combining(Unit(), Unit()) == Unit())
 }
-@Test func numericChoiceIsExplicitAndTransportPreservesIt() {
+@Test func `numeric choice is explicit and transport preserves it`() {
     let addition = Algebra.Monoid<Int>(identity: 0, combining: +)
     let multiplication = Algebra.Monoid<Int>(identity: 1, combining: *)
     #expect(addition.combining(2, 3) == 5)

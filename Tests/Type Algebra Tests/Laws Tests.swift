@@ -10,7 +10,7 @@ enum `Laws Tests` {}
 
 extension `Laws Tests` {
     @Suite struct Algebra {
-        @Test func distributionAndUnitsRoundTrip() throws {
+        @Test func `distribution and units round trip`() throws {
             let distribution = Type.Isomorphism.distribution(.atom(a), over: [.atom(b), .unit])
             for i in 0..<4 {
                 for payload in [Type.Value.sum(0, .atom(b, i)), .sum(1, .unit)] {
@@ -24,7 +24,7 @@ extension `Laws Tests` {
             #expect(try sum.forward.apply(sum.backward.apply(.atom(a, 3))) == .atom(a, 3))
         }
 
-        @Test func productUniversalProperty() throws {
+        @Test func `product universal property`() throws {
             let factors: [Type.Expression] = [.atom(a), .atom(b)]
             let first = try Type.Morphism.projection(factors, at: 0)
             let second = try Type.Morphism.projection(factors, at: 1)
@@ -39,7 +39,7 @@ extension `Laws Tests` {
             }
         }
 
-        @Test func coproductUniversalProperty() throws {
+        @Test func `coproduct universal property`() throws {
             let alternatives: [Type.Expression] = [.atom(a), .atom(b)]
             let injections = try alternatives.indices.map {
                 try Type.Morphism.injection(alternatives, at: $0)
@@ -55,7 +55,7 @@ extension `Laws Tests` {
             }
         }
 
-        @Test func compositionAndIdentity() throws {
+        @Test func `composition and identity`() throws {
             let factors: [Type.Expression] = [.atom(a), .atom(b)]
             let p = try Type.Morphism.projection(factors, at: 0)
             let i = try Type.Morphism.injection([.atom(a), .unit], at: 0)
@@ -69,7 +69,7 @@ extension `Laws Tests` {
             #expect(try p.followed(by: .identity(p.codomain)).apply(value) == p.apply(value))
         }
 
-        @Test func checkedMapsRejectBadTypes() throws {
+        @Test func `checked maps reject bad types`() throws {
             #expect(throws: Type.Failure.self) {
                 try Type.Morphism.identity(.atom(a)).followed(by: .identity(.atom(b)))
             }
@@ -85,7 +85,7 @@ extension `Laws Tests` {
             }
         }
 
-        @Test func subproductsAndPermutations() throws {
+        @Test func `subproducts and permutations`() throws {
             let record = try Type.Record([.init("a", .atom(a)), .init("b", .atom(b))])
             #expect(try record.selections().count == 4)
             let value = Type.Value.product([.atom(a, 3), .atom(b, 4)])
@@ -99,7 +99,7 @@ extension `Laws Tests` {
             #expect(throws: Type.Failure.self) { try record.selections(limit: 3) }
         }
 
-        @Test func fiveCoordinatesHaveThirtyTwoSelections() throws {
+        @Test func `five coordinates have thirty two selections`() throws {
             let record = try Type.Record((0..<5).map { .init("field\($0)", .unit) })
             let selections = try record.selections()
             #expect(selections.count == 32)
@@ -108,7 +108,7 @@ extension `Laws Tests` {
             }
         }
 
-        @Test func changingCoordinatePreservesItsComplement() throws {
+        @Test func `changing coordinate preserves its complement`() throws {
             let record = try Type.Record([.init("left", .atom(a)), .init("right", .atom(b))])
             let lens = try Type.Lens.coordinate("left", in: record, replacingWith: .variable(x))
             let whole = Type.Value.product([.atom(a, 3), .atom(b, 7)])
@@ -120,7 +120,7 @@ extension `Laws Tests` {
             #expect(throws: Type.Failure.self) { try lens.put.apply(.product([whole, .atom(a, 9)])) }
         }
 
-        @Test func lensLaws() throws {
+        @Test func `lens laws`() throws {
             let record = try Type.Record([.init("a", .atom(a)), .init("b", .atom(b))])
             let lens = try Type.Lens.coordinate("a", in: record)
             for old in 0..<3 {
@@ -138,7 +138,7 @@ extension `Laws Tests` {
             }
         }
 
-        @Test func derivativeCountsPointedPositions() throws {
+        @Test func `derivative counts pointed positions`() throws {
             let polynomial = Type.Polynomial.product([.variable(x), .variable(x), .variable(y)])
             let derivative = polynomial.derivative(withRespectTo: x)
             for n in 0..<5 {
@@ -159,7 +159,7 @@ extension `Laws Tests` {
             }
         }
 
-        @Test func contextsRetainConstructorAndPosition() throws {
+        @Test func `contexts retain constructor and position`() throws {
             let tree = Type.Polynomial.sum([
                 .product([.atom(a)]), .product([.variable(x), .atom(b), .variable(x)]),
             ])
@@ -172,7 +172,7 @@ extension `Laws Tests` {
             }
         }
 
-        @Test func varianceAndMappingAreIndependentOfSwift() throws {
+        @Test func `variance and mapping are independent of swift`() throws {
             let mixed = Type.Expression.exponential(domain: .variable(x), codomain: .variable(x))
             #expect(mixed.polarity(of: x) == [.positive, .negative])
             #expect(throws: Type.Failure.self) { try Type.Mapping.derive(mixed, forward: [x]) }
@@ -206,7 +206,7 @@ extension `Laws Tests` {
             }
         }
 
-        @Test func signaturesRetainDependentResults() throws {
+        @Test func `signatures retain dependent results`() throws {
             let signature = try Type.Signature([
                 .init("create", input: .atom(a), output: .atom(b)),
                 .init("delete", input: .atom(b), output: .unit),
@@ -244,7 +244,7 @@ extension `Laws Tests` {
             )
         }
 
-        @Test func effectOrderAndPartialRecordsRemainDistinct() throws {
+        @Test func `effect order and partial records remain distinct`() throws {
             let record = try Type.Record([.init("a", .atom(a)), .init("b", .atom(b))])
             #expect(record.partial != record.optional)
             #expect(
@@ -257,7 +257,7 @@ extension `Laws Tests` {
             #expect(try whole.cardinality(atoms: [a: 2, b: 3]) == 7)
         }
 
-        @Test func twoFrontendsShareOneDescription() throws {
+        @Test func `two frontends share one description`() throws {
             let signature = try Type.Signature([.init("read", input: .atom(a), output: .atom(b))])
             let interface = try Type.Interface(signature: signature, children: Type.Record([]))
             #expect(try interface.implementation.expression == signature.implementation)

@@ -8,7 +8,7 @@ private func type(_ source: String) throws -> TypeSyntax {
     let declaration = try #require(file.statements.first?.item.as(StructDeclSyntax.self))
     return try #require(Type.Syntax.Properties(declaration).fields.first?.type)
 }
-@Test func polarityTracksNestedArrows() throws {
+@Test func `polarity tracks nested arrows`() throws {
     #expect(
         Type.Syntax.Expression(try type("[A?]"), parameters: ["A"]).polarity(of: "A") == .positive
     )
@@ -27,12 +27,12 @@ private func type(_ source: String) throws -> TypeSyntax {
     )
 }
 @Test(arguments: ["Unknown<A>", "(A) async -> Int", "(inout A) -> Void", "@Sendable (A) -> Int"])
-func unsupportedShapesStayVisible(_ source: String) throws {
+func `unsupported shapes stay visible`(_ source: String) throws {
     let shape = Type.Syntax.Expression(try type(source), parameters: ["A"])
     #expect(shape.diagnostic != nil)
     #expect(shape.polarity(of: "A").contains(.unknown))
 }
-@Test func constantsAndQualifiedNamesAreNotGenericPositions() throws {
+@Test func `constants and qualified names are not generic positions`() throws {
     let shape = Type.Syntax.Expression(try type("String"), parameters: ["A"])
     #expect(shape.polarity(of: "A").isEmpty)
     #expect(shape.isPolynomial)
@@ -41,12 +41,12 @@ func unsupportedShapesStayVisible(_ source: String) throws {
     "indirect enum Tree<A> { case node(Tree<Int>) }",
     "indirect enum Tree<A> { case node([Tree<A>]) }",
 ])
-func nonregularRecursionIsRejected(_ source: String) throws {
+func `nonregular recursion is rejected`(_ source: String) throws {
     let file = Parser.parse(source: source)
     let declaration = try #require(file.statements.first?.item.as(EnumDeclSyntax.self))
     #expect(throws: Type.Failure.self) { try Type.Syntax.Recursion.validate(declaration) }
 }
-@Test func regularGenericRecursionIsAccepted() throws {
+@Test func `regular generic recursion is accepted`() throws {
     let file = Parser.parse(
         source: "indirect enum Tree<A> { case leaf(A); case node(Tree<A>, Self) }"
     )
@@ -55,14 +55,14 @@ func nonregularRecursionIsRejected(_ source: String) throws {
     )
 }
 @Test(arguments: ["let value = 1", "var value: Int { didSet {} }", "lazy var value: Int = 1"])
-func invalidStoredConstructionIsDiagnosed(_ property: String) throws {
+func `invalid stored construction is diagnosed`(_ property: String) throws {
     let file = Parser.parse(source: "struct S { \(property) }")
     let declaration = try #require(file.statements.first?.item.as(StructDeclSyntax.self))
     #expect(!Type.Syntax.Properties(declaration, requiresMemberwise: true).diagnostics.isEmpty)
 }
 
 @Test(arguments: ["@Column(as: Text.self) var value: Int", "@Wrapped var value: Int", "@available(*, deprecated) let value: Int"])
-func anAttributedStoredPropertyIsAField(_ property: String) throws {
+func `an attributed stored property is a field`(_ property: String) throws {
     let file = Parser.parse(source: "struct S { \(property) }")
     let declaration = try #require(file.statements.first?.item.as(StructDeclSyntax.self))
     let properties = Type.Syntax.Properties(declaration, requiresMemberwise: true)
@@ -70,7 +70,7 @@ func anAttributedStoredPropertyIsAField(_ property: String) throws {
     #expect(properties.fields.map(\.name) == ["value"])
 }
 
-@Test func visibleMutualRecursionIsRejected() throws {
+@Test func `visible mutual recursion is rejected`() throws {
     let source = Parser.parse(
         source: "enum Domain { indirect enum A { case b(B) }; indirect enum B { case a(A) } }"
     )
@@ -78,7 +78,7 @@ func anAttributedStoredPropertyIsAField(_ property: String) throws {
     #expect(throws: Type.Failure.self) { try Type.Syntax.Recursion.validateNamespace(declaration) }
 }
 
-@Test func syntaxAndHandwrittenDescriptionsAgree() throws {
+@Test func `syntax and handwritten descriptions agree`() throws {
     let parsed = Type.Syntax.Expression(try type("([A?], (A) -> Int)"), parameters: ["A"])
     let hand = Type.Expression.product([
         .list(.optional(.variable(.init("A")))),
@@ -91,7 +91,7 @@ func anAttributedStoredPropertyIsAField(_ property: String) throws {
     #expect(parsed.algebra.polarity(of: .init("A")) == [.positive, .negative])
 }
 
-@Test func syntaxPreservesLabelsWhileCoreSelectsCoordinates() throws {
+@Test func `syntax preserves labels while core selects coordinates`() throws {
     let record = try Type.Syntax.Record([
         .init("name", type: "String", label: "_"),
         .init("count", type: "Int", initial: "0"),
@@ -103,13 +103,13 @@ func anAttributedStoredPropertyIsAField(_ property: String) throws {
     #expect(throws: Type.Failure.self) { try record.selecting(["missing"]) }
 }
 
-@Test func listsAreTraversableButNotFinitePolynomials() throws {
+@Test func `lists are traversable but not finite polynomials`() throws {
     let parsed = Type.Syntax.Expression(try type("[A]"), parameters: ["A"])
     #expect(parsed.isTraversable)
     #expect(!parsed.isPolynomial)
 }
 
-@Test func traversalInterpretsPositionsInDeclarationOrder() throws {
+@Test func `traversal interprets positions in declaration order`() throws {
     func positions(_ source: String) throws -> [String] {
         try Type.Syntax.Traversal.interpret(
             Type.Syntax.Expression(type(source), parameters: ["A"]),
