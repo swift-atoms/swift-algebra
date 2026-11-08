@@ -10,6 +10,12 @@ extension Type {
             self.output = output
             self.effect = effect
         }
+        public var implementation: Expression {
+            .exponential(domain: input, codomain: effect.map { .effect($0, output) } ?? output)
+        }
+        public func continuation(_ result: Expression) -> Expression {
+            .product([input, .exponential(domain: output, codomain: result)])
+        }
     }
 
     public struct Signature: Equatable, Sendable {
@@ -20,50 +26,32 @@ extension Type {
             }
             self.operations = operations
         }
-    }
-}
-
-extension Type.Operation {
-    public var implementation: Expression {
-        .exponential(domain: input, codomain: effect.map { .effect($0, output) } ?? output)
-    }
-
-    public func continuation(_ result: Expression) -> Expression {
-        .product([input, .exponential(domain: output, codomain: result)])
-    }
-}
-
-extension Type.Signature {
-    public var implementation: Expression { .product(operations.map(\.implementation)) }
-
-    public var request: Expression { .sum(operations.map(\.input)) }
-
-    public var exchanges: Expression {
-        .sum(operations.map { .product([$0.input, $0.output]) })
-    }
-
-    public var requests: Expression { .list(request) }
-
-    public func response(to operation: String) throws -> Expression {
-        guard let value = operations.first(where: { $0.name == operation }) else {
-            throw Failure("unknown operation `\(operation)`")
+        public var implementation: Expression { .product(operations.map(\.implementation)) }
+        public var request: Expression { .sum(operations.map(\.input)) }
+        public var exchanges: Expression {
+            .sum(operations.map { .product([$0.input, $0.output]) })
         }
-        return value.output
-    }
-
-    public func continuation(_ result: Expression) -> Expression {
-        .sum(operations.map { $0.continuation(result) })
-    }
-
-    public func machine(state: Expression) -> Expression {
-        .product(
-            operations.map { operation in
-                let outcome = Expression.product([operation.output, state])
-                return .exponential(
-                    domain: operation.input,
-                    codomain: operation.effect.map { .effect($0, outcome) } ?? outcome
-                )
+        public var requests: Expression { .list(request) }
+        public func response(to operation: String) throws -> Expression {
+            guard let value = operations.first(where: { $0.name == operation }) else {
+                throw Failure("unknown operation `\(operation)`")
             }
-        )
+            return value.output
+        }
+        public func continuation(_ result: Expression) -> Expression {
+            .sum(operations.map { $0.continuation(result) })
+        }
+        public func machine(state: Expression) -> Expression {
+            .product(
+                operations.map { operation in
+                    let outcome = Expression.product([operation.output, state])
+                    return .exponential(
+                        domain: operation.input,
+                        codomain: operation.effect.map { .effect($0, outcome) } ?? outcome
+                    )
+                }
+            )
+        }
     }
+
 }
