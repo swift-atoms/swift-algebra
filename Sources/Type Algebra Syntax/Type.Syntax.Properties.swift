@@ -75,6 +75,12 @@ extension Type.Syntax {
 }
 
 extension Type.Syntax.Properties {
+    public struct Field {
+        public let declaration: VariableDeclSyntax
+        public let binding: PatternBindingSyntax
+        public let name: String
+        public let type: TypeSyntax
+    }
 }
 
 extension Type.Syntax.Properties.Field {
