@@ -56,6 +56,7 @@ extension Type {
                     )
                 )
             case .effect, .opaque:
+                guard !type.variables.isEmpty else { return .identity }
                 throw Failure("mapping this constructor requires an explicit functor action")
             }
         }

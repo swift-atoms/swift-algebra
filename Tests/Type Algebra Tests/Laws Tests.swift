@@ -204,6 +204,15 @@ extension `Laws Tests` {
             #expect(throws: Type.Failure.self) {
                 try Type.Mapping.derive(.opaque(a, [x]), forward: [x])
             }
+            #expect(try Type.Mapping.derive(.opaque(a, []), forward: [x]) == .identity)
+            #expect(try Type.Mapping.derive(.effect(a, .atom(b)), forward: [x]) == .identity)
+            #expect(
+                try Type.Mapping.derive(.product([.variable(x), .effect(a, .unit)]), forward: [x])
+                    == .product([.transform(x, .forward), .identity])
+            )
+            #expect(throws: Type.Failure.self) {
+                try Type.Mapping.derive(.effect(a, .variable(x)), forward: [x])
+            }
         }
 
         @Test func `signatures retain dependent results`() throws {
